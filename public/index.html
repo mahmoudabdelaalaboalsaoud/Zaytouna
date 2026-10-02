@@ -1,0 +1,111 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>زيتونة — سوق زيت الزيتون</title>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f6ea;--card:#fff;--ink:#27300f;--mut:#677050;--olive:#4a5a1e;--gold:#c79a12;--line:#dfe2c8;--ok:#3f7d2a;--warn:#b4730c;--bad:#a63d2f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141a0a;--card:#1e2611;--ink:#eef0d8;--mut:#a3ab85;--olive:#9db04a;--gold:#e0b83a;--line:#313c1b;--ok:#8fcf72;--warn:#e3a54a;--bad:#e8806f}}
+:root[data-theme="dark"]{--bg:#141a0a;--card:#1e2611;--ink:#eef0d8;--mut:#a3ab85;--olive:#9db04a;--gold:#e0b83a;--line:#313c1b;--ok:#8fcf72;--warn:#e3a54a;--bad:#e8806f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 'IBM Plex Sans Arabic',Tahoma,sans-serif}
+h1,h2,h3{font-family:'Reem Kufi',Tahoma,sans-serif;margin:0;line-height:1.35}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:10px 16px;flex-wrap:wrap}
+.brand{font:700 26px 'Reem Kufi',Tahoma,sans-serif;color:var(--olive)}
+nav{display:flex;gap:4px;margin-inline-start:auto}
+nav button{border:0;background:none;color:var(--mut);padding:6px 12px;border-radius:99px;font-weight:600}
+nav button[aria-pressed=true]{background:var(--olive);color:var(--bg)}
+.cart{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 14px}
+main{max-width:1000px;margin:auto;padding:16px}
+.hero{background:linear-gradient(160deg,#2f3a12,#58691f 62%,#a8892a);color:#f6f4dc;border-radius:20px;padding:28px 22px}
+.hero h1{font-size:clamp(26px,6vw,42px)}
+.hero p{margin:8px 0 18px;opacity:.9;max-width:36ch}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1.5px solid currentColor;background:none;color:inherit;border-radius:99px;padding:6px 16px}
+.chip[aria-pressed=true]{background:#f6f4dc;color:#2f3a12;border-color:#f6f4dc}
+.rec{margin-top:16px;background:rgba(255,255,255,.12);border-radius:14px;padding:14px}
+.sec{margin:26px 0 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.f button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:4px 14px}
+.f button[aria-pressed=true]{background:var(--olive);color:var(--bg);border-color:var(--olive)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.bt{height:96px;border-radius:10px;background:var(--line);display:grid;place-items:center}
+.price{font:700 20px 'Reem Kufi',Tahoma,sans-serif}
+.m{color:var(--mut);font-size:14px}
+.btn{display:inline-block;border:0;background:var(--olive);color:var(--bg);border-radius:10px;padding:7px 14px;font-weight:600;text-decoration:none;font-size:15px}
+.wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 10px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:start;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+tr:last-child td{border:0}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.kpi div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.kpi b{display:block;font:700 26px 'Reem Kufi',Tahoma,sans-serif}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+.bar{height:10px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--gold)}
+.st-t{color:var(--warn)}.st-a{color:var(--ok)}.st-e{color:var(--bad)}
+#toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline:16px;max-width:420px;margin:auto;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;text-align:center;z-index:9}
+footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><symbol id="b" viewBox="0 0 40 90"><path d="M16 2h8v10l4 8v62a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V20l4-8z" fill="currentColor"/><rect x="14" y="40" width="12" height="24" rx="2" fill="#f6f4dc" opacity=".85"/></symbol></svg>
+<header class="top"><span class="brand">زيتونة</span>
+<nav><button data-v="s" aria-pressed="true">المتجر</button><button data-v="m" aria-pressed="false">لوحة التاجر</button><button data-v="a" aria-pressed="false">الإدارة</button></nav>
+<button class="cart" id="cn">السلة: 0</button></header>
+<main>
+<section id="vs">
+<div class="hero"><h1>زيت زيتون أصلي، من كل التجار في مكان واحد</h1>
+<p>قل لنا كيف ستستخدم الزيت، ويرشح لك مساعد زيتونة الأنسب سعراً وجودة.</p>
+<div class="chips"><button class="chip" data-k="s">للسلطة</button><button class="chip" data-k="c">للطبخ</button><button class="chip" data-k="h">للصحة اليومية</button></div>
+<form id="q" style="display:flex;gap:8px;margin-top:12px"><input id="qi" aria-label="اسأل المساعد" placeholder="مثال: زيت للسلطة بحدود 200 جنيه" style="flex:1;min-width:0;border:0;border-radius:10px;padding:8px 12px;font:inherit"><button class="btn" style="background:#f6f4dc;color:#2f3a12">اسأل</button></form>
+<div class="rec" id="rec"></div></div>
+<div class="sec"><h2>كل المنتجات</h2><div class="f"><button data-f="all" aria-pressed="true">الكل</button> <button data-f="r" aria-pressed="false">أفراد</button> <button data-f="w" aria-pressed="false">جملة</button></div></div>
+<div class="grid" id="grid"></div></section>
+
+<section id="vm" hidden>
+<div class="sec"><h2>لوحة التاجر — واحة سيوة</h2></div>
+<div class="box"><b>تجربتك المجانية: باقي 74 يوماً من 90</b><div class="bar"><i style="width:18%"></i></div>
+<p class="m" style="margin:8px 0 10px">للاشتراك في إحدى الباقات تواصل معنا على واتساب.</p><a class="btn" href="https://wa.me/?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D8%B2%D9%8A%D8%AA%D9%88%D9%86%D8%A9" target="_blank" rel="noopener">اشترك عبر واتساب</a></div>
+<div class="kpi"><div><span class="m">طلبات الأسبوع</span><b>23</b></div><div><span class="m">المبيعات</span><b>6,420 ج</b></div><div><span class="m">مشاهدات المنتجات</span><b>1,310</b></div></div>
+<div class="box"><h3>تقرير زيتونة الذكي</h3><p style="margin:6px 0 0">سعر لتر زيت مطروح عندك 340 ج، وأقل سعر لنفس الدرجة في السوق 325 ج. خفض 5% قد يرفع طلباتك. منتج "عصرة أولى" الأعلى مشاهدة والأقل مخزوناً، فجهّز كمية إضافية.</p></div></section>
+
+<section id="va" hidden>
+<div class="sec"><h2>إدارة الاشتراكات</h2></div>
+<div class="kpi"><div><span class="m">في التجربة</span><b id="k1"></b></div><div><span class="m">اشتراكات نشطة</span><b id="k2"></b></div><div><span class="m">منتهية تحتاج متابعة</span><b id="k3"></b></div></div>
+<div class="wrap"><table><thead><tr><th>التاجر</th><th>الباقة</th><th>الحالة</th><th>ينتهي</th><th>إجراء</th></tr></thead><tbody id="sb"></tbody></table></div></section>
+</main>
+<footer>نموذج أولي ببيانات تجريبية</footer>
+<div id="toast" hidden></div>
+<script>
+const P=[
+{n:'بكر ممتاز — سيوة',o:'سيوة',a:.3,l:.5,p:185,m:'واحة سيوة',t:['s','h'],c:'#6d7d1c'},
+{n:'بكر ممتاز — مطروح',o:'مطروح',a:.5,l:1,p:340,m:'مزارع المتوسط',t:['s'],c:'#7f8a1e'},
+{n:'زيت للطبخ اليومي',o:'الفيوم',a:1.2,l:1,p:210,m:'الفيوم للزيوت',t:['c'],c:'#a39220'},
+{n:'عصرة أولى على البارد',o:'سيناء',a:.2,l:.25,p:120,m:'خير سيناء',t:['h','s'],c:'#4f6a16'},
+{n:'عبوة جملة 5 لتر',o:'الفيوم',a:1,l:5,p:1450,m:'الفيوم للزيوت',t:['c'],w:1,c:'#a39220'},
+{n:'جملة 16 لتر بكر',o:'مطروح',a:.6,l:16,p:5400,m:'مزارع المتوسط',t:['c','s'],w:1,c:'#7f8a1e'}];
+const why={s:'الأوفر للتر بين زيوت السلطة البكر.',c:'الأوفر للتر في زيوت الطبخ.',h:'الأقل حموضة، أي الأعلى جودة وعصرة على البارد.'};
+const S=[{n:'واحة سيوة',pl:'احترافي',s:'t',d:'12 ديسمبر'},{n:'مزارع المتوسط',pl:'متميز',s:'a',d:'3 مارس'},{n:'الفيوم للزيوت',pl:'بداية',s:'t',d:'28 أكتوبر'},{n:'خير سيناء',pl:'احترافي',s:'e',d:'20 سبتمبر'}];
+const L={t:'تجربة مجانية',a:'نشط',e:'منتهي'};
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),pl=p=>Math.round(p.p/p.l);
+let cart=[],f='all';
+function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.i);toast.i=setTimeout(()=>e.hidden=true,2200)}
+function add(i){cart.push(P[i]);$('#cn').textContent='السلة: '+cart.length+' · '+cart.reduce((s,x)=>s+x.p,0)+' ج';toast('أضفنا '+P[i].n+' إلى السلة')}
+function shop(){$('#grid').innerHTML=P.map((p,i)=>({p,i})).filter(({p})=>f=='all'||(f=='w')==!!p.w).map(({p,i})=>`<article class="card"><div class="bt"><svg style="color:${p.c}" width="38" height="84"><use href="#b"/></svg></div><b>${p.n}</b><span class="m">${p.o} · حموضة ${p.a}% · ${p.l} لتر</span><span class="m">${p.m}</span><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div><button class="btn" onclick="add(${i})">أضف للسلة</button></article>`).join('')}
+function rec(k){$$('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k==k));
+const r=P.map((p,i)=>({p,i})).filter(({p})=>p.t.includes(k)&&!p.w).sort((a,b)=>k=='h'?a.p.a-b.p.a:pl(a.p)-pl(b.p))[0],p=r.p;
+$('#rec').innerHTML=`<b>${p.n}</b> — ${p.p} ج (${pl(p)} ج/لتر)<br>${why[k]}<br><button class="btn" style="background:#f6f4dc;color:#2f3a12;margin-top:8px" onclick="add(${r.i})">أضف للسلة</button>`}
+function adm(){$('#sb').innerHTML=S.map((x,i)=>`<tr><td>${x.n}</td><td>${x.pl}</td><td class="st-${x.s}">${L[x.s]}</td><td>${x.d}</td><td><a class="btn" href="https://wa.me/?text=${encodeURIComponent('مرحباً '+x.n+'، بخصوص اشتراككم في زيتونة')}" target="_blank" rel="noopener">واتساب</a> ${x.s!='a'?`<button class="btn" onclick="act(${i})">تفعيل</button>`:''}</td></tr>`).join('');
+['t','a','e'].forEach((s,j)=>$('#k'+(j+1)).textContent=S.filter(x=>x.s==s).length)}
+function act(i){S[i].s='a';adm();toast('تم تفعيل اشتراك '+S[i].n)}
+$$('.chip').forEach(b=>b.onclick=()=>rec(b.dataset.k));
+$$('.f button').forEach(b=>b.onclick=()=>{f=b.dataset.f;$$('.f button').forEach(x=>x.setAttribute('aria-pressed',x==b));shop()});
+$$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x==b));['s','m','a'].forEach(v=>$('#v'+v).hidden=v!=b.dataset.v);scrollTo(0,0)});
+$('#q').onsubmit=async e=>{e.preventDefault();const q=$('#qi').value.trim();if(!q)return;$('#rec').textContent='جارٍ البحث…';
+try{const r=await fetch('/api/assistant',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({question:q,catalog:P.map((p,i)=>({id:i,name:p.n,origin:p.o,acidity:p.a,liters:p.l,price:p.p,wholesale:!!p.w}))})});
+const d=await r.json();if(!r.ok)throw 0;const p=P[d.id];$$('.chip').forEach(b=>b.setAttribute('aria-pressed','false'));
+$('#rec').innerHTML=`<b>${p.n}</b> — ${p.p} ج (${pl(p)} ج/لتر)<br>${d.reason}<br><button class="btn" style="background:#f6f4dc;color:#2f3a12;margin-top:8px" onclick="add(${d.id})">أضف للسلة</button>`}
+catch{$('#rec').textContent='المساعد غير متاح الآن، جرّب الأزرار أعلاه.'}};
+rec('s');shop();adm();
+</script></body></html>
