@@ -47,12 +47,19 @@ tr:last-child td{border:0}
 .bar i{display:block;height:100%;background:var(--gold)}
 .st-t{color:var(--warn)}.st-a{color:var(--ok)}.st-e{color:var(--bad)}
 #toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline:16px;max-width:420px;margin:auto;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;text-align:center;z-index:9}
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);padding:18px;width:min(92vw,380px)}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+.fm{display:grid;gap:8px}
+.fm input:not([type=checkbox]),.fm select,td select{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font:inherit;background:var(--bg);color:var(--ink);width:100%}
+.fm .r{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn.o{background:none;color:var(--olive);border:1.5px solid var(--olive)}
+nav button[hidden]{display:none}
 footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><symbol id="b" viewBox="0 0 40 90"><path d="M16 2h8v10l4 8v62a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V20l4-8z" fill="currentColor"/><rect x="14" y="40" width="12" height="24" rx="2" fill="#f6f4dc" opacity=".85"/></symbol></svg>
 <header class="top"><span class="brand">زيتونة</span>
-<nav><button data-v="s" aria-pressed="true">المتجر</button><button data-v="m" aria-pressed="false">لوحة التاجر</button><button data-v="a" aria-pressed="false">الإدارة</button></nav>
-<button class="cart" id="cn">السلة: 0</button></header>
+<nav><button data-v="s" aria-pressed="true">المتجر</button><button data-v="m" aria-pressed="false" hidden>لوحة التاجر</button><button data-v="a" aria-pressed="false" hidden>الإدارة</button></nav>
+<button class="cart" id="au">دخول</button><button class="cart" id="cn">السلة: 0</button></header>
 <main>
 <section id="vs">
 <div class="hero"><h1>زيت زيتون أصلي، من كل التجار في مكان واحد</h1>
@@ -64,11 +71,17 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="grid" id="grid"></div></section>
 
 <section id="vm" hidden>
-<div class="sec"><h2>لوحة التاجر — واحة سيوة</h2></div>
-<div class="box"><b>تجربتك المجانية: باقي 74 يوماً من 90</b><div class="bar"><i style="width:18%"></i></div>
+<div class="sec"><h2 id="mt">لوحة التاجر</h2></div>
+<div class="box"><b id="mb"></b><div class="bar"><i id="mbar" style="width:0"></i></div>
 <p class="m" style="margin:8px 0 10px">للاشتراك في إحدى الباقات تواصل معنا على واتساب.</p><a class="btn" href="https://wa.me/?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D8%B2%D9%8A%D8%AA%D9%88%D9%86%D8%A9" target="_blank" rel="noopener">اشترك عبر واتساب</a></div>
-<div class="kpi"><div><span class="m">طلبات الأسبوع</span><b>23</b></div><div><span class="m">المبيعات</span><b>6,420 ج</b></div><div><span class="m">مشاهدات المنتجات</span><b>1,310</b></div></div>
-<div class="box"><h3>تقرير زيتونة الذكي</h3><p style="margin:6px 0 0">سعر لتر زيت مطروح عندك 340 ج، وأقل سعر لنفس الدرجة في السوق 325 ج. خفض 5% قد يرفع طلباتك. منتج "عصرة أولى" الأعلى مشاهدة والأقل مخزوناً، فجهّز كمية إضافية.</p></div></section>
+<div class="kpi"><div><span class="m">الطلبات</span><b id="mo">0</b></div><div><span class="m">المبيعات</span><b id="ms">0</b></div><div><span class="m">منتجاتي</span><b id="mp">0</b></div></div>
+<div class="box"><h3>إضافة منتج</h3><form id="pf" class="fm" style="margin-top:8px">
+<input id="pn" placeholder="اسم المنتج" required><input id="po" placeholder="المنشأ (مثال: سيوة)" required>
+<div class="r"><input id="pa" type="number" step="0.1" min="0" placeholder="الحموضة %" style="flex:1;min-width:90px" required><input id="pq" type="number" step="0.25" min="0.1" placeholder="اللترات" style="flex:1;min-width:90px" required><input id="pr" type="number" min="1" placeholder="السعر ج" style="flex:1;min-width:90px" required></div>
+<div class="r"><label><input type="checkbox" id="pw"> جملة</label><label><input type="checkbox" name="pt" value="s"> للسلطة</label><label><input type="checkbox" name="pt" value="c"> للطبخ</label><label><input type="checkbox" name="pt" value="h"> للصحة</label></div>
+<button class="btn">أضف المنتج</button></form></div>
+<div class="sec"><h3>منتجاتي</h3></div><div class="wrap"><table><tbody id="pb"></tbody></table></div>
+<div class="sec"><h3>الطلبات</h3></div><div class="wrap"><table><tbody id="ob"></tbody></table></div></section>
 
 <section id="va" hidden>
 <div class="sec"><h2>إدارة الاشتراكات</h2></div>
@@ -77,8 +90,14 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 </main>
 <footer>نموذج أولي ببيانات تجريبية</footer>
 <div id="toast" hidden></div>
+<dialog id="dlg"><form id="af" class="fm"><h3 id="dt">دخول</h3>
+<input id="ae" type="email" placeholder="البريد الإلكتروني" required autocomplete="email">
+<input id="ap" type="password" placeholder="كلمة المرور" required minlength="6" autocomplete="current-password">
+<div id="sx" class="fm" hidden><select id="ar" aria-label="نوع الحساب"><option value="b">مشتري</option><option value="m">تاجر</option></select>
+<input id="an" placeholder="الاسم (أو اسم المتجر للتاجر)"><input id="aph" type="tel" placeholder="رقم الهاتف"><input id="ac" placeholder="المدينة (للتاجر)"></div>
+<button class="btn" id="ago">دخول</button><button type="button" class="btn o" id="asw">حساب جديد</button><button type="button" class="btn o" id="acl">إغلاق</button></form></dialog>
 <script>
-const P=[
+let P=[
 {n:'بكر ممتاز — سيوة',o:'سيوة',a:.3,l:.5,p:185,m:'واحة سيوة',t:['s','h'],c:'#6d7d1c'},
 {n:'بكر ممتاز — مطروح',o:'مطروح',a:.5,l:1,p:340,m:'مزارع المتوسط',t:['s'],c:'#7f8a1e'},
 {n:'زيت للطبخ اليومي',o:'الفيوم',a:1.2,l:1,p:210,m:'الفيوم للزيوت',t:['c'],c:'#a39220'},
@@ -86,26 +105,106 @@ const P=[
 {n:'عبوة جملة 5 لتر',o:'الفيوم',a:1,l:5,p:1450,m:'الفيوم للزيوت',t:['c'],w:1,c:'#a39220'},
 {n:'جملة 16 لتر بكر',o:'مطروح',a:.6,l:16,p:5400,m:'مزارع المتوسط',t:['c','s'],w:1,c:'#7f8a1e'}];
 const why={s:'الأوفر للتر بين زيوت السلطة البكر.',c:'الأوفر للتر في زيوت الطبخ.',h:'الأقل حموضة، أي الأعلى جودة وعصرة على البارد.'};
-const S=[{n:'واحة سيوة',pl:'احترافي',s:'t',d:'12 ديسمبر'},{n:'مزارع المتوسط',pl:'متميز',s:'a',d:'3 مارس'},{n:'الفيوم للزيوت',pl:'بداية',s:'t',d:'28 أكتوبر'},{n:'خير سيناء',pl:'احترافي',s:'e',d:'20 سبتمبر'}];
+let S=[{n:'واحة سيوة',pl:'احترافي',s:'t',d:'12 ديسمبر'},{n:'مزارع المتوسط',pl:'متميز',s:'a',d:'3 مارس'},{n:'الفيوم للزيوت',pl:'بداية',s:'t',d:'28 أكتوبر'},{n:'خير سيناء',pl:'احترافي',s:'e',d:'20 سبتمبر'}];
 const L={t:'تجربة مجانية',a:'نشط',e:'منتهي'};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),pl=p=>Math.round(p.p/p.l);
+const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';'),wa=p=>'https://wa.me/'+String(p||'').replace(/\D/g,'').replace(/^0/,'20');
+function setP(a){P=a;shop();rec('s');$('footer').textContent='زيتونة — سوق زيت الزيتون'}
+function setS(a){S=a;adm()}
 let cart=[],f='all';
 function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.i);toast.i=setTimeout(()=>e.hidden=true,2200)}
 function add(i){cart.push(P[i]);$('#cn').textContent='السلة: '+cart.length+' · '+cart.reduce((s,x)=>s+x.p,0)+' ج';toast('أضفنا '+P[i].n+' إلى السلة')}
-function shop(){$('#grid').innerHTML=P.map((p,i)=>({p,i})).filter(({p})=>f=='all'||(f=='w')==!!p.w).map(({p,i})=>`<article class="card"><div class="bt"><svg style="color:${p.c}" width="38" height="84"><use href="#b"/></svg></div><b>${p.n}</b><span class="m">${p.o} · حموضة ${p.a}% · ${p.l} لتر</span><span class="m">${p.m}</span><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div><button class="btn" onclick="add(${i})">أضف للسلة</button></article>`).join('')}
+function shop(){$('#grid').innerHTML=P.map((p,i)=>({p,i})).filter(({p})=>f=='all'||(f=='w')==!!p.w).map(({p,i})=>`<article class="card"><div class="bt"><svg style="color:${p.c}" width="38" height="84"><use href="#b"/></svg></div><b>${esc(p.n)}</b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span><span class="m">${esc(p.m)}</span><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div><button class="btn" onclick="add(${i})">أضف للسلة</button></article>`).join('')}
 function rec(k){$$('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k==k));
-const r=P.map((p,i)=>({p,i})).filter(({p})=>p.t.includes(k)&&!p.w).sort((a,b)=>k=='h'?a.p.a-b.p.a:pl(a.p)-pl(b.p))[0],p=r.p;
-$('#rec').innerHTML=`<b>${p.n}</b> — ${p.p} ج (${pl(p)} ج/لتر)<br>${why[k]}<br><button class="btn" style="background:#f6f4dc;color:#2f3a12;margin-top:8px" onclick="add(${r.i})">أضف للسلة</button>`}
-function adm(){$('#sb').innerHTML=S.map((x,i)=>`<tr><td>${x.n}</td><td>${x.pl}</td><td class="st-${x.s}">${L[x.s]}</td><td>${x.d}</td><td><a class="btn" href="https://wa.me/?text=${encodeURIComponent('مرحباً '+x.n+'، بخصوص اشتراككم في زيتونة')}" target="_blank" rel="noopener">واتساب</a> ${x.s!='a'?`<button class="btn" onclick="act(${i})">تفعيل</button>`:''}</td></tr>`).join('');
+const r=P.map((p,i)=>({p,i})).filter(({p})=>p.t.includes(k)&&!p.w).sort((a,b)=>k=='h'?a.p.a-b.p.a:pl(a.p)-pl(b.p))[0];if(!r){$('#rec').textContent='لا يوجد منتج مناسب بعد.';return}const p=r.p;
+$('#rec').innerHTML=`<b>${esc(p.n)}</b> — ${p.p} ج (${pl(p)} ج/لتر)<br>${why[k]}<br><button class="btn" style="background:#f6f4dc;color:#2f3a12;margin-top:8px" onclick="add(${r.i})">أضف للسلة</button>`}
+function adm(){$('#sb').innerHTML=S.map((x,i)=>`<tr><td>${esc(x.n)}</td><td>${esc(x.pl)}</td><td class="st-${x.s}">${L[x.s]}</td><td>${x.d}</td><td><a class="btn" href="${wa(x.ph)}?text=${encodeURIComponent('مرحباً '+x.n+'، بخصوص اشتراككم في زيتونة')}" target="_blank" rel="noopener">واتساب</a> ${x.s!='a'?`<button class="btn" onclick="act(${i})">تفعيل</button>`:''}</td></tr>`).join('');
 ['t','a','e'].forEach((s,j)=>$('#k'+(j+1)).textContent=S.filter(x=>x.s==s).length)}
-function act(i){S[i].s='a';adm();toast('تم تفعيل اشتراك '+S[i].n)}
+function act(i){if(S[i].id)return window.fbAct(i);S[i].s='a';adm();toast('تم تفعيل اشتراك '+S[i].n)}
 $$('.chip').forEach(b=>b.onclick=()=>rec(b.dataset.k));
 $$('.f button').forEach(b=>b.onclick=()=>{f=b.dataset.f;$$('.f button').forEach(x=>x.setAttribute('aria-pressed',x==b));shop()});
 $$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x==b));['s','m','a'].forEach(v=>$('#v'+v).hidden=v!=b.dataset.v);scrollTo(0,0)});
 $('#q').onsubmit=async e=>{e.preventDefault();const q=$('#qi').value.trim();if(!q)return;$('#rec').textContent='جارٍ البحث…';
 try{const r=await fetch('/api/assistant',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({question:q,catalog:P.map((p,i)=>({id:i,name:p.n,origin:p.o,acidity:p.a,liters:p.l,price:p.p,wholesale:!!p.w}))})});
 const d=await r.json();if(!r.ok)throw 0;const p=P[d.id];$$('.chip').forEach(b=>b.setAttribute('aria-pressed','false'));
-$('#rec').innerHTML=`<b>${p.n}</b> — ${p.p} ج (${pl(p)} ج/لتر)<br>${d.reason}<br><button class="btn" style="background:#f6f4dc;color:#2f3a12;margin-top:8px" onclick="add(${d.id})">أضف للسلة</button>`}
+$('#rec').innerHTML=`<b>${esc(p.n)}</b> — ${p.p} ج (${pl(p)} ج/لتر)<br>${esc(d.reason)}<br><button class="btn" style="background:#f6f4dc;color:#2f3a12;margin-top:8px" onclick="add(${d.id})">أضف للسلة</button>`}
 catch{$('#rec').textContent='المساعد غير متاح الآن، جرّب الأزرار أعلاه.'}};
 rec('s');shop();adm();
+</script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,updateProfile,signOut}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import{getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,updateDoc,deleteDoc,query,where,Timestamp,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyBD1HrnisViDqDLswWWhqi4zITrDMu-ykI",authDomain:"zaytouna-b2efc.firebaseapp.com",projectId:"zaytouna-b2efc",storageBucket:"zaytouna-b2efc.firebasestorage.app",messagingSenderId:"291311143858",appId:"1:291311143858:web:938459685e00240c6972ab"});
+const auth=getAuth(app),db=getFirestore(app),D=864e5,dlg=$('#dlg');
+const dt=t=>t&&t.toDate?t.toDate().toLocaleDateString('ar-EG'):'';
+const ER={'auth/invalid-credential':'البريد أو كلمة المرور غير صحيحة','auth/email-already-in-use':'هذا البريد مسجّل من قبل','auth/weak-password':'كلمة المرور ضعيفة (6 أحرف على الأقل)','auth/invalid-email':'البريد غير صحيح'};
+const ST={new:'جديد',accepted:'مقبول',done:'مكتمل',cancelled:'ملغي'};
+let U=null,M=null,AM=[],seq=0,sign=false;
+
+async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));
+if(s.empty)return;
+setP(s.docs.map(d=>{const x=d.data();return{id:d.id,mid:x.merchantId,n:String(x.name||''),o:String(x.origin||''),a:+x.acidity||0,l:+x.liters||1,p:+x.price||0,m:String(x.merchantName||''),t:Array.isArray(x.tags)?x.tags:[],w:x.wholesale?1:0,c:'#6d7d1c'}}))}catch{}}
+
+async function loadM(){try{
+const e=M.endsAt.toDate(),d=Math.ceil((e-Date.now())/D),a=M.status=='active';
+$('#mt').textContent='لوحة التاجر — '+M.name;
+$('#mb').textContent=d<=0?'انتهى اشتراكك، تواصل معنا للتجديد':a?'اشتراك نشط حتى '+dt(M.endsAt):'تجربتك المجانية: باقي '+d+' يوماً من 90';
+$('#mbar').style.width=(a?100:Math.min(100,Math.max(0,(90-d)/.9)))+'%';
+const[ps,os]=await Promise.all(['products','orders'].map(c=>getDocs(query(collection(db,c),where('merchantId','==',U.uid)))));
+const O=os.docs.map(x=>({id:x.id,...x.data()})).sort((x,y)=>((y.createdAt&&y.createdAt.seconds)||0)-((x.createdAt&&x.createdAt.seconds)||0));
+$('#mo').textContent=O.length;$('#ms').textContent=O.filter(o=>o.status!='cancelled').reduce((s,o)=>s+(+o.total||0),0)+' ج';$('#mp').textContent=ps.size;
+$('#pb').innerHTML=ps.docs.map(x=>{const p=x.data();return`<tr><td>${esc(p.name)}</td><td>${+p.price} ج</td><td><button class="btn o" data-a="tg" data-id="${x.id}" data-v="${p.active?1:0}">${p.active?'ظاهر':'مخفي'}</button> <button class="btn o" data-a="dl" data-id="${x.id}">حذف</button></td></tr>`}).join('')||'<tr><td class="m">لا توجد منتجات بعد</td></tr>';
+$('#ob').innerHTML=O.map(o=>`<tr><td>${dt(o.createdAt)}</td><td>${esc(o.buyerName)}<br><a class="m" href="${wa(o.buyerPhone)}" target="_blank" rel="noopener">${esc(o.buyerPhone)}</a></td><td style="white-space:normal">${(o.items||[]).map(i=>esc(i.name)).join('، ')}</td><td>${+o.total} ج</td><td><select data-id="${o.id}">${Object.entries(ST).map(([k,v])=>`<option value="${k}"${o.status==k?' selected':''}>${v}</option>`).join('')}</select></td></tr>`).join('')||'<tr><td class="m">لا توجد طلبات بعد</td></tr>'
+}catch{toast('تعذر تحميل بيانات لوحة التاجر')}}
+
+async function loadA(){try{const s=await getDocs(collection(db,'merchants'));
+AM=s.docs.map(d=>({id:d.id,...d.data()}));
+setS(AM.map(m=>{const e=m.endsAt&&m.endsAt.toDate?m.endsAt.toDate():null,ex=!e||e<Date.now();return{id:m.id,n:m.name,pl:m.plan||'—',s:ex?'e':m.status=='active'?'a':'t',d:dt(m.endsAt),ph:m.phone}}))}catch{toast('تعذر تحميل التجار')}}
+window.fbAct=async i=>{const x=AM[i],mo=+prompt('عدد شهور الاشتراك:','1');if(!mo)return;
+try{await updateDoc(doc(db,'merchants',x.id),{status:'active',endsAt:Timestamp.fromDate(new Date(Date.now()+mo*30*D))});toast('تم التفعيل');loadA()}catch{toast('تعذر التفعيل')}};
+
+async function init(u){const my=++seq;U=u;let m=null,ad=false;
+if(u){try{ad=!!(await u.getIdTokenResult()).claims.admin}catch{}
+try{const s=await getDoc(doc(db,'merchants',u.uid));m=s.exists()?s.data():null}catch{}}
+if(my!==seq)return;M=m;
+$('#au').textContent=u?(u.displayName||'حسابي'):'دخول';
+$('[data-v=m]').hidden=!m;$('[data-v=a]').hidden=!ad;
+if(!m&&!ad)$('[data-v=s]').click();
+if(m)loadM();if(ad)loadA()}
+onAuthStateChanged(auth,init);
+
+function openDlg(s){sign=!!s;$('#sx').hidden=!sign;$('#dt').textContent=sign?'حساب جديد':'دخول';$('#ago').textContent=sign?'إنشاء الحساب':'دخول';$('#asw').textContent=sign?'لدي حساب':'حساب جديد';if(!dlg.open)dlg.showModal()}
+$('#au').onclick=()=>{if(U){if(confirm('تسجيل الخروج؟'))signOut(auth)}else openDlg()};
+$('#asw').onclick=()=>openDlg(!sign);
+$('#acl').onclick=()=>dlg.close();
+$('#af').onsubmit=async e=>{e.preventDefault();const em=$('#ae').value.trim(),pw=$('#ap').value;
+try{if(!sign)await signInWithEmailAndPassword(auth,em,pw);
+else{const r=$('#ar').value,n=$('#an').value.trim(),ph=$('#aph').value.trim(),c=$('#ac').value.trim();
+if(!n||(r=='m'&&(!ph||!c)))return toast('أكمل البيانات المطلوبة');
+const k=await createUserWithEmailAndPassword(auth,em,pw);await updateProfile(k.user,{displayName:n});
+if(ph)localStorage.zph=ph;
+if(r=='m')await setDoc(doc(db,'merchants',k.user.uid),{name:n,phone:ph,city:c,about:'',status:'trial',endsAt:Timestamp.fromDate(new Date(Date.now()+90*D)),createdAt:serverTimestamp()});
+await init(auth.currentUser)}
+dlg.close();e.target.reset()}catch(x){toast(ER[x.code]||'تعذر تنفيذ الطلب')}};
+
+$('#pf').onsubmit=async e=>{e.preventDefault();const t=[...$$('[name=pt]:checked')].map(x=>x.value);
+try{await addDoc(collection(db,'products'),{merchantId:U.uid,merchantName:M.name,name:$('#pn').value.trim(),origin:$('#po').value.trim(),acidity:+$('#pa').value,liters:+$('#pq').value,price:+$('#pr').value,wholesale:$('#pw').checked,tags:t.length?t:['c'],active:true,createdAt:serverTimestamp()});
+e.target.reset();toast('تمت إضافة المنتج');loadM();products()}catch{toast('تعذرت الإضافة، تأكد أن اشتراكك ساري')}};
+$('#pb').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const id=b.dataset.id;
+try{if(b.dataset.a=='dl'){if(!confirm('حذف المنتج؟'))return;await deleteDoc(doc(db,'products',id))}else await updateDoc(doc(db,'products',id),{active:b.dataset.v!='1'});loadM();products()}catch{toast('تعذر التنفيذ، تأكد أن اشتراكك ساري')}};
+$('#ob').onchange=async e=>{const s=e.target;if(!s.dataset.id)return;try{await updateDoc(doc(db,'orders',s.dataset.id),{status:s.value});toast('تم تحديث الحالة')}catch{toast('تعذر التحديث')}};
+
+$('#cn').onclick=async()=>{
+if(!cart.length)return toast('السلة فارغة');
+if(!U)return openDlg();
+const g={};cart.forEach(x=>{if(x.mid)(g[x.mid]=g[x.mid]||[]).push(x)});
+const ks=Object.keys(g);if(!ks.length)return toast('هذه منتجات تجريبية ولا يمكن طلبها');
+const ph=prompt('رقم هاتفك للتواصل:',localStorage.zph||'');if(!ph)return;localStorage.zph=ph;
+const tot=ks.reduce((s,k)=>s+g[k].reduce((a,x)=>a+x.p,0),0);
+if(!confirm('تأكيد '+ks.length+' طلب بقيمة '+tot+' ج؟'))return;
+try{for(const k of ks){const it=g[k];await addDoc(collection(db,'orders'),{buyerId:U.uid,buyerName:U.displayName||'',buyerPhone:ph,merchantId:k,merchantName:it[0].m,items:it.map(x=>({id:x.id,name:x.n,price:x.p})),total:it.reduce((a,x)=>a+x.p,0),status:'new',createdAt:serverTimestamp()})}
+cart=[];$('#cn').textContent='السلة: 0';toast('تم إرسال طلبك للتاجر')}catch{toast('تعذر إرسال الطلب')}};
+
+products();
 </script></body></html>
