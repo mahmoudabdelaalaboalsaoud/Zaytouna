@@ -54,6 +54,7 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .fm .r{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .btn.o{background:none;color:var(--olive);border:1.5px solid var(--olive)}
 nav button[hidden]{display:none}
+td select{min-width:100px;width:auto}
 footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><symbol id="b" viewBox="0 0 40 90"><path d="M16 2h8v10l4 8v62a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V20l4-8z" fill="currentColor"/><rect x="14" y="40" width="12" height="24" rx="2" fill="#f6f4dc" opacity=".85"/></symbol></svg>
@@ -142,6 +143,7 @@ const app=initializeApp({apiKey:"AIzaSyBD1HrnisViDqDLswWWhqi4zITrDMu-ykI",authDo
 const auth=getAuth(app),db=getFirestore(app),D=864e5,dlg=$('#dlg');
 const dt=t=>t&&t.toDate?t.toDate().toLocaleDateString('ar-EG'):'';
 const ER={'auth/invalid-credential':'البريد أو كلمة المرور غير صحيحة','auth/email-already-in-use':'هذا البريد مسجّل من قبل','auth/weak-password':'كلمة المرور ضعيفة (6 أحرف على الأقل)','auth/invalid-email':'البريد غير صحيح'};
+const grp=a=>{const m={};(a||[]).forEach(i=>{m[i.name]=(m[i.name]||0)+1});return Object.entries(m).map(([k,v])=>esc(k)+(v>1?' × '+v:'')).join('، ')};
 const ST={new:'جديد',accepted:'مقبول',done:'مكتمل',cancelled:'ملغي'};
 let U=null,M=null,AM=[],seq=0,sign=false;
 
@@ -158,7 +160,7 @@ const[ps,os]=await Promise.all(['products','orders'].map(c=>getDocs(query(collec
 const O=os.docs.map(x=>({id:x.id,...x.data()})).sort((x,y)=>((y.createdAt&&y.createdAt.seconds)||0)-((x.createdAt&&x.createdAt.seconds)||0));
 $('#mo').textContent=O.length;$('#ms').textContent=O.filter(o=>o.status!='cancelled').reduce((s,o)=>s+(+o.total||0),0)+' ج';$('#mp').textContent=ps.size;
 $('#pb').innerHTML=ps.docs.map(x=>{const p=x.data();return`<tr><td>${esc(p.name)}</td><td>${+p.price} ج</td><td><button class="btn o" data-a="tg" data-id="${x.id}" data-v="${p.active?1:0}">${p.active?'ظاهر':'مخفي'}</button> <button class="btn o" data-a="dl" data-id="${x.id}">حذف</button></td></tr>`}).join('')||'<tr><td class="m">لا توجد منتجات بعد</td></tr>';
-$('#ob').innerHTML=O.map(o=>`<tr><td>${dt(o.createdAt)}</td><td>${esc(o.buyerName)}<br><a class="m" href="${wa(o.buyerPhone)}" target="_blank" rel="noopener">${esc(o.buyerPhone)}</a></td><td style="white-space:normal">${(o.items||[]).map(i=>esc(i.name)).join('، ')}</td><td>${+o.total} ج</td><td><select data-id="${o.id}">${Object.entries(ST).map(([k,v])=>`<option value="${k}"${o.status==k?' selected':''}>${v}</option>`).join('')}</select></td></tr>`).join('')||'<tr><td class="m">لا توجد طلبات بعد</td></tr>'
+$('#ob').innerHTML=O.map(o=>`<tr><td>${dt(o.createdAt)}</td><td>${esc(o.buyerName)}<br><a class="m" href="${wa(o.buyerPhone)}" target="_blank" rel="noopener">${esc(o.buyerPhone)}</a></td><td style="white-space:normal;min-width:130px">${grp(o.items)}</td><td>${+o.total} ج</td><td><select data-id="${o.id}">${Object.entries(ST).map(([k,v])=>`<option value="${k}"${o.status==k?' selected':''}>${v}</option>`).join('')}</select></td></tr>`).join('')||'<tr><td class="m">لا توجد طلبات بعد</td></tr>'
 }catch{toast('تعذر تحميل بيانات لوحة التاجر')}}
 
 async function loadA(){try{const s=await getDocs(collection(db,'merchants'));
@@ -169,7 +171,7 @@ try{await updateDoc(doc(db,'merchants',x.id),{status:'active',endsAt:Timestamp.f
 
 async function loadO(){try{const s=await getDocs(query(collection(db,'orders'),where('buyerId','==',U.uid)));
 const O=s.docs.map(x=>({id:x.id,...x.data()})).sort((x,y)=>((y.createdAt&&y.createdAt.seconds)||0)-((x.createdAt&&x.createdAt.seconds)||0));
-$('#bo').innerHTML=O.map(o=>`<tr><td>${dt(o.createdAt)}</td><td>${esc(o.merchantName)}</td><td style="white-space:normal">${(o.items||[]).map(i=>esc(i.name)).join('، ')}</td><td>${+o.total} ج</td><td><b>${ST[o.status]||''}</b></td></tr>`).join('')||'<tr><td class="m">لا توجد مشتريات بعد</td></tr>'}catch{toast('تعذر تحميل مشترياتك')}}
+$('#bo').innerHTML=O.map(o=>`<tr><td>${dt(o.createdAt)}</td><td>${esc(o.merchantName)}</td><td style="white-space:normal;min-width:130px">${grp(o.items)}</td><td>${+o.total} ج</td><td><b>${ST[o.status]||''}</b></td></tr>`).join('')||'<tr><td class="m">لا توجد مشتريات بعد</td></tr>'}catch{toast('تعذر تحميل مشترياتك')}}
 
 async function init(u){const my=++seq;U=u;let m=null,ad=false;
 if(u){try{ad=!!(await u.getIdTokenResult()).claims.admin}catch{}
@@ -207,7 +209,7 @@ if(!cart.length)return toast('السلة فارغة');
 if(!U)return openDlg();
 const g={};cart.forEach(x=>{if(x.mid)(g[x.mid]=g[x.mid]||[]).push(x)});
 const ks=Object.keys(g);if(!ks.length)return toast('هذه منتجات تجريبية ولا يمكن طلبها');
-const ph=prompt('رقم هاتفك للتواصل:',localStorage.zph||'');if(!ph)return;localStorage.zph=ph;
+const p0=prompt('رقم موبايلك للتواصل (11 رقم):',localStorage.zph||'');if(!p0)return;const ph=p0.trim().replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d));if(!/^01[0125]\d{8}$/.test(ph))return toast('اكتب رقم موبايل مصري صحيح من 11 رقم');localStorage.zph=ph;
 const tot=ks.reduce((s,k)=>s+g[k].reduce((a,x)=>a+x.p,0),0);
 if(!confirm('تأكيد '+ks.length+' طلب بقيمة '+tot+' ج؟'))return;
 try{for(const k of ks){const it=g[k];await addDoc(collection(db,'orders'),{buyerId:U.uid,buyerName:U.displayName||'',buyerPhone:ph,merchantId:k,merchantName:it[0].m,items:it.map(x=>({id:x.id,name:x.n,price:x.p})),total:it.reduce((a,x)=>a+x.p,0),status:'new',createdAt:serverTimestamp()})}
