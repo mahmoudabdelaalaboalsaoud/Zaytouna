@@ -55,6 +55,13 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .btn.o{background:none;color:var(--olive);border:1.5px solid var(--olive)}
 [hidden]{display:none!important}
 td select{min-width:100px;width:auto}
+.af{display:flex;gap:6px;flex-wrap:wrap}.af button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:4px 14px}.af button[aria-pressed=true]{background:var(--olive);color:var(--bg);border-color:var(--olive)}
+.tb{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.tb input{flex:1;min-width:200px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font:inherit;background:var(--card);color:var(--ink)}
+.mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.mc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.mc .r2{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.st-s{color:var(--bad)}
+#al{list-style:none;padding:0;margin:8px 0;display:grid;gap:8px}#al li{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;overflow-wrap:anywhere}
 footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><symbol id="b" viewBox="0 0 40 90"><path d="M16 2h8v10l4 8v62a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V20l4-8z" fill="currentColor"/><rect x="14" y="40" width="12" height="24" rx="2" fill="#f6f4dc" opacity=".85"/></symbol></svg>
@@ -88,9 +95,12 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="sec"><h2>مشترياتي</h2></div>
 <div class="wrap"><table><tbody id="bo"></tbody></table></div></section>
 <section id="va" hidden>
-<div class="sec"><h2>إدارة الاشتراكات</h2></div>
-<div class="kpi"><div><span class="m">في التجربة</span><b id="k1"></b></div><div><span class="m">اشتراكات نشطة</span><b id="k2"></b></div><div><span class="m">منتهية تحتاج متابعة</span><b id="k3"></b></div></div>
-<div class="wrap"><table><thead><tr><th>التاجر</th><th>الباقة</th><th>الحالة</th><th>ينتهي</th><th>إجراء</th></tr></thead><tbody id="sb"></tbody></table></div></section>
+<div class="sec"><h2>إدارة التجار والاشتراكات</h2><button class="btn o" id="ah">إخفاء منتجات المنتهية اشتراكاتهم</button></div>
+<div class="kpi"><div><span class="m">كل التجار</span><b id="k0">0</b></div><div><span class="m">في التجربة</span><b id="k1">0</b></div><div><span class="m">اشتراكات نشطة</span><b id="k2">0</b></div><div><span class="m">منتهية</span><b id="k3">0</b></div><div><span class="m">موقوفة</span><b id="k4">0</b></div></div>
+<div class="tb"><input id="aq" type="search" placeholder="بحث بالاسم أو الهاتف أو المدينة" aria-label="بحث"><div class="af" id="af2"><button data-f="" aria-pressed="true">الكل</button><button data-f="t" aria-pressed="false">تجربة</button><button data-f="a" aria-pressed="false">نشط</button><button data-f="e" aria-pressed="false">منتهي</button><button data-f="s" aria-pressed="false">موقوف</button></div></div>
+<div class="mg" id="mg"></div>
+<div class="box" id="adb" hidden style="margin-top:18px"><h3>مديرو الموقع</h3><p class="m">أضف إيميل مدير جديد، وهيدخل بحساب Google بنفس الإيميل ليظهر له زرار الإدارة.</p>
+<ul id="al"></ul><form id="adf" class="tb" style="margin:0"><input id="aem" type="email" placeholder="إيميل المدير الجديد" required><button class="btn">إضافة مدير</button></form></div></section>
 </main>
 <footer>نموذج أولي ببيانات تجريبية</footer>
 <div id="toast" hidden></div>
@@ -110,12 +120,10 @@ let P=[
 {n:'عبوة جملة 5 لتر',o:'الفيوم',a:1,l:5,p:1450,m:'الفيوم للزيوت',t:['c'],w:1,c:'#a39220'},
 {n:'جملة 16 لتر بكر',o:'مطروح',a:.6,l:16,p:5400,m:'مزارع المتوسط',t:['c','s'],w:1,c:'#7f8a1e'}];
 const why={s:'الأوفر للتر بين زيوت السلطة البكر.',c:'الأوفر للتر في زيوت الطبخ.',h:'الأقل حموضة، أي الأعلى جودة وعصرة على البارد.'};
-let S=[{n:'واحة سيوة',pl:'احترافي',s:'t',d:'12 ديسمبر'},{n:'مزارع المتوسط',pl:'متميز',s:'a',d:'3 مارس'},{n:'الفيوم للزيوت',pl:'بداية',s:'t',d:'28 أكتوبر'},{n:'خير سيناء',pl:'احترافي',s:'e',d:'20 سبتمبر'}];
 const L={t:'تجربة مجانية',a:'نشط',e:'منتهي'};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),pl=p=>Math.round(p.p/p.l);
 const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';'),wa=p=>'https://wa.me/'+String(p||'').replace(/\D/g,'').replace(/^0/,'20');
 function setP(a){P=a;shop();rec('s');$('footer').textContent='زيتونة — سوق زيت الزيتون'}
-function setS(a){S=a;adm()}
 let cart=[],f='all';
 function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.i);toast.i=setTimeout(()=>e.hidden=true,2200)}
 function add(i){cart.push(P[i]);$('#cn').textContent='السلة: '+cart.length+' · '+cart.reduce((s,x)=>s+x.p,0)+' ج';toast('أضفنا '+P[i].n+' إلى السلة')}
@@ -123,9 +131,6 @@ function shop(){$('#grid').innerHTML=P.map((p,i)=>({p,i})).filter(({p})=>f=='all
 function rec(k){$$('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k==k));
 const r=P.map((p,i)=>({p,i})).filter(({p})=>p.t.includes(k)&&!p.w).sort((a,b)=>k=='h'?a.p.a-b.p.a:pl(a.p)-pl(b.p))[0];if(!r){$('#rec').textContent='لا يوجد منتج مناسب بعد.';return}const p=r.p;
 $('#rec').innerHTML=`<b>${esc(p.n)}</b> — ${p.p} ج (${pl(p)} ج/لتر)<br>${why[k]}<br><button class="btn" style="background:#f6f4dc;color:#2f3a12;margin-top:8px" onclick="add(${r.i})">أضف للسلة</button>`}
-function adm(){$('#sb').innerHTML=S.map((x,i)=>`<tr><td>${esc(x.n)}</td><td>${esc(x.pl)}</td><td class="st-${x.s}">${L[x.s]}</td><td>${x.d}</td><td><a class="btn" href="${wa(x.ph)}?text=${encodeURIComponent('مرحباً '+x.n+'، بخصوص اشتراككم في زيتونة')}" target="_blank" rel="noopener">واتساب</a> ${x.s!='a'?`<button class="btn" onclick="act(${i})">تفعيل</button>`:''}</td></tr>`).join('');
-['t','a','e'].forEach((s,j)=>$('#k'+(j+1)).textContent=S.filter(x=>x.s==s).length)}
-function act(i){if(S[i].id)return window.fbAct(i);S[i].s='a';adm();toast('تم تفعيل اشتراك '+S[i].n)}
 $$('.chip').forEach(b=>b.onclick=()=>rec(b.dataset.k));
 $$('.f button').forEach(b=>b.onclick=()=>{f=b.dataset.f;$$('.f button').forEach(x=>x.setAttribute('aria-pressed',x==b));shop()});
 $$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x==b));['s','m','a','o'].forEach(v=>$('#v'+v).hidden=v!=b.dataset.v);scrollTo(0,0)});
@@ -134,12 +139,12 @@ try{const r=await fetch('/api/assistant',{method:'POST',headers:{'content-type':
 const d=await r.json();if(!r.ok)throw 0;const p=P[d.id];$$('.chip').forEach(b=>b.setAttribute('aria-pressed','false'));
 $('#rec').innerHTML=`<b>${esc(p.n)}</b> — ${p.p} ج (${pl(p)} ج/لتر)<br>${esc(d.reason)}<br><button class="btn" style="background:#f6f4dc;color:#2f3a12;margin-top:8px" onclick="add(${d.id})">أضف للسلة</button>`}
 catch{$('#rec').textContent='المساعد غير متاح الآن، جرّب الأزرار أعلاه.'}};
-rec('s');shop();adm();
+rec('s');shop();
 </script>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,updateProfile,signOut,GoogleAuthProvider,signInWithPopup}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import{getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,updateDoc,deleteDoc,query,where,Timestamp,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import{getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,updateDoc,deleteDoc,query,where,Timestamp,serverTimestamp,writeBatch}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 const app=initializeApp({apiKey:"AIzaSyBD1HrnisViDqDLswWWhqi4zITrDMu-ykI",authDomain:"zaytouna-b2efc.firebaseapp.com",projectId:"zaytouna-b2efc",storageBucket:"zaytouna-b2efc.firebasestorage.app",messagingSenderId:"291311143858",appId:"1:291311143858:web:938459685e00240c6972ab"});
 const auth=getAuth(app),db=getFirestore(app),D=864e5,dlg=$('#dlg');
 const dt=t=>t&&t.toDate?t.toDate().toLocaleDateString('ar-EG'):'';
@@ -149,7 +154,8 @@ const wmsg=(o,id)=>{const m={};(o.items||[]).forEach(i=>{const k=i.id||i.name;(m
 return `مرحباً ${o.merchantName}،\nأنا ${o.buyerName||''}، طلبت من زيتونة:\n`+Object.values(m).map(i=>`• ${i.name}${i.liters?' ('+i.liters+' لتر)':''} × ${i.q} = ${i.price*i.q} ج`).join('\n')+`\nالإجمالي: ${o.total} ج\nرقم الطلب: ${String(id).slice(0,6)}`};
 const wlink=(o,id)=>o.merchantPhone?wa(o.merchantPhone)+'?text='+encodeURIComponent(wmsg(o,id)):'';
 const ST={new:'جديد',accepted:'مقبول',done:'مكتمل',cancelled:'ملغي'};
-let U=null,M=null,AM=[],seq=0,sign=false;
+const OWNER='mahmoudabdelaalaboalsaoud@gmail.com';
+let U=null,M=null,AM=[],AF='',AQ='',OWN=false,seq=0,sign=false;
 
 async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));
 if(s.empty)return;
@@ -169,18 +175,46 @@ $('#pb').innerHTML=ps.docs.map(x=>{const p=x.data();return`<tr><td>${esc(p.name)
 $('#ob').innerHTML=O.map(o=>`<tr><td>${dt(o.createdAt)}</td><td>${esc(o.buyerName)}<br><a class="m" href="${wa(o.buyerPhone)}" target="_blank" rel="noopener">${esc(o.buyerPhone)}</a></td><td style="white-space:normal;min-width:130px">${grp(o.items)}</td><td>${+o.total} ج</td><td><select data-id="${o.id}">${Object.entries(ST).map(([k,v])=>`<option value="${k}"${o.status==k?' selected':''}>${v}</option>`).join('')}</select></td></tr>`).join('')||'<tr><td class="m">لا توجد طلبات بعد</td></tr>'
 }catch{toast('تعذر تحميل بيانات لوحة التاجر')}}
 
+const ms=m=>m.endsAt&&m.endsAt.toDate?m.endsAt.toDate().getTime():0;
+const stOf=m=>m.status=='suspended'?'s':ms(m)<Date.now()?'e':m.status=='active'?'a':'t';
+const SL={t:'تجربة',a:'نشط',e:'منتهي',s:'موقوف'};
+function rA(){const q=AQ.trim().toLowerCase(),c={t:0,a:0,e:0,s:0};AM.forEach(m=>c[stOf(m)]++);
+$('#k0').textContent=AM.length;['t','a','e','s'].forEach((k,i)=>$('#k'+(i+1)).textContent=c[k]);
+const fl=AM.filter(m=>(!AF||stOf(m)==AF)&&(!q||[m.name,m.phone,m.city].join(' ').toLowerCase().includes(q)));
+$('#mg').innerHTML=fl.map(m=>{const s=stOf(m),d=Math.ceil((ms(m)-Date.now())/D);
+return`<div class="mc"><b>${esc(m.name)}</b><span class="m">${esc(m.city)} · <a href="${wa(m.phone)}" target="_blank" rel="noopener">${esc(m.phone)}</a></span><span class="st-${s}"><b>${SL[s]}</b> · ${d>0?'باقي '+d+' يوماً':'انتهى'} (${dt(m.endsAt)})</span><div class="r2"><button class="btn" data-a="ac" data-id="${m.id}">${s=='a'?'تجديد':'تفعيل'}</button>${s=='s'?'':`<button class="btn o" data-a="sp" data-id="${m.id}">إيقاف</button>`}<a class="btn o" href="${wa(m.phone)}?text=${encodeURIComponent('مرحباً '+m.name+'، بخصوص اشتراكك في زيتونة')}" target="_blank" rel="noopener">واتساب</a></div></div>`}).join('')||'<p class="m">لا توجد نتائج</p>'}
 async function loadA(){try{const s=await getDocs(collection(db,'merchants'));
-AM=s.docs.map(d=>({id:d.id,...d.data()}));
-setS(AM.map(m=>{const e=m.endsAt&&m.endsAt.toDate?m.endsAt.toDate():null,ex=!e||e<Date.now();return{id:m.id,n:m.name,pl:m.plan||'—',s:ex?'e':m.status=='active'?'a':'t',d:dt(m.endsAt),ph:m.phone}}))}catch{toast('تعذر تحميل التجار')}}
-window.fbAct=async i=>{const x=AM[i],mo=+prompt('عدد شهور الاشتراك:','1');if(!mo)return;
-try{await updateDoc(doc(db,'merchants',x.id),{status:'active',endsAt:Timestamp.fromDate(new Date(Date.now()+mo*30*D))});toast('تم التفعيل');loadA()}catch{toast('تعذر التفعيل')}};
+AM=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>ms(a)-ms(b));rA()}catch{toast('تعذر تحميل التجار')}
+$('#adb').hidden=!OWN;if(OWN)loadAd()}
+async function loadAd(){try{const s=await getDocs(collection(db,'admins'));
+$('#al').innerHTML=`<li><span>${esc(OWNER)}</span><span class="m">المالك</span></li>`+s.docs.map(d=>`<li><span>${esc(d.id)}</span><button class="btn o" data-e="${esc(d.id)}">إزالة</button></li>`).join('')}catch{}}
+async function hide(ids){const b=writeBatch(db);let n=0;
+for(const id of ids){const s=await getDocs(query(collection(db,'products'),where('merchantId','==',id)));s.docs.forEach(d=>{if(d.data().active){b.update(d.ref,{active:false});n++}})}
+if(n)await b.commit();return n}
+$('#aq').oninput=e=>{AQ=e.target.value;rA()};
+$('#af2').onclick=e=>{const b=e.target.closest('button');if(!b)return;AF=b.dataset.f;$$('#af2 button').forEach(x=>x.setAttribute('aria-pressed',x==b));rA()};
+$('#mg').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const m=AM.find(x=>x.id==b.dataset.id);if(!m)return;
+try{if(b.dataset.a=='ac'){const mo=+prompt('عدد شهور الاشتراك:','1');if(!mo||mo<0)return;
+await updateDoc(doc(db,'merchants',m.id),{status:'active',endsAt:Timestamp.fromDate(new Date(Math.max(Date.now(),ms(m))+mo*30*D))});toast('تم تفعيل الاشتراك')}
+else{if(!confirm('إيقاف '+m.name+' وإخفاء كل منتجاته؟'))return;await updateDoc(doc(db,'merchants',m.id),{status:'suspended'});await hide([m.id]);toast('تم الإيقاف')}
+loadA();products()}catch{toast('تعذر تنفيذ الإجراء')}};
+$('#ah').onclick=async()=>{const ids=AM.filter(m=>'es'.includes(stOf(m))).map(m=>m.id);if(!ids.length)return toast('لا توجد اشتراكات منتهية أو موقوفة');
+if(!confirm('إخفاء منتجات '+ids.length+' تاجر منتهي أو موقوف؟'))return;
+try{const n=await hide(ids);toast('تم إخفاء '+n+' منتج');products()}catch{toast('تعذر التنفيذ')}};
+$('#adf').onsubmit=async e=>{e.preventDefault();const em=$('#aem').value.trim().toLowerCase();
+if(!/^[^\s\/@]+@[^\s\/@]+\.[^\s\/@]+$/.test(em))return toast('اكتب إيميل صحيح');
+try{await setDoc(doc(db,'admins',em),{email:em,addedBy:U.email,createdAt:serverTimestamp()});e.target.reset();toast('تمت إضافة المدير');loadAd()}catch{toast('تعذرت الإضافة')}};
+$('#al').onclick=async e=>{const b=e.target.closest('button');if(!b||!confirm('إزالة '+b.dataset.e+' من المديرين؟'))return;
+try{await deleteDoc(doc(db,'admins',b.dataset.e));loadAd()}catch{toast('تعذرت الإزالة')}};
 
 async function loadO(){try{const s=await getDocs(query(collection(db,'orders'),where('buyerId','==',U.uid)));
 const O=s.docs.map(x=>({id:x.id,...x.data()})).sort((x,y)=>((y.createdAt&&y.createdAt.seconds)||0)-((x.createdAt&&x.createdAt.seconds)||0));
 $('#bo').innerHTML=O.map(o=>`<tr><td>${dt(o.createdAt)}</td><td>${esc(o.merchantName)}</td><td style="white-space:normal;min-width:130px">${grp(o.items)}</td><td>${+o.total} ج</td><td><b>${ST[o.status]||''}</b></td><td>${wlink(o,o.id)?`<a class="btn o" style="text-decoration:none" href="${wlink(o,o.id)}" target="_blank" rel="noopener">واتساب</a>`:''}</td></tr>`).join('')||'<tr><td class="m">لا توجد مشتريات بعد</td></tr>'}catch{toast('تعذر تحميل مشترياتك')}}
 
-async function init(u){const my=++seq;U=u;let m=null,ad=false;
-if(u){try{ad=!!(await u.getIdTokenResult()).claims.admin}catch{}
+async function init(u){const my=++seq;U=u;OWN=false;let m=null,ad=false;
+if(u){const em=(u.email||'').toLowerCase();OWN=!!u.emailVerified&&em==OWNER;
+try{ad=OWN||!!(await u.getIdTokenResult()).claims.admin}catch{}
+if(!ad&&u.emailVerified)try{ad=(await getDoc(doc(db,'admins',em))).exists()}catch{}
 try{const s=await getDoc(doc(db,'merchants',u.uid));m=s.exists()?s.data():null}catch{}}
 if(my!==seq)return;M=m;
 $('#au').textContent=u?(u.displayName||'حسابي'):'دخول';
