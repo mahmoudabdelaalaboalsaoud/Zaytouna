@@ -2,7 +2,15 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{db}/documents {
     function signed() { return request.auth != null; }
-    function isAdmin() { return signed() && request.auth.token.admin == true; }
+    function verified() { return signed() && request.auth.token.email_verified == true; }
+    // مالك الموقع: يدخل بحساب Google على هذا الإيميل
+    function isOwner() { return verified() && request.auth.token.email == 'mahmoudabdelaalaboalsaoud@gmail.com'; }
+    // المدير: المالك أو إيميل مضاف في مجموعة admins
+    function isAdmin() {
+      return isOwner()
+        || (verified() && exists(/databases/$(db)/documents/admins/$(request.auth.token.email)))
+        || (signed() && request.auth.token.admin == true);
+    }
     function me(uid) { return signed() && request.auth.uid == uid; }
     // التاجر يضيف منتجات فقط وهو في التجربة أو اشتراكه نشط وغير منتهٍ
     function subOk() {
@@ -10,6 +18,10 @@ service cloud.firestore {
       return m.status in ['trial', 'active'] && m.endsAt > request.time;
     }
 
+    match /admins/{email} {
+      allow read: if isAdmin();
+      allow write: if isOwner();
+    }
     match /merchants/{uid} {
       allow read: if me(uid) || isAdmin();
       // التسجيل يبدأ دائماً بتجربة 3 شهور؛ التفعيل والباقة من الإدارة فقط
