@@ -29,6 +29,7 @@ service cloud.firestore {
         && request.resource.data.endsAt <= request.time + duration.value(91, 'd');
       allow update: if isAdmin() || (me(uid)
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'city', 'about']));
+      allow delete: if isAdmin();
     }
     match /products/{id} {
       allow read: if resource.data.active == true || isAdmin() || me(resource.data.merchantId);
@@ -41,6 +42,7 @@ service cloud.firestore {
       allow read: if signed() && (resource.data.buyerId == request.auth.uid || resource.data.merchantId == request.auth.uid || isAdmin());
       allow update: if signed() && (resource.data.merchantId == request.auth.uid || isAdmin())
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']);
+      allow delete: if isAdmin();
     }
   }
 }
