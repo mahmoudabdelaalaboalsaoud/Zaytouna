@@ -61,6 +61,10 @@ td select{min-width:100px;width:auto}
 .mc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
 .mc .r2{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 .st-s{color:var(--bad)}.mc a:not(.btn){color:var(--olive)}
+.pw{position:relative}.pw input{padding-inline-end:76px!important}.pw button{position:absolute;inset-inline-end:6px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--olive);padding:4px 8px}
+.lk{background:none;border:0;color:var(--olive);text-decoration:underline;padding:0;justify-self:start}
+.rl{border:1px solid var(--olive);color:var(--olive);border-radius:99px;padding:1px 12px;font-size:14px}
+button:disabled{opacity:.6;cursor:wait}
 #al{list-style:none;padding:0;margin:8px 0;display:grid;gap:8px}#al li{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;overflow-wrap:anywhere}
 footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 </style></head><body>
@@ -105,11 +109,16 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <footer>نموذج أولي ببيانات تجريبية</footer>
 <div id="toast" hidden></div>
 <dialog id="dlg"><form id="af" class="fm"><h3 id="dt">دخول</h3>
-<input id="ae" type="email" placeholder="البريد الإلكتروني" required autocomplete="email">
-<input id="ap" type="password" placeholder="كلمة المرور" required minlength="6" autocomplete="current-password">
 <div id="sx" class="fm" hidden><select id="ar" aria-label="نوع الحساب"><option value="b">مشتري</option><option value="m">تاجر</option></select>
 <input id="an" placeholder="الاسم (أو اسم المتجر للتاجر)"><input id="aph" type="tel" placeholder="رقم الهاتف"><input id="ac" placeholder="المدينة (للتاجر)"></div>
-<button class="btn" id="ago">دخول</button><button type="button" class="btn o" id="ag">الدخول بحساب Google</button><button type="button" class="btn o" id="asw">حساب جديد</button><button type="button" class="btn o" id="acl">إغلاق</button></form></dialog>
+<button type="button" class="btn o" id="ag">الدخول بحساب Google</button>
+<div class="m" style="text-align:center">أو بالبريد وكلمة المرور</div>
+<input id="ae" type="email" placeholder="البريد الإلكتروني" required autocomplete="email">
+<div class="pw"><input id="ap" type="password" placeholder="كلمة المرور" required minlength="6" autocomplete="current-password"><button type="button" id="apv">إظهار</button></div>
+<button class="btn" id="ago">دخول</button>
+<button type="button" class="lk" id="afg">نسيت كلمة المرور؟</button>
+<button type="button" class="btn o" id="asw">حساب جديد</button><button type="button" class="btn o" id="acl">إغلاق</button></form></dialog>
+<dialog id="ud"><div class="fm"><h3 id="un"></h3><span class="m" id="ue" style="overflow-wrap:anywhere"></span><div class="af" id="ur"></div><button class="btn" id="uo">تسجيل الخروج</button><button class="btn o" id="uc">إغلاق</button></div></dialog>
 <dialog id="od"><div class="fm"><h3>تم تسجيل طلبك ✅</h3><p class="m">ابعت تفاصيل الطلب للتاجر على واتساب عشان يأكده معاك.</p><div id="ol" class="fm"></div><button class="btn o" id="ox">تمام</button></div></dialog>
 <script>
 let P=[
@@ -143,19 +152,19 @@ rec('s');shop();
 </script>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,updateProfile,signOut,GoogleAuthProvider,signInWithPopup}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,updateProfile,signOut,GoogleAuthProvider,signInWithPopup,sendPasswordResetEmail}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import{getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,updateDoc,deleteDoc,query,where,Timestamp,serverTimestamp,writeBatch}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 const app=initializeApp({apiKey:"AIzaSyBD1HrnisViDqDLswWWhqi4zITrDMu-ykI",authDomain:"zaytouna-b2efc.firebaseapp.com",projectId:"zaytouna-b2efc",storageBucket:"zaytouna-b2efc.firebasestorage.app",messagingSenderId:"291311143858",appId:"1:291311143858:web:938459685e00240c6972ab"});
 const auth=getAuth(app),db=getFirestore(app),D=864e5,dlg=$('#dlg');
 const dt=t=>t&&t.toDate?t.toDate().toLocaleDateString('ar-EG'):'';
-const ER={'auth/invalid-credential':'البريد أو كلمة المرور غير صحيحة','auth/email-already-in-use':'هذا البريد مسجّل من قبل','auth/weak-password':'كلمة المرور ضعيفة (6 أحرف على الأقل)','auth/invalid-email':'البريد غير صحيح','auth/popup-closed-by-user':'تم إغلاق نافذة Google','auth/popup-blocked':'المتصفح منع نافذة Google، اسمح بالنوافذ المنبثقة','auth/unauthorized-domain':'الموقع غير مضاف في Authorized domains على Firebase','auth/account-exists-with-different-credential':'هذا البريد مسجّل بطريقة أخرى، ادخل بالبريد وكلمة المرور'};
+const ER={'auth/invalid-credential':'البريد أو كلمة المرور غير صحيحة','auth/email-already-in-use':'هذا البريد مسجّل من قبل','auth/weak-password':'كلمة المرور ضعيفة (6 أحرف على الأقل)','auth/invalid-email':'البريد غير صحيح','auth/too-many-requests':'محاولات كثيرة، حاول لاحقاً','auth/network-request-failed':'تأكد من اتصال الإنترنت','auth/user-not-found':'لا يوجد حساب بهذا البريد','auth/popup-closed-by-user':'تم إغلاق نافذة Google','auth/popup-blocked':'المتصفح منع نافذة Google، اسمح بالنوافذ المنبثقة','auth/unauthorized-domain':'الموقع غير مضاف في Authorized domains على Firebase','auth/account-exists-with-different-credential':'هذا البريد مسجّل بطريقة أخرى، ادخل بالبريد وكلمة المرور'};
 const grp=a=>{const m={};(a||[]).forEach(i=>{m[i.name]=(m[i.name]||0)+1});return Object.entries(m).map(([k,v])=>esc(k)+(v>1?' × '+v:'')).join('، ')};
 const wmsg=(o,id)=>{const m={};(o.items||[]).forEach(i=>{const k=i.id||i.name;(m[k]=m[k]||{...i,q:0}).q++});
 return `مرحباً ${o.merchantName}،\nأنا ${o.buyerName||''}، طلبت من زيتونة:\n`+Object.values(m).map(i=>`• ${i.name}${i.liters?' ('+i.liters+' لتر)':''} × ${i.q} = ${i.price*i.q} ج`).join('\n')+`\nالإجمالي: ${o.total} ج\nرقم الطلب: ${String(id).slice(0,6)}`};
 const wlink=(o,id)=>o.merchantPhone?wa(o.merchantPhone)+'?text='+encodeURIComponent(wmsg(o,id)):'';
 const ST={new:'جديد',accepted:'مقبول',done:'مكتمل',cancelled:'ملغي'};
 const OWNER='mahmoudabdelaalaboalsaoud@gmail.com';
-let U=null,M=null,AM=[],AF='',AQ='',OWN=false,seq=0,sign=false;
+let U=null,M=null,AM=[],AF='',AQ='',OWN=false,RL=[],seq=0,sign=false;
 
 async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));
 if(s.empty)return;
@@ -216,24 +225,31 @@ if(u){const em=(u.email||'').toLowerCase();OWN=!!u.emailVerified&&em==OWNER;
 try{ad=OWN||!!(await u.getIdTokenResult()).claims.admin}catch{}
 if(!ad&&u.emailVerified)try{ad=(await getDoc(doc(db,'admins',em))).exists()}catch{}
 try{const s=await getDoc(doc(db,'merchants',u.uid));m=s.exists()?s.data():null}catch{}}
-if(my!==seq)return;M=m;
-$('#au').textContent=u?(u.displayName||'حسابي'):'دخول';
+if(my!==seq)return;M=m;RL=u?[OWN?'المالك':ad?'مدير':'',m?'تاجر':'','مشتري'].filter(Boolean):[];
+if(!u){AM=[];['#mg','#pb','#ob','#bo','#al'].forEach(q=>$(q).innerHTML='')}
+$('#au').textContent=u?(u.displayName||'حسابي').split(' ')[0]:'دخول';
 $('[data-v=m]').hidden=!m;$('[data-v=a]').hidden=!ad;$('[data-v=o]').hidden=!u;
 if(!u)$('[data-v=s]').click();
 if(m)loadM();if(ad)loadA();if(u)loadO()}
 onAuthStateChanged(auth,init);
 
-function openDlg(s){sign=!!s;$('#sx').hidden=!sign;$('#dt').textContent=sign?'حساب جديد':'دخول';$('#ago').textContent=sign?'إنشاء الحساب':'دخول';$('#ag').textContent=sign?'التسجيل بحساب Google':'الدخول بحساب Google';$('#asw').textContent=sign?'لدي حساب':'حساب جديد';if(!dlg.open)dlg.showModal()}
-$('#au').onclick=()=>{if(U){if(confirm('تسجيل الخروج؟'))signOut(auth)}else openDlg()};
+function openDlg(s){sign=!!s;$('#sx').hidden=!sign;$('#afg').hidden=sign;$('#ap').autocomplete=sign?'new-password':'current-password';$('#ap').type='password';$('#apv').textContent='إظهار';$('#dt').textContent=sign?'حساب جديد':'دخول';$('#ago').textContent=sign?'إنشاء الحساب':'دخول';$('#ag').textContent=sign?'التسجيل بحساب Google':'الدخول بحساب Google';$('#asw').textContent=sign?'لدي حساب':'حساب جديد';if(!dlg.open)dlg.showModal()}
+$('#au').onclick=()=>{if(U){$('#un').textContent=U.displayName||'حسابي';$('#ue').textContent=U.email||'';$('#ur').innerHTML=RL.map(r=>`<span class="rl">${r}</span>`).join('');$('#ud').showModal()}else openDlg()};
 $('#asw').onclick=()=>openDlg(!sign);
 $('#acl').onclick=()=>dlg.close();
+const busy=on=>{dlg.querySelectorAll('button').forEach(b=>b.disabled=!!on);$('#ago').textContent=on?'جارٍ التنفيذ…':sign?'إنشاء الحساب':'دخول'};
+$('#apv').onclick=()=>{const p=$('#ap'),h=p.type=='password';p.type=h?'text':'password';$('#apv').textContent=h?'إخفاء':'إظهار'};
+$('#afg').onclick=async()=>{const em=$('#ae').value.trim();if(!em)return toast('اكتب بريدك الإلكتروني أولاً');
+try{await sendPasswordResetEmail(auth,em);toast('أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك')}catch(x){toast(ER[x.code]||'تعذر إرسال الرابط')}};
+$('#uc').onclick=()=>$('#ud').close();
+$('#uo').onclick=async()=>{$('#ud').close();await signOut(auth);toast('تم تسجيل الخروج')};
 $('#ox').onclick=()=>$('#od').close();
 $('#ag').onclick=async()=>{const r=$('#ar').value,n=$('#an').value.trim(),ph=$('#aph').value.trim(),c=$('#ac').value.trim(),mer=sign&&r=='m';
 if(mer&&(!n||!ph||!c))return toast('أكمل بيانات المتجر أولاً');
-try{const k=await signInWithPopup(auth,new GoogleAuthProvider());
+busy(1);try{const k=await signInWithPopup(auth,new GoogleAuthProvider());
 if(mer){const d=doc(db,'merchants',k.user.uid);if(!(await getDoc(d)).exists())await setDoc(d,{name:n,phone:ph,city:c,about:'',status:'trial',endsAt:Timestamp.fromDate(new Date(Date.now()+90*D)),createdAt:serverTimestamp()})}
-dlg.close();await init(auth.currentUser)}catch(x){toast(ER[x.code]||'تعذر الدخول بحساب Google')}};
-$('#af').onsubmit=async e=>{e.preventDefault();const em=$('#ae').value.trim(),pw=$('#ap').value;
+dlg.close();await init(auth.currentUser);toast('أهلاً '+((auth.currentUser&&auth.currentUser.displayName)||''))}catch(x){toast(ER[x.code]||'تعذر الدخول بحساب Google')}finally{busy(0)}};
+$('#af').onsubmit=async e=>{e.preventDefault();busy(1);const em=$('#ae').value.trim(),pw=$('#ap').value;
 try{if(!sign)await signInWithEmailAndPassword(auth,em,pw);
 else{const r=$('#ar').value,n=$('#an').value.trim(),ph=$('#aph').value.trim(),c=$('#ac').value.trim();
 if(!n||(r=='m'&&(!ph||!c)))return toast('أكمل البيانات المطلوبة');
@@ -241,7 +257,7 @@ const k=await createUserWithEmailAndPassword(auth,em,pw);await updateProfile(k.u
 if(ph)localStorage.zph=ph;
 if(r=='m')await setDoc(doc(db,'merchants',k.user.uid),{name:n,phone:ph,city:c,about:'',status:'trial',endsAt:Timestamp.fromDate(new Date(Date.now()+90*D)),createdAt:serverTimestamp()});
 await init(auth.currentUser)}
-dlg.close();e.target.reset()}catch(x){toast(ER[x.code]||'تعذر تنفيذ الطلب')}};
+dlg.close();e.target.reset();toast('أهلاً '+((auth.currentUser&&auth.currentUser.displayName)||''))}catch(x){toast(ER[x.code]||'تعذر تنفيذ الطلب')}finally{busy(0)}};
 
 $('#pf').onsubmit=async e=>{e.preventDefault();const t=[...$$('[name=pt]:checked')].map(x=>x.value);
 try{await addDoc(collection(db,'products'),{merchantId:U.uid,merchantName:M.name,merchantPhone:M.phone||'',name:$('#pn').value.trim(),origin:$('#po').value.trim(),acidity:+$('#pa').value,liters:+$('#pq').value,price:+$('#pr').value,wholesale:$('#pw').checked,tags:t.length?t:['c'],active:true,createdAt:serverTimestamp()});
