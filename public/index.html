@@ -107,7 +107,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="box" id="adb" hidden style="margin-top:18px"><h3>مديرو الموقع</h3><p class="m">أضف إيميل مدير جديد، وهيدخل بحساب Google بنفس الإيميل ليظهر له زرار الإدارة.</p>
 <ul id="al"></ul><form id="adf" class="tb" style="margin:0"><input id="aem" type="email" placeholder="إيميل المدير الجديد" required><button class="btn">إضافة مدير</button></form></div></section>
 </main>
-<footer>نموذج أولي ببيانات تجريبية</footer>
+<footer>زيتونة — سوق زيت الزيتون</footer>
 <div id="toast" hidden></div>
 <dialog id="dlg"><form id="af" class="fm"><h3 id="dt">دخول</h3>
 <div id="sx" class="fm" hidden><select id="ar" aria-label="نوع الحساب"><option value="b">مشتري</option><option value="m">تاجر</option></select>
@@ -122,13 +122,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <dialog id="ud"><div class="fm"><h3 id="un"></h3><span class="m" id="ue" style="overflow-wrap:anywhere"></span><div class="af" id="ur"></div><button class="btn" id="uo">تسجيل الخروج</button><button class="btn o" id="uc">إغلاق</button></div></dialog>
 <dialog id="od"><div class="fm"><h3>تم تسجيل طلبك ✅</h3><p class="m">ابعت تفاصيل الطلب للتاجر على واتساب عشان يأكده معاك.</p><div id="ol" class="fm"></div><button class="btn o" id="ox">تمام</button></div></dialog>
 <script>
-let P=[
-{n:'بكر ممتاز — سيوة',o:'سيوة',a:.3,l:.5,p:185,m:'واحة سيوة',t:['s','h'],c:'#6d7d1c'},
-{n:'بكر ممتاز — مطروح',o:'مطروح',a:.5,l:1,p:340,m:'مزارع المتوسط',t:['s'],c:'#7f8a1e'},
-{n:'زيت للطبخ اليومي',o:'الفيوم',a:1.2,l:1,p:210,m:'الفيوم للزيوت',t:['c'],c:'#a39220'},
-{n:'عصرة أولى على البارد',o:'سيناء',a:.2,l:.25,p:120,m:'خير سيناء',t:['h','s'],c:'#4f6a16'},
-{n:'عبوة جملة 5 لتر',o:'الفيوم',a:1,l:5,p:1450,m:'الفيوم للزيوت',t:['c'],w:1,c:'#a39220'},
-{n:'جملة 16 لتر بكر',o:'مطروح',a:.6,l:16,p:5400,m:'مزارع المتوسط',t:['c','s'],w:1,c:'#7f8a1e'}];
+let P=[];
 const why={s:'الأوفر للتر بين زيوت السلطة البكر.',c:'الأوفر للتر في زيوت الطبخ.',h:'الأقل حموضة، أي الأعلى جودة وعصرة على البارد.'};
 const L={t:'تجربة مجانية',a:'نشط',e:'منتهي'};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),pl=p=>Math.round(p.p/p.l);
@@ -137,7 +131,7 @@ function setP(a){P=a;shop();rec('s');$('footer').textContent='زيتونة — �
 let cart=[],f='all';
 function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.i);toast.i=setTimeout(()=>e.hidden=true,2200)}
 function add(i){cart.push(P[i]);$('#cn').textContent='السلة: '+cart.length+' · '+cart.reduce((s,x)=>s+x.p,0)+' ج';toast('أضفنا '+P[i].n+' إلى السلة')}
-function shop(){$('#grid').innerHTML=P.map((p,i)=>({p,i})).filter(({p})=>f=='all'||(f=='w')==!!p.w).map(({p,i})=>`<article class="card"><div class="bt"><svg style="color:${p.c}" width="38" height="84"><use href="#b"/></svg></div><b>${esc(p.n)}</b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span><span class="m">${esc(p.m)}</span><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div><button class="btn" onclick="add(${i})">أضف للسلة</button></article>`).join('')}
+function shop(){$('#grid').innerHTML=!P.length?'<p class="m">لا توجد منتجات بعد، وسيظهر هنا ما يضيفه التجار.</p>':P.map((p,i)=>({p,i})).filter(({p})=>f=='all'||(f=='w')==!!p.w).map(({p,i})=>`<article class="card"><div class="bt"><svg style="color:${p.c}" width="38" height="84"><use href="#b"/></svg></div><b>${esc(p.n)}</b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span><span class="m">${esc(p.m)}</span><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div><button class="btn" onclick="add(${i})">أضف للسلة</button></article>`).join('')}
 function rec(k){$$('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k==k));
 const r=P.map((p,i)=>({p,i})).filter(({p})=>p.t.includes(k)&&!p.w).sort((a,b)=>k=='h'?a.p.a-b.p.a:pl(a.p)-pl(b.p))[0];if(!r){$('#rec').textContent='لا يوجد منتج مناسب بعد.';return}const p=r.p;
 $('#rec').innerHTML=`<b>${esc(p.n)}</b> — ${p.p} ج (${pl(p)} ج/لتر)<br>${why[k]}<br><button class="btn" style="background:#f6f4dc;color:#2f3a12;margin-top:8px" onclick="add(${r.i})">أضف للسلة</button>`}
@@ -168,7 +162,7 @@ const OWNER='mahmoudabdelaalaboalsaoud@gmail.com';
 let U=null,M=null,AM=[],AF='',AQ='',OWN=false,RL=[],seq=0,sign=false;
 
 async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));
-if(s.empty)return;
+if(s.empty){setP([]);return}
 setP(s.docs.map(d=>{const x=d.data();return{id:d.id,mid:x.merchantId,n:String(x.name||''),o:String(x.origin||''),a:+x.acidity||0,l:+x.liters||1,p:+x.price||0,m:String(x.merchantName||''),ph:String(x.merchantPhone||''),t:Array.isArray(x.tags)?x.tags:[],w:x.wholesale?1:0,c:'#6d7d1c'}}))}catch{}}
 
 async function loadM(){try{

@@ -3,19 +3,58 @@ service cloud.firestore {
   match /databases/{db}/documents {
     function signed() { return request.auth != null; }
     function verified() { return signed() && request.auth.token.email_verified == true; }
-    // مالك الموقع: يدخل بحساب Google على هذا الإيميل
     function isOwner() { return verified() && request.auth.token.email == 'mahmoudabdelaalaboalsaoud@gmail.com'; }
-    // المدير: المالك أو إيميل مضاف في مجموعة admins
     function isAdmin() {
       return isOwner()
         || (verified() && exists(/databases/$(db)/documents/admins/$(request.auth.token.email)))
         || (signed() && request.auth.token.admin == true);
     }
     function me(uid) { return signed() && request.auth.uid == uid; }
-    // التاجر يضيف منتجات فقط وهو في التجربة أو اشتراكه نشط وغير منتهٍ
+    function mer() { return get(/databases/$(db)/documents/merchants/$(request.auth.uid)).data; }
     function subOk() {
-      let m = get(/databases/$(db)/documents/merchants/$(request.auth.uid)).data;
+      let m = mer();
       return m.status in ['trial', 'active'] && m.endsAt > request.time;
+    }
+
+    // شكل المنتج وحدود القيم، واسم التاجر ورقمه يطابقان بياناته
+    function prodOk(d) {
+      let m = mer();
+      return d.keys().hasOnly(['merchantId', 'merchantName', 'merchantPhone', 'name', 'origin', 'acidity', 'liters', 'price', 'wholesale', 'tags', 'active', 'createdAt'])
+        && d.name is string && d.name.size() >= 2 && d.name.size() <= 80
+        && d.origin is string && d.origin.size() <= 60
+        && d.acidity is number && d.acidity >= 0 && d.acidity <= 5
+        && d.liters is number && d.liters > 0 && d.liters <= 1000
+        && d.price is number && d.price > 0 && d.price <= 1000000
+        && d.wholesale is bool && d.active is bool
+        && d.tags is list && d.tags.size() <= 3
+        && d.merchantName == m.name && d.merchantPhone == m.phone;
+    }
+    // سطر الطلب: الاسم والسعر واللترات تؤخذ من المنتج نفسه في قاعدة البيانات
+    function lineOk(l, mid) {
+      let p = get(/databases/$(db)/documents/products/$(l.id)).data;
+      return l.keys().hasOnly(['id', 'name', 'price', 'liters', 'q'])
+        && l.q is int && l.q >= 1 && l.q <= 50
+        && p.active == true && p.merchantId == mid
+        && l.name == p.name && l.price == p.price && l.liters == p.liters;
+    }
+    function lt(it, i) { return it.size() > i ? it[i].price * it[i].q : 0; }
+    function orderOk(d) {
+      let it = d.items;
+      return d.keys().hasOnly(['buyerId', 'buyerName', 'buyerPhone', 'merchantId', 'merchantName', 'merchantPhone', 'items', 'total', 'status', 'createdAt'])
+        && d.buyerId == request.auth.uid && d.status == 'new'
+        && d.createdAt == request.time
+        && d.buyerName is string && d.buyerName.size() <= 60
+        && d.buyerPhone is string && d.buyerPhone.matches('^01[0125][0-9]{8}$')
+        && d.merchantId is string
+        && d.merchantName is string && d.merchantName.size() <= 80
+        && d.merchantPhone is string && d.merchantPhone.size() <= 20
+        && it is list && it.size() >= 1 && it.size() <= 5
+        && lineOk(it[0], d.merchantId)
+        && (it.size() < 2 || lineOk(it[1], d.merchantId))
+        && (it.size() < 3 || lineOk(it[2], d.merchantId))
+        && (it.size() < 4 || lineOk(it[3], d.merchantId))
+        && (it.size() < 5 || lineOk(it[4], d.merchantId))
+        && d.total == lt(it, 0) + lt(it, 1) + lt(it, 2) + lt(it, 3) + lt(it, 4);
     }
 
     match /admins/{email} {
@@ -24,8 +63,13 @@ service cloud.firestore {
     }
     match /merchants/{uid} {
       allow read: if me(uid) || isAdmin();
-      // التسجيل يبدأ دائماً بتجربة 3 شهور؛ التفعيل والباقة من الإدارة فقط
-      allow create: if me(uid) && request.resource.data.status == 'trial'
+      allow create: if me(uid)
+        && request.resource.data.keys().hasOnly(['name', 'phone', 'city', 'about', 'status', 'endsAt', 'createdAt'])
+        && request.resource.data.status == 'trial'
+        && request.resource.data.name is string && request.resource.data.name.size() >= 2 && request.resource.data.name.size() <= 60
+        && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
+        && request.resource.data.city is string && request.resource.data.city.size() <= 80
+        && request.resource.data.endsAt is timestamp
         && request.resource.data.endsAt <= request.time + duration.value(91, 'd');
       allow update: if isAdmin() || (me(uid)
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'city', 'about']));
@@ -33,15 +77,17 @@ service cloud.firestore {
     }
     match /products/{id} {
       allow read: if resource.data.active == true || isAdmin() || me(resource.data.merchantId);
-      allow create: if me(request.resource.data.merchantId) && subOk();
-      allow update, delete: if isAdmin() || (me(resource.data.merchantId) && subOk()
-        && request.resource.data.merchantId == resource.data.merchantId);
+      allow create: if me(request.resource.data.merchantId) && subOk() && prodOk(request.resource.data);
+      allow update: if isAdmin() || (me(resource.data.merchantId) && subOk()
+        && request.resource.data.merchantId == resource.data.merchantId && prodOk(request.resource.data));
+      allow delete: if isAdmin() || (me(resource.data.merchantId) && subOk());
     }
     match /orders/{id} {
-      allow create: if signed() && request.resource.data.buyerId == request.auth.uid && request.resource.data.status == 'new';
+      allow create: if signed() && orderOk(request.resource.data);
       allow read: if signed() && (resource.data.buyerId == request.auth.uid || resource.data.merchantId == request.auth.uid || isAdmin());
       allow update: if signed() && (resource.data.merchantId == request.auth.uid || isAdmin())
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']);
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && request.resource.data.status in ['new', 'accepted', 'done', 'cancelled'];
       allow delete: if isAdmin();
     }
   }
