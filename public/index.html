@@ -58,7 +58,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><symbol id="b" viewBox="0 0 40 90"><path d="M16 2h8v10l4 8v62a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V20l4-8z" fill="currentColor"/><rect x="14" y="40" width="12" height="24" rx="2" fill="#f6f4dc" opacity=".85"/></symbol></svg>
 <header class="top"><span class="brand">زيتونة</span>
-<nav><button data-v="s" aria-pressed="true">المتجر</button><button data-v="m" aria-pressed="false" hidden>لوحة التاجر</button><button data-v="a" aria-pressed="false" hidden>الإدارة</button></nav>
+<nav><button data-v="s" aria-pressed="true">المتجر</button><button data-v="m" aria-pressed="false" hidden>لوحة التاجر</button><button data-v="a" aria-pressed="false" hidden>الإدارة</button><button data-v="o" aria-pressed="false" hidden>مشترياتي</button></nav>
 <button class="cart" id="au">دخول</button><button class="cart" id="cn">السلة: 0</button></header>
 <main>
 <section id="vs">
@@ -83,6 +83,9 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="sec"><h3>منتجاتي</h3></div><div class="wrap"><table><tbody id="pb"></tbody></table></div>
 <div class="sec"><h3>الطلبات</h3></div><div class="wrap"><table><tbody id="ob"></tbody></table></div></section>
 
+<section id="vo" hidden>
+<div class="sec"><h2>مشترياتي</h2></div>
+<div class="wrap"><table><tbody id="bo"></tbody></table></div></section>
 <section id="va" hidden>
 <div class="sec"><h2>إدارة الاشتراكات</h2></div>
 <div class="kpi"><div><span class="m">في التجربة</span><b id="k1"></b></div><div><span class="m">اشتراكات نشطة</span><b id="k2"></b></div><div><span class="m">منتهية تحتاج متابعة</span><b id="k3"></b></div></div>
@@ -123,7 +126,7 @@ function adm(){$('#sb').innerHTML=S.map((x,i)=>`<tr><td>${esc(x.n)}</td><td>${es
 function act(i){if(S[i].id)return window.fbAct(i);S[i].s='a';adm();toast('تم تفعيل اشتراك '+S[i].n)}
 $$('.chip').forEach(b=>b.onclick=()=>rec(b.dataset.k));
 $$('.f button').forEach(b=>b.onclick=()=>{f=b.dataset.f;$$('.f button').forEach(x=>x.setAttribute('aria-pressed',x==b));shop()});
-$$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x==b));['s','m','a'].forEach(v=>$('#v'+v).hidden=v!=b.dataset.v);scrollTo(0,0)});
+$$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x==b));['s','m','a','o'].forEach(v=>$('#v'+v).hidden=v!=b.dataset.v);scrollTo(0,0)});
 $('#q').onsubmit=async e=>{e.preventDefault();const q=$('#qi').value.trim();if(!q)return;$('#rec').textContent='جارٍ البحث…';
 try{const r=await fetch('/api/assistant',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({question:q,catalog:P.map((p,i)=>({id:i,name:p.n,origin:p.o,acidity:p.a,liters:p.l,price:p.p,wholesale:!!p.w}))})});
 const d=await r.json();if(!r.ok)throw 0;const p=P[d.id];$$('.chip').forEach(b=>b.setAttribute('aria-pressed','false'));
@@ -164,14 +167,18 @@ setS(AM.map(m=>{const e=m.endsAt&&m.endsAt.toDate?m.endsAt.toDate():null,ex=!e||
 window.fbAct=async i=>{const x=AM[i],mo=+prompt('عدد شهور الاشتراك:','1');if(!mo)return;
 try{await updateDoc(doc(db,'merchants',x.id),{status:'active',endsAt:Timestamp.fromDate(new Date(Date.now()+mo*30*D))});toast('تم التفعيل');loadA()}catch{toast('تعذر التفعيل')}};
 
+async function loadO(){try{const s=await getDocs(query(collection(db,'orders'),where('buyerId','==',U.uid)));
+const O=s.docs.map(x=>({id:x.id,...x.data()})).sort((x,y)=>((y.createdAt&&y.createdAt.seconds)||0)-((x.createdAt&&x.createdAt.seconds)||0));
+$('#bo').innerHTML=O.map(o=>`<tr><td>${dt(o.createdAt)}</td><td>${esc(o.merchantName)}</td><td style="white-space:normal">${(o.items||[]).map(i=>esc(i.name)).join('، ')}</td><td>${+o.total} ج</td><td><b>${ST[o.status]||''}</b></td></tr>`).join('')||'<tr><td class="m">لا توجد مشتريات بعد</td></tr>'}catch{toast('تعذر تحميل مشترياتك')}}
+
 async function init(u){const my=++seq;U=u;let m=null,ad=false;
 if(u){try{ad=!!(await u.getIdTokenResult()).claims.admin}catch{}
 try{const s=await getDoc(doc(db,'merchants',u.uid));m=s.exists()?s.data():null}catch{}}
 if(my!==seq)return;M=m;
 $('#au').textContent=u?(u.displayName||'حسابي'):'دخول';
-$('[data-v=m]').hidden=!m;$('[data-v=a]').hidden=!ad;
-if(!m&&!ad)$('[data-v=s]').click();
-if(m)loadM();if(ad)loadA()}
+$('[data-v=m]').hidden=!m;$('[data-v=a]').hidden=!ad;$('[data-v=o]').hidden=!u;
+if(!u)$('[data-v=s]').click();
+if(m)loadM();if(ad)loadA();if(u)loadO()}
 onAuthStateChanged(auth,init);
 
 function openDlg(s){sign=!!s;$('#sx').hidden=!sign;$('#dt').textContent=sign?'حساب جديد':'دخول';$('#ago').textContent=sign?'إنشاء الحساب':'دخول';$('#asw').textContent=sign?'لدي حساب':'حساب جديد';if(!dlg.open)dlg.showModal()}
@@ -204,7 +211,7 @@ const ph=prompt('رقم هاتفك للتواصل:',localStorage.zph||'');if(!ph
 const tot=ks.reduce((s,k)=>s+g[k].reduce((a,x)=>a+x.p,0),0);
 if(!confirm('تأكيد '+ks.length+' طلب بقيمة '+tot+' ج؟'))return;
 try{for(const k of ks){const it=g[k];await addDoc(collection(db,'orders'),{buyerId:U.uid,buyerName:U.displayName||'',buyerPhone:ph,merchantId:k,merchantName:it[0].m,items:it.map(x=>({id:x.id,name:x.n,price:x.p})),total:it.reduce((a,x)=>a+x.p,0),status:'new',createdAt:serverTimestamp()})}
-cart=[];$('#cn').textContent='السلة: 0';toast('تم إرسال طلبك للتاجر')}catch{toast('تعذر إرسال الطلب')}};
+cart=[];$('#cn').textContent='السلة: 0';toast('تم إرسال طلبك للتاجر');loadO();$('[data-v=o]').click()}catch{toast('تعذر إرسال الطلب')}};
 
 products();
 </script></body></html>
