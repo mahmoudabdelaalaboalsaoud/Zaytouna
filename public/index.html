@@ -17,7 +17,16 @@ button{font:inherit;cursor:pointer}
 nav{display:flex;gap:4px;margin-inline-start:auto}
 nav button{border:0;background:none;color:var(--mut);padding:6px 12px;border-radius:99px;font-weight:600}
 nav button[aria-pressed=true]{background:var(--olive);color:var(--bg)}
-.cart{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 14px}
+.cart{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 14px;position:relative}
+.bdg{position:absolute;top:-8px;inset-inline-start:-6px;min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:#e0563a;color:#fff;font-size:13px;font-weight:700;display:grid;place-items:center;box-shadow:0 0 0 2px var(--bg)}
+.bdg.pop{animation:pop .45s ease}@keyframes pop{0%{transform:scale(.4)}55%{transform:scale(1.4)}100%{transform:scale(1)}}
+.cart.bump{animation:bump .4s ease}@keyframes bump{40%{transform:translateY(-3px)}}
+.lkt{background:none;border:0;color:#6ea8ff;text-decoration:underline;text-underline-offset:5px;padding:6px 0;cursor:pointer;font:inherit;transition:color .2s,transform .2s,text-underline-offset .2s}
+.lkt:hover,.lkt:focus-visible{color:#a3c8ff;text-underline-offset:7px;transform:translateX(-3px)}
+.lkt .ar{display:inline-block;transition:transform .25s}.lkt[aria-expanded=true] .ar{transform:rotate(180deg)}
+.lkp{display:flex;gap:8px;flex-wrap:wrap;max-height:0;overflow:hidden;opacity:0;transition:max-height .3s ease,opacity .25s ease,margin .25s ease}
+.lkp.open{max-height:140px;opacity:1;margin-top:8px}
+@media (prefers-reduced-motion:reduce){.bdg.pop,.cart.bump{animation:none}.lkp,.lkt{transition:none}}
 main{max-width:1000px;margin:auto;padding:16px}
 .hero{background:linear-gradient(160deg,#2f3a12,#58691f 62%,#a8892a);color:#f6f4dc;border-radius:20px;padding:28px 22px}
 .hero h1{font-size:clamp(26px,6vw,42px)}
@@ -73,7 +82,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <svg width="0" height="0" style="position:absolute"><symbol id="b" viewBox="0 0 40 90"><path d="M16 2h8v10l4 8v62a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V20l4-8z" fill="currentColor"/><rect x="14" y="40" width="12" height="24" rx="2" fill="#f6f4dc" opacity=".85"/></symbol></svg>
 <header class="top"><span class="brand">زيتونة</span>
 <nav><button data-v="s" aria-pressed="true">المتجر</button><button data-v="m" aria-pressed="false" hidden>لوحة التاجر</button><button data-v="a" aria-pressed="false" hidden>الإدارة</button><button data-v="o" aria-pressed="false" hidden>مشترياتي</button></nav>
-<button class="cart" id="au">دخول</button><button class="cart" id="cn">السلة: 0</button></header>
+<button class="cart" id="au">دخول</button><button class="cart" id="cn">السلة</button></header>
 <main>
 <section id="vs">
 <div class="hero"><h1>زيت زيتون أصلي، من كل التجار في مكان واحد</h1>
@@ -136,7 +145,9 @@ const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';'
 function setP(a){P=a;shop();rec('s');$('footer').textContent='زيتونة — سوق زيت الزيتون'}
 let cart=[],f='all';
 function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.i);toast.i=setTimeout(()=>e.hidden=true,2200)}
-function add(i){cart.push(P[i]);$('#cn').textContent='السلة: '+cart.length+' · '+cart.reduce((s,x)=>s+x.p,0)+' ج';toast('أضفنا '+P[i].n+' إلى السلة')}
+function cartUI(pop){const n=cart.length,b=$('#cn');b.innerHTML='السلة'+(n?`<span class="bdg">${n}</span> <span class="m">· ${cart.reduce((s,x)=>s+x.p,0)} ج</span>`:'');
+if(pop&&n){b.querySelector('.bdg').classList.add('pop');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump')}}
+function add(i){cart.push(P[i]);cartUI(1);toast('أضفنا '+P[i].n+' إلى السلة')}
 function shop(){$('#grid').innerHTML=!P.length?'<p class="m">لا توجد منتجات بعد، وسيظهر هنا ما يضيفه التجار.</p>':P.map((p,i)=>({p,i})).filter(({p})=>f=='all'||(f=='w')==!!p.w).map(({p,i})=>`<article class="card"><div class="bt"><svg style="color:${p.c}" width="38" height="84"><use href="#b"/></svg></div><b><a href="#/p/${esc(p.id)}" style="color:inherit;text-decoration:none">${esc(p.n)}</a></b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span><a class="m" href="#/m/${esc(p.mid)}">${esc(p.m)}</a><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}<button class="btn" onclick="add(${i})">أضف للسلة</button><a class="btn o" style="text-decoration:none;text-align:center" href="#/p/${esc(p.id)}">التفاصيل والتقييمات</a></article>`).join('')}
 function rec(k){$$('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k==k));
 const r=P.map((p,i)=>({p,i})).filter(({p})=>p.t.includes(k)&&!p.w).sort((a,b)=>k=='h'?a.p.a-b.p.a:pl(a.p)-pl(b.p))[0];if(!r){$('#rec').textContent='لا يوجد منتج مناسب بعد.';return}const p=r.p;
@@ -237,7 +248,8 @@ $('#sf').onsubmit=async e=>{e.preventDefault();const a=$('#sa').value.trim().sli
 try{await updateDoc(doc(db,'merchants',U.uid),{about:a});M.about=a;await syncStore();toast('تم حفظ النبذة')}catch{toast('تعذر الحفظ')}};
 
 const cardH=(p,i)=>`<article class="card"><div class="bt"><svg style="color:${p.c}" width="38" height="84"><use href="#b"/></svg></div><b><a href="#/p/${esc(p.id)}" style="color:inherit;text-decoration:none">${esc(p.n)}</a></b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}<button class="btn" onclick="add(${i})">أضف للسلة</button><a class="btn o" style="text-decoration:none;text-align:center" href="#/p/${esc(p.id)}">التفاصيل والتقييمات</a></article>`;
-const shr=(q,t)=>`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn o" data-sh="${q}">نسخ الرابط</button><a class="btn o" style="text-decoration:none" href="https://wa.me/?text=${encodeURIComponent(t+' '+LK(q))}" target="_blank" rel="noopener">مشاركة على واتساب</a></div>`;
+const IC={cp:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>',wa:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4.2M8.6 13.4l6.8 4.2"/></svg>'};
+const shr=(q,t)=>`<div style="margin-top:6px"><button type="button" class="lkt" data-tg aria-expanded="false">${q[0]=='m'?'رابط المتجر':'رابط المنتج'} <span class="ar">▾</span></button><div class="lkp"><button class="btn o" data-sh="${q}">${IC.cp} نسخ الرابط</button><a class="btn o" style="text-decoration:none" href="https://wa.me/?text=${encodeURIComponent(t+' '+LK(q))}" target="_blank" rel="noopener">${IC.wa} مشاركة على واتساب</a></div></div>`;
 function page(h){['s','m','a','o'].forEach(v=>$('#v'+v).hidden=true);$$('nav button').forEach(x=>x.setAttribute('aria-pressed','false'));$('#vx').hidden=false;$('#vx').innerHTML='<button class="btn o" data-back>← المتجر</button>'+h;scrollTo(0,0)}
 async function showStore(mid){page('<p class="m">جارٍ التحميل…</p>');
 let st={};try{const s=await getDoc(doc(db,'stores',mid));if(s.exists())st=s.data()}catch{}
@@ -261,12 +273,12 @@ try{await setDoc(doc(db,'products',pid,'reviews',U.uid),d);toast('تم نشر ت
 $('#rl').onclick=async e=>{const b=e.target.closest('[data-del]');if(!b||!confirm('حذف التعليق؟'))return;
 try{await deleteDoc(doc(db,'products',pid,'reviews',b.dataset.del));loadRV();loadReviews(pid,p)}catch{toast('تعذر الحذف')}}}
 async function showProduct(id){const i=P.findIndex(p=>p.id==id);if(i<0)return page('<p class="m">هذا المنتج غير متاح الآن.</p>');const p=P[i];
-page(`<article class="card" style="max-width:520px"><div class="bt"><svg style="color:${p.c}" width="38" height="84"><use href="#b"/></svg></div><h2>${esc(p.n)}</h2><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر${p.w?' · جملة':''}</span><a class="m" href="#/m/${esc(p.mid)}">${esc(p.m)}</a><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}<button class="btn" onclick="add(${i})">أضف للسلة</button><div class="fm" style="margin-top:8px"><span class="m">رابط المنتج:</span><input readonly value="${LK('p/'+id)}" aria-label="رابط المنتج"></div>${shr('p/'+id,esc(p.n)+' على زيتونة:')}<div id="rvx" style="margin-top:16px"><p class="m">جارٍ تحميل التقييمات…</p></div></article>`);
+page(`<article class="card" style="max-width:520px"><div class="bt"><svg style="color:${p.c}" width="38" height="84"><use href="#b"/></svg></div><h2>${esc(p.n)}</h2><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر${p.w?' · جملة':''}</span><a class="m" href="#/m/${esc(p.mid)}">${esc(p.m)}</a><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}<button class="btn" onclick="add(${i})">أضف للسلة</button>${shr('p/'+id,esc(p.n)+' على زيتونة:')}<div id="rvx" style="margin-top:16px"><p class="m">جارٍ تحميل التقييمات…</p></div></article>`);
 await loadReviews(id,p)}
 function route(){const m=location.hash.match(/^#\/(m|p)\/([\w-]+)$/);
 if(!m){if(!$('#vx').hidden)$('[data-v=s]').click();return}
 m[1]=='m'?showStore(m[2]):showProduct(m[2])}
-$('#vx').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-back'))$('[data-v=s]').click();else if(b.dataset.sh)cp(LK(b.dataset.sh))};
+$('#vx').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-back'))$('[data-v=s]').click();else if(b.hasAttribute('data-tg')){const o=b.nextElementSibling.classList.toggle('open');b.setAttribute('aria-expanded',o)}else if(b.dataset.sh)cp(LK(b.dataset.sh))};
 
 async function init(u){const my=++seq;U=u;OWN=false;let m=null,ad=false;
 if(u){const em=(u.email||'').toLowerCase();OWN=!!u.emailVerified&&em==OWNER;
@@ -326,7 +338,7 @@ const p0=prompt('رقم موبايلك للتواصل (11 رقم):',localStorage
 const tot=ks.reduce((s,k)=>s+g[k].reduce((a,x)=>a+x.p,0),0);
 if(!confirm('تأكيد '+ks.length+' طلب بقيمة '+tot+' ج؟'))return;
 const ds=[];try{for(const k of ks){const it=g[k],o={buyerId:U.uid,buyerName:U.displayName||'',buyerPhone:ph,merchantId:k,merchantName:it[0].m,merchantPhone:it[0].ph||'',items:Ln(it),total:Ln(it).reduce((a,l)=>a+l.price*l.q,0),status:'new'};const r=await addDoc(collection(db,'orders'),{...o,createdAt:serverTimestamp()});ds.push([o,r.id])}
-cart=[];$('#cn').textContent='السلة: 0';loadO();$('[data-v=o]').click();
+cart=[];cartUI();loadO();$('[data-v=o]').click();
 $('#ol').innerHTML=ds.map(([o,id])=>wlink(o,id)?`<a class="btn" style="text-align:center;text-decoration:none" href="${wlink(o,id)}" target="_blank" rel="noopener">أرسل طلبك إلى ${esc(o.merchantName)} على واتساب</a>`:`<p class="m">${esc(o.merchantName)}: لا يوجد رقم واتساب، وسيتواصل معك التاجر.</p>`).join('');$('#od').showModal()}catch{toast('تعذر إرسال الطلب، ربما تغيّر سعر منتج. حدّث الصفحة وحاول تاني')}};
 
 products().then(route);loadRV();
