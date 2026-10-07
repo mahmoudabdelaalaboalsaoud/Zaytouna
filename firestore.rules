@@ -19,7 +19,7 @@ service cloud.firestore {
     // شكل المنتج وحدود القيم، واسم التاجر ورقمه يطابقان بياناته
     function prodOk(d) {
       let m = mer();
-      return d.keys().hasOnly(['merchantId', 'merchantName', 'merchantPhone', 'name', 'origin', 'acidity', 'liters', 'price', 'wholesale', 'tags', 'active', 'createdAt'])
+      return d.keys().hasOnly(['merchantId', 'merchantName', 'merchantPhone', 'name', 'origin', 'acidity', 'liters', 'price', 'wholesale', 'tags', 'active', 'image', 'createdAt'])
         && d.name is string && d.name.size() >= 2 && d.name.size() <= 80
         && d.origin is string && d.origin.size() <= 60
         && d.acidity is number && d.acidity >= 0 && d.acidity <= 5
@@ -27,6 +27,8 @@ service cloud.firestore {
         && d.price is number && d.price > 0 && d.price <= 1000000
         && d.wholesale is bool && d.active is bool
         && d.tags is list && d.tags.size() <= 3
+        && (!('image' in d) || (d.image is string
+            && d.image.matches('^https://ptimioffmszhmpxxuqha[.]supabase[.]co/storage/v1/object/public/zaytouna-products/' + d.merchantId + '/.+')))
         && d.merchantName == m.name && d.merchantPhone == m.phone;
     }
     // سطر الطلب: الاسم والسعر واللترات تؤخذ من المنتج نفسه في قاعدة البيانات
