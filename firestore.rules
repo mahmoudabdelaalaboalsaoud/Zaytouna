@@ -10,6 +10,11 @@ service cloud.firestore {
         || (signed() && request.auth.token.admin == true);
     }
     function me(uid) { return signed() && request.auth.uid == uid; }
+    // المحظور: عضو حالته blocked في سجل الأعضاء
+    function blocked() {
+      return exists(/databases/$(db)/documents/users/$(request.auth.uid))
+        && get(/databases/$(db)/documents/users/$(request.auth.uid)).data.status == 'blocked';
+    }
     function mer() { return get(/databases/$(db)/documents/merchants/$(request.auth.uid)).data; }
     function subOk() {
       let m = mer();
@@ -108,7 +113,7 @@ service cloud.firestore {
       allow delete: if isAdmin() || (me(resource.data.merchantId) && subOk());
     }
     match /orders/{id} {
-      allow create: if signed() && orderOk(request.resource.data);
+      allow create: if signed() && !blocked() && orderOk(request.resource.data);
       allow read: if signed() && (resource.data.buyerId == request.auth.uid || resource.data.merchantId == request.auth.uid || isAdmin());
       allow update: if signed() && (resource.data.merchantId == request.auth.uid || isAdmin())
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
@@ -130,12 +135,28 @@ service cloud.firestore {
     // تعليقات وتقييمات المنتج: القراءة للجميع، والكتابة للأعضاء المسجلين فقط
     match /products/{pid}/reviews/{uid} {
       allow read: if true;
-      allow create: if me(uid) && revOk(request.resource.data, pid, uid) && request.resource.data.createdAt == request.time;
-      allow update: if me(uid) && revOk(request.resource.data, pid, uid) && request.resource.data.createdAt == resource.data.createdAt;
+      allow create: if me(uid) && !blocked() && revOk(request.resource.data, pid, uid) && request.resource.data.createdAt == request.time;
+      allow update: if me(uid) && !blocked() && revOk(request.resource.data, pid, uid) && request.resource.data.createdAt == resource.data.createdAt;
       allow delete: if me(uid) || isAdmin();
     }
     match /{path=**}/reviews/{id} {
       allow read: if true;
+    }
+    // سجل الأعضاء: كل من يسجّل (مشتري أو تاجر). الإدارة تحظر وتحذف، والعضو لا يغيّر نوعه أو حالته.
+    match /users/{uid} {
+      allow read: if me(uid) || isAdmin();
+      allow create: if me(uid)
+        && request.resource.data.keys().hasOnly(['name', 'email', 'role', 'phone', 'city', 'status', 'createdAt'])
+        && request.resource.data.role in ['buyer', 'merchant']
+        && request.resource.data.status == 'active'
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.name is string && request.resource.data.name.size() >= 1 && request.resource.data.name.size() <= 60
+        && request.resource.data.email is string && request.resource.data.email.size() <= 120
+        && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
+        && request.resource.data.city is string && request.resource.data.city.size() <= 80;
+      allow update: if isAdmin() || (me(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'lastLogin']));
+      allow delete: if isAdmin();
     }
   }
 }
