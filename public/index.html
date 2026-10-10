@@ -5,7 +5,7 @@
 <meta name="theme-color" content="#f5f6ea" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#141a0a" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" href="/icons/icon-192.png"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="زيتونة">
-<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f5f6ea;--card:#fff;--ink:#27300f;--mut:#677050;--olive:#4a5a1e;--gold:#c79a12;--line:#dfe2c8;--ok:#3f7d2a;--warn:#b4730c;--bad:#a63d2f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141a0a;--card:#1e2611;--ink:#eef0d8;--mut:#a3ab85;--olive:#9db04a;--gold:#e0b83a;--line:#313c1b;--ok:#8fcf72;--warn:#e3a54a;--bad:#e8806f}}
@@ -13,7 +13,7 @@
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 'IBM Plex Sans Arabic',Tahoma,sans-serif}
-h1,h2,h3{font-family:'Reem Kufi',Tahoma,sans-serif;margin:0;line-height:1.35}
+h1,h2,h3{font-family:'IBM Plex Sans Arabic',Tahoma,sans-serif;font-weight:600;margin:0;line-height:1.35}
 button{font:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:10px 16px;flex-wrap:wrap}
@@ -42,20 +42,26 @@ dialog#cd{width:min(94vw,520px);max-height:88vh;overflow:auto}
 @media (prefers-reduced-motion:reduce){.ins>div{animation:none}}
 @media (prefers-reduced-motion:reduce){.bdg.pop,.cart.bump{animation:none}.lkp,.lkt{transition:none}}
 main{max-width:1000px;margin:auto;padding:16px}
-.hero{background:linear-gradient(160deg,#2f3a12,#58691f 62%,#a8892a);color:#f6f4dc;border-radius:20px;padding:28px 22px}
-.hero h1{font-size:clamp(26px,6vw,42px)}
-.hero p{margin:8px 0 18px;opacity:.9;max-width:36ch}
+.hero{background:linear-gradient(160deg,#2f3a12,#58691f 62%,#a8892a);color:#f6f4dc;border-radius:18px;padding:16px}
+.hero h1{font-size:clamp(20px,5vw,30px)}
+.hero p{margin:4px 0 12px;font-size:14px;line-height:1.5;opacity:.9}
+.hero .m{color:#e5e3c3}
+.srch{display:flex;align-items:stretch;background:#f6f4dc;border-radius:14px;overflow:hidden;border:2px solid transparent}.srch:focus-within{border-color:#e0b83a}
+.srch select{border:0;background:transparent;color:#2f3a12;font:inherit;font-size:15px;padding:10px;border-inline-end:1px solid #cfcaa0;max-width:46%}
+.srch input{flex:1;min-width:0;border:0;background:transparent;color:#2f3a12;font:inherit;padding:10px 12px;outline:0}.srch input::placeholder{color:#7a7f5a}
+.srch button{border:0;background:#2f3a12;color:#f6f4dc;padding:0 18px;font-weight:600}
+.rc{display:flex;gap:10px;align-items:center;justify-content:space-between}.rec .btn{background:#f6f4dc;color:#2f3a12;flex:none}.rec:empty{display:none}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
 .chip{border:1.5px solid currentColor;background:none;color:inherit;border-radius:99px;padding:6px 16px}
 .chip[aria-pressed=true]{background:#f6f4dc;color:#2f3a12;border-color:#f6f4dc}
-.rec{margin-top:16px;background:rgba(255,255,255,.12);border-radius:14px;padding:14px}
+.rec{margin-top:10px;background:rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;font-size:14px}
 .sec{margin:26px 0 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .f button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:4px 14px}
 .f button[aria-pressed=true]{background:var(--olive);color:var(--bg);border-color:var(--olive)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
 .bt{height:96px;border-radius:10px;background:var(--line);display:grid;place-items:center;overflow:hidden}.bt.ph{height:180px}
-.price{font:700 20px 'Reem Kufi',Tahoma,sans-serif}
+.price{font:700 20px 'IBM Plex Sans Arabic',Tahoma,sans-serif}
 .m{color:var(--mut);font-size:14px}
 .btn{display:inline-block;border:0;background:var(--olive);color:var(--bg);border-radius:10px;padding:7px 14px;font-weight:600;text-decoration:none;font-size:15px}
 .wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 10px}
@@ -64,7 +70,7 @@ th,td{text-align:start;padding:10px 8px;border-bottom:1px solid var(--line);whit
 tr:last-child td{border:0}
 .kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
 .kpi div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
-.kpi b{display:block;font:700 26px 'Reem Kufi',Tahoma,sans-serif}
+.kpi b{display:block;font:700 26px 'IBM Plex Sans Arabic',Tahoma,sans-serif}
 .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
 .bar{height:10px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:8px}
 .bar i{display:block;height:100%;background:var(--gold)}
@@ -100,9 +106,8 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <main>
 <section id="vs">
 <div class="hero"><h1>زيت زيتون أصلي، من كل التجار في مكان واحد</h1>
-<p>قل لنا كيف ستستخدم الزيت، ويرشح لك مساعد زيتونة الأنسب سعراً وجودة.</p>
-<div class="chips"><button class="chip" data-k="s">للسلطة</button><button class="chip" data-k="c">للطبخ</button><button class="chip" data-k="h">للصحة اليومية</button></div>
-<form id="q" style="display:flex;gap:8px;margin-top:12px"><input id="qi" aria-label="اسأل المساعد" placeholder="مثال: زيت للسلطة بحدود 200 جنيه" style="flex:1;min-width:0;border:0;border-radius:10px;padding:8px 12px;font:inherit"><button class="btn" style="background:#f6f4dc;color:#2f3a12">اسأل</button></form>
+<p>اختر استخدامك أو اكتب ما تحتاجه، ويرشح لك المساعد الأنسب.</p>
+<form id="q" class="srch"><select id="qk" aria-label="الاستخدام"><option value="">الاستخدام</option><option value="s">للسلطة</option><option value="c">للطبخ</option><option value="h">للصحة اليومية</option></select><input id="qi" aria-label="اسأل المساعد" placeholder="مثال: بحدود 200 جنيه"><button>اسأل</button></form>
 <div class="rec" id="rec"></div></div>
 <div class="sec"><h2>كل المنتجات</h2><div class="f"><button data-f="all" aria-pressed="true">الكل</button> <button data-f="r" aria-pressed="false">أفراد</button> <button data-f="w" aria-pressed="false">جملة</button></div></div>
 <div class="grid" id="grid"></div></section>
@@ -174,25 +179,25 @@ const why={s:'الأوفر للتر بين زيوت السلطة البكر.',c:
 const L={t:'تجربة مجانية',a:'نشط',e:'منتهي'};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),pl=p=>Math.round(p.p/p.l);
 const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';'),wa=p=>'https://wa.me/'+String(p||'').replace(/\D/g,'').replace(/^0/,'20');
-function setP(a){P=a;shop();rec('s');$('footer').textContent='زيتونة — سوق زيت الزيتون'}
+function setP(a){P=a;shop();$('footer').textContent='زيتونة — سوق زيت الزيتون'}
 let cart=[],f='all';
 function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.i);toast.i=setTimeout(()=>e.hidden=true,2200)}
 function cartUI(pop){const n=cart.length,b=$('#cn');b.innerHTML='السلة'+(n?`<span class="bdg">${n}</span> <span class="m">· ${cart.reduce((s,x)=>s+x.p,0)} ج</span>`:'');
 if(pop&&n){b.querySelector('.bdg').classList.add('pop');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump')}}
 function add(i){cart.push(P[i]);cartUI(1);toast('أضفنا '+P[i].n+' إلى السلة')}
 function shop(){$('#grid').innerHTML=!P.length?'<p class="m">لا توجد منتجات بعد، وسيظهر هنا ما يضيفه التجار.</p>':P.map((p,i)=>({p,i})).filter(({p})=>f=='all'||(f=='w')==!!p.w).map(({p,i})=>`<article class="card"><div class="bt${p.img?' ph':''}">${imgH(p)}</div><b><a href="#/p/${esc(p.id)}" style="color:inherit;text-decoration:none">${esc(p.n)}</a></b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span><a class="m" href="#/m/${esc(p.mid)}">${esc(p.m)}</a><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}<button class="btn" onclick="add(${i})">أضف للسلة</button><a class="btn o" style="text-decoration:none;text-align:center" href="#/p/${esc(p.id)}">التفاصيل والتقييمات</a></article>`).join('')}
-function rec(k){$$('.chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k==k));
+function rec(k){$('#qk').value=k;
 const r=P.map((p,i)=>({p,i})).filter(({p})=>p.t.includes(k)&&!p.w).sort((a,b)=>k=='h'?a.p.a-b.p.a:pl(a.p)-pl(b.p))[0];if(!r){$('#rec').textContent='لا يوجد منتج مناسب بعد.';return}const p=r.p;
-$('#rec').innerHTML=`<b>${esc(p.n)}</b> — ${p.p} ج (${pl(p)} ج/لتر)<br>${why[k]}<br><button class="btn" style="background:#f6f4dc;color:#2f3a12;margin-top:8px" onclick="add(${r.i})">أضف للسلة</button>`}
-$$('.chip').forEach(b=>b.onclick=()=>rec(b.dataset.k));
+$('#rec').innerHTML=`<div class="rc"><div><b>${esc(p.n)}</b> · ${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span><br><span class="m">${why[k]}</span></div><button class="btn" onclick="add(${r.i})">أضف للسلة</button></div>`}
+$('#qk').onchange=()=>{const k=$('#qk').value;if(k)rec(k);else $('#rec').textContent=''};
 $$('.f button').forEach(b=>b.onclick=()=>{f=b.dataset.f;$$('.f button').forEach(x=>x.setAttribute('aria-pressed',x==b));shop()});
 $$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x==b));['s','m','a','o','x'].forEach(v=>$('#v'+v).hidden=v!=b.dataset.v);scrollTo(0,0);if(location.hash)history.replaceState(null,'',location.pathname+location.search)});
-$('#q').onsubmit=async e=>{e.preventDefault();const q=$('#qi').value.trim();if(!q)return;$('#rec').textContent='جارٍ البحث…';
+$('#q').onsubmit=async e=>{e.preventDefault();const q=$('#qi').value.trim();if(!q){const k=$('#qk').value;if(k)rec(k);return}$('#rec').textContent='جارٍ البحث…';
 try{const r=await fetch('/api/assistant',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({question:q,catalog:P.map((p,i)=>({id:i,name:p.n,origin:p.o,acidity:p.a,liters:p.l,price:p.p,wholesale:!!p.w}))})});
-const d=await r.json();if(!r.ok)throw 0;const p=P[d.id];$$('.chip').forEach(b=>b.setAttribute('aria-pressed','false'));
-$('#rec').innerHTML=`<b>${esc(p.n)}</b> — ${p.p} ج (${pl(p)} ج/لتر)<br>${esc(d.reason)}<br><button class="btn" style="background:#f6f4dc;color:#2f3a12;margin-top:8px" onclick="add(${d.id})">أضف للسلة</button>`}
-catch{$('#rec').textContent='المساعد غير متاح الآن، جرّب الأزرار أعلاه.'}};
-rec('s');shop();
+const d=await r.json();if(!r.ok)throw 0;const p=P[d.id];$('#qk').value='';
+$('#rec').innerHTML=`<div class="rc"><div><b>${esc(p.n)}</b> · ${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span><br><span class="m">${esc(d.reason)}</span></div><button class="btn" onclick="add(${d.id})">أضف للسلة</button></div>`}
+catch{$('#rec').textContent='المساعد غير متاح الآن، جرّب اختيار الاستخدام من القائمة.'}};
+shop();
 </script>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
