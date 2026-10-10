@@ -24,7 +24,7 @@ service cloud.firestore {
     // شكل المنتج وحدود القيم، واسم التاجر ورقمه يطابقان بياناته
     function prodOk(d) {
       let m = mer();
-      return d.keys().hasOnly(['merchantId', 'merchantName', 'merchantPhone', 'name', 'origin', 'acidity', 'liters', 'price', 'wholesale', 'tags', 'active', 'image', 'createdAt'])
+      return d.keys().hasOnly(['merchantId', 'merchantName', 'merchantPhone', 'name', 'origin', 'acidity', 'liters', 'price', 'wholesale', 'tags', 'active', 'image', 'stock', 'createdAt'])
         && d.name is string && d.name.size() >= 2 && d.name.size() <= 80
         && d.origin is string && d.origin.size() <= 60
         && d.acidity is number && d.acidity >= 0 && d.acidity <= 5
@@ -32,6 +32,7 @@ service cloud.firestore {
         && d.price is number && d.price > 0 && d.price <= 1000000
         && d.wholesale is bool && d.active is bool
         && d.tags is list && d.tags.size() <= 3
+        && (!('stock' in d) || (d.stock is int && d.stock >= 0 && d.stock <= 100000))
         && (!('image' in d) || (d.image is string
             && d.image.matches('^https://ptimioffmszhmpxxuqha[.]supabase[.]co/storage/v1/object/public/zaytouna-products/' + d.merchantId + '/.+')))
         && d.merchantName == m.name && d.merchantPhone == m.phone;
@@ -42,6 +43,7 @@ service cloud.firestore {
       return l.keys().hasOnly(['id', 'name', 'price', 'liters', 'q'])
         && l.q is int && l.q >= 1 && l.q <= 50
         && p.active == true && p.merchantId == mid
+        && (!('stock' in p) || p.stock >= l.q)
         && l.name == p.name && l.price == p.price && l.liters == p.liters;
     }
     // التقييم بالنجوم: لمن اشترى المنتج وأكّد التاجر طلبه (حالة مكتمل)
