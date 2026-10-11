@@ -116,8 +116,14 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="sec"><h2 id="mt">لوحة التاجر</h2></div>
 <div class="box"><b id="mb"></b><div class="bar"><i id="mbar" style="width:0"></i></div>
 <p class="m" style="margin:8px 0 10px">للاشتراك في إحدى الباقات تواصل معنا على واتساب.</p><a class="btn" href="https://wa.me/?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D8%B2%D9%8A%D8%AA%D9%88%D9%86%D8%A9" target="_blank" rel="noopener">اشترك عبر واتساب</a></div>
+<div class="box"><h3>بيانات المتجر</h3>
+<form id="sf" class="fm" style="margin-top:8px">
+<div style="display:flex;gap:12px;align-items:center"><img id="slg" alt="شعار المتجر" hidden style="width:72px;height:72px;border-radius:16px;object-fit:cover;background:var(--line)"><button type="button" class="btn o" id="slb">اختيار شعار المتجر</button><input type="file" id="slf" accept="image/*" hidden></div>
+<input id="sn" placeholder="اسم المتجر" required><input id="sp" type="tel" inputmode="numeric" placeholder="رقم الموبايل (واتساب)" required><input id="sc" placeholder="المدينة" required>
+<textarea id="sa" maxlength="300" placeholder="نبذة عن متجرك (تظهر في صفحة المتجر)"></textarea>
+<span id="se" class="m" style="color:var(--bad)"></span><button class="btn">حفظ البيانات</button></form></div>
 <div class="box"><h3>رابط متجرك</h3><div class="fm" style="margin-top:8px"><input id="ml" readonly aria-label="رابط المتجر"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="mcp">نسخ الرابط</button><a class="btn o" id="msh" style="text-decoration:none" target="_blank" rel="noopener">مشاركة على واتساب</a></div></div>
-<form id="sf" class="fm" style="margin-top:12px"><textarea id="sa" maxlength="300" placeholder="نبذة عن متجرك (تظهر في صفحة المتجر)"></textarea><button class="btn o">حفظ النبذة</button></form></div>
+</div>
 <div class="kpi"><div><span class="m">الطلبات</span><b id="mo">0</b></div><div><span class="m">المبيعات</span><b id="ms">0</b></div><div><span class="m">منتجاتي</span><b id="mp">0</b></div></div>
 <div class="box"><h3>إضافة منتج</h3><form id="pf" class="fm" style="margin-top:8px">
 <input id="pn" placeholder="اسم المنتج" required><input id="po" placeholder="المنشأ (مثال: سيوة)" required>
@@ -221,7 +227,7 @@ return `مرحباً ${o.merchantName}،\nأنا ${o.buyerName||''}، طلبت �
 const wlink=(o,id)=>o.merchantPhone?wa(o.merchantPhone)+'?text='+encodeURIComponent(wmsg(o,id)):'';
 const ST={new:'جديد',accepted:'مقبول',done:'مكتمل',cancelled:'ملغي'};
 const OWNER='mahmoudabdelaalaboalsaoud@gmail.com';
-let OD={},MPD={},EP=null,REG=false,BLK=false,BU=[],BF='',BQ='',OC={},RU=null,RR='b',IMT='',PIMG=null,U=null,M=null,AM=[],AF='',AQ='',OWN=false,ISADM=false,RL=[],seq=0,sign=false;
+let LOGO='',OD={},MPD={},EP=null,REG=false,BLK=false,BU=[],BF='',BQ='',OC={},RU=null,RR='b',IMT='',PIMG=null,U=null,M=null,AM=[],AF='',AQ='',OWN=false,ISADM=false,RL=[],seq=0,sign=false;
 
 async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));
 if(s.empty){setP([]);return}
@@ -230,7 +236,7 @@ setP(s.docs.map(d=>{const x=d.data();return{id:d.id,mid:x.merchantId,n:String(x.
 async function loadM(){try{
 const e=M.endsAt.toDate(),d=Math.ceil((e-Date.now())/D),a=M.status=='active';
 $('#mt').textContent='لوحة التاجر — '+M.name;
-$('#ml').value=LK('m/'+U.uid);$('#msh').href='https://wa.me/?text='+encodeURIComponent('متجري على زيتونة: '+LK('m/'+U.uid));$('#sa').value=M.about||'';syncStore();
+$('#ml').value=LK('m/'+U.uid);$('#msh').href='https://wa.me/?text='+encodeURIComponent('متجري على زيتونة: '+LK('m/'+U.uid));$('#sn').value=M.name||'';$('#sp').value=M.phone||'';$('#sc').value=M.city||'';$('#sa').value=M.about||'';LOGO=M.logo||'';setLogo(LOGO);syncStore();
 $('#mb').textContent=d<=0?'انتهى اشتراكك، تواصل معنا للتجديد':a?'اشتراك نشط حتى '+dt(M.endsAt):'تجربتك المجانية: باقي '+d+' يوماً من 90';
 $('#mbar').style.width=(a?100:Math.min(100,Math.max(0,(90-d)/.9)))+'%';
 const[ps,os]=await Promise.all(['products','orders'].map(c=>getDocs(query(collection(db,c),where('merchantId','==',U.uid)))));
@@ -286,11 +292,21 @@ $('#bo').innerHTML=O.map(o=>`<tr><td>${dt(o.createdAt)}</td><td>${esc(o.merchant
 
 const LK=q=>location.origin+location.pathname+'#/'+q;
 const cp=async t=>{try{await navigator.clipboard.writeText(t);toast('تم نسخ الرابط')}catch{inp('انسخ الرابط:',{value:t,ok:'تمام',single:1})}};
-async function syncStore(){try{const r=doc(db,'stores',U.uid),s=await getDoc(r),d={name:M.name,phone:M.phone||'',city:M.city||'',about:M.about||''},o=s.exists()?s.data():{};
-if(['name','phone','city','about'].some(k=>o[k]!==d[k]))await setDoc(r,d)}catch{}}
+async function syncStore(){try{const r=doc(db,'stores',U.uid),s=await getDoc(r),d={name:M.name,phone:M.phone||'',city:M.city||'',about:M.about||'',logo:M.logo||''},o=s.exists()?s.data():{};
+if(['name','phone','city','about','logo'].some(k=>o[k]!==d[k]))await setDoc(r,d)}catch{}}
 $('#mcp').onclick=()=>cp($('#ml').value);
-$('#sf').onsubmit=async e=>{e.preventDefault();const a=$('#sa').value.trim().slice(0,300);
-try{await updateDoc(doc(db,'merchants',U.uid),{about:a});M.about=a;await syncStore();toast('تم حفظ النبذة')}catch{toast('تعذر الحفظ')}};
+function setLogo(u){const i=$('#slg');if(okImg(u)){i.src=u;i.hidden=false}else i.hidden=true}
+$('#slb').onclick=()=>$('#slf').click();
+$('#slf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+try{toast('جارٍ رفع الشعار…');const b=await shrink(f);if(!b)return toast('الصورة كبيرة جداً، اختر صورة أصغر');LOGO=await upImg(b);setLogo(LOGO);toast('تم رفع الشعار، اضغط حفظ البيانات')}catch(x){toast(upMsg(x))}};
+$('#sf').onsubmit=async e=>{e.preventDefault();const er=$('#se'),bt=e.target.querySelector('.btn:last-child'),
+d={name:$('#sn').value.trim(),phone:norm($('#sp').value),city:$('#sc').value.trim(),about:$('#sa').value.trim().slice(0,300),logo:LOGO};
+if(d.name.length<2||d.name.length>60){er.textContent='اسم المتجر من 2 إلى 60 حرفاً';return}
+if(!/^01[0125]\d{8}$/.test(d.phone)){er.textContent='اكتب رقم موبايل مصري صحيح من 11 رقم';return}
+if(!d.city){er.textContent='اكتب المدينة';return}
+er.textContent='';bt.disabled=true;
+try{await updateDoc(doc(db,'merchants',U.uid),d);Object.assign(M,d);await syncStore();toast('تم حفظ بيانات المتجر');loadM()}
+catch{er.textContent='تعذر الحفظ، حاول مرة أخرى'}finally{bt.disabled=false}};
 
 const cardH=(p,i)=>`<article class="card"><div class="bt${p.img?' ph':''}">${imgH(p)}</div><b><a href="#/p/${esc(p.id)}" style="color:inherit;text-decoration:none">${esc(p.n)}</a></b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}${buyH(p,i)}<a class="btn o" style="text-decoration:none;text-align:center" href="#/p/${esc(p.id)}">التفاصيل والتقييمات</a></article>`;
 const IC={cp:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>',wa:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4.2M8.6 13.4l6.8 4.2"/></svg>'};
@@ -301,7 +317,7 @@ let st={};try{const s=await getDoc(doc(db,'stores',mid));if(s.exists())st=s.data
 const L=P.map((p,i)=>({p,i})).filter(({p})=>p.mid==mid);
 if(!L.length&&!st.name)return page('<p class="m">المتجر غير موجود أو لا توجد له منتجات الآن.</p>');
 const nm=st.name||(L[0]&&L[0].p.m)||'متجر',ph=st.phone||(L[0]&&L[0].p.ph)||'';
-page(`<h2>${esc(nm)}</h2><p class="m">${esc(st.city||'')}</p>${st.about?`<p>${esc(st.about)}</p>`:''}<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">${ph?`<a class="btn" style="text-decoration:none" href="${wa(ph)}?text=${encodeURIComponent('مرحباً '+nm)}" target="_blank" rel="noopener">تواصل واتساب</a>`:''}</div>${shr('m/'+mid,'متجر '+nm+' على زيتونة:')}<h3 style="margin-top:14px">المنتجات</h3><div class="grid" style="margin-top:8px">${L.map(({p,i})=>cardH(p,i)).join('')||'<p class="m">لا توجد منتجات الآن.</p>'}</div>`)}
+page(`<div style="display:flex;gap:12px;align-items:center">${okImg(st.logo)?`<img src="${esc(st.logo)}" alt="" style="width:72px;height:72px;border-radius:16px;object-fit:cover">`:''}<div><h2>${esc(nm)}</h2><p class="m">${esc(st.city||'')}</p></div></div>${st.about?`<p>${esc(st.about)}</p>`:''}<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">${ph?`<a class="btn" style="text-decoration:none" href="${wa(ph)}?text=${encodeURIComponent('مرحباً '+nm)}" target="_blank" rel="noopener">تواصل واتساب</a>`:''}</div>${shr('m/'+mid,'متجر '+nm+' على زيتونة:')}<h3 style="margin-top:14px">المنتجات</h3><div class="grid" style="margin-top:8px">${L.map(({p,i})=>cardH(p,i)).join('')||'<p class="m">لا توجد منتجات الآن.</p>'}</div>`)}
 async function loadRV(){try{const s=await getDocs(query(collectionGroup(db,'reviews'),limit(1000))),m={};
 s.docs.forEach(d=>{const x=d.data(),pid=d.ref.parent.parent.id;if(x.rating>0){(m[pid]=m[pid]||{s:0,c:0});m[pid].s+=x.rating;m[pid].c++}});RV=m;if(P.length)shop()}catch{}}
 async function loadReviews(pid,p){const box=$('#rvx');if(!box)return;let rs=[];

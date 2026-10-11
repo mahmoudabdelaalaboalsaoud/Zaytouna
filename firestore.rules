@@ -104,7 +104,11 @@ service cloud.firestore {
         && request.resource.data.endsAt is timestamp
         && request.resource.data.endsAt <= request.time + duration.value(91, 'd');
       allow update: if isAdmin() || (me(uid)
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'city', 'about']));
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'city', 'about', 'logo'])
+        && request.resource.data.name.size() >= 2 && request.resource.data.name.size() <= 60
+        && request.resource.data.phone.size() <= 20 && request.resource.data.city.size() <= 80
+        && request.resource.data.about.size() <= 300
+        && request.resource.data.get('logo', '').matches('^$|^https://ptimioffmszhmpxxuqha[.]supabase[.]co/storage/v1/object/public/zaytouna-products/' + uid + '/.+'));
       allow delete: if isAdmin();
     }
     match /products/{id} {
@@ -126,11 +130,12 @@ service cloud.firestore {
     match /stores/{uid} {
       allow read: if true;
       allow create, update: if me(uid) && subOk()
-        && request.resource.data.keys().hasOnly(['name', 'phone', 'city', 'about'])
+        && request.resource.data.keys().hasOnly(['name', 'phone', 'city', 'about', 'logo'])
         && request.resource.data.name == mer().name
         && request.resource.data.phone == mer().phone
         && request.resource.data.city == mer().city
         && request.resource.data.about == mer().about
+        && request.resource.data.get('logo', '') == mer().get('logo', '')
         && request.resource.data.about.size() <= 300;
       allow delete: if isAdmin();
     }
