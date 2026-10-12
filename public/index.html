@@ -97,6 +97,19 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .btn.o{background:none;color:var(--olive);border:1.5px solid var(--olive)}
 [hidden]{display:none!important}
 td select{min-width:100px;width:auto}
+.ld{grid-column:1/-1;text-align:center;padding:12px 0 4px}.ld p{margin:6px 0 0;font-weight:600}
+.ld .plate{animation:prs 2.4s ease-in-out infinite}
+.ld .olv{transform-box:fill-box;transform-origin:50% 100%;animation:olv 2.4s ease-in-out infinite}
+.ld .drp{animation:drp 2.4s ease-in infinite}
+.ld .oil{transform-box:fill-box;transform-origin:50% 100%;animation:oil 2.4s ease-in-out infinite}
+@keyframes prs{0%,100%{transform:translateY(0)}45%{transform:translateY(14px)}}
+@keyframes olv{0%,100%{transform:scaleY(1)}45%{transform:scaleY(.55)}}
+@keyframes drp{0%,40%{transform:translateY(-4px);opacity:0}55%{opacity:1}100%{transform:translateY(20px);opacity:0}}
+@keyframes oil{0%{transform:scaleY(.08)}90%,100%{transform:scaleY(1)}}
+.sk{background:var(--card);border:1px solid var(--line);border-radius:14px;height:210px;position:relative;overflow:hidden}
+.sk:after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.07) 50%,transparent 70%);transform:translateX(-100%);animation:shm 1.4s infinite}
+@keyframes shm{to{transform:translateX(100%)}}
+@media (prefers-reduced-motion:reduce){.ld *,.sk:after{animation:none!important}}
 .stb{background:none;border:0;font-size:30px;color:var(--line);padding:0 2px}.stb.on{color:#e0b13a}
 .fm textarea{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font:inherit;background:var(--bg);color:var(--ink);width:100%;min-height:70px}
 .af{display:flex;gap:6px;flex-wrap:wrap}.af button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:4px 14px}.af button[aria-pressed=true]{background:var(--olive);color:var(--bg);border-color:var(--olive)}
@@ -197,7 +210,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <dialog id="md"><div class="fm"><p id="mm" style="white-space:pre-line;margin:0"></p><input id="mi" hidden><span id="me" class="m" style="color:var(--bad)"></span><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="mok">تأكيد</button><button class="btn o" id="mcn">إلغاء</button></div></div></dialog>
 <dialog id="od"><div class="fm"><h3>تم تسجيل طلبك ✅</h3><p class="m">ابعت تفاصيل الطلب للتاجر على واتساب عشان يأكده معاك.</p><div id="ol" class="fm"></div><button class="btn o" id="ox">تمام</button></div></dialog>
 <script>
-let P=[],RV={};
+let P=[],RV={},PL=true;
 const buyH=(p,i)=>{const t=p.st!=null&&p.st>0&&p.st<=5?`<span class="m" style="color:#e0b83a">متبقي ${p.st} فقط</span>`:'';return t+(p.st===0?'<button class="btn" disabled>نفدت الكمية</button>':`<button class="btn" onclick="add(${i})">أضف للسلة</button>`)};
 const SB='https://ptimioffmszhmpxxuqha.supabase.co/storage/v1/object/public/zaytouna-products/';
 const okImg=u=>typeof u=='string'&&u.startsWith(SB)?u:'';
@@ -217,7 +230,9 @@ const ravg=id=>{const r=RV[id];return r?r.s/r.c:0};
 const cardH=(p,i,wm)=>`<article class="card"><div class="bt${p.img?' ph':''}">${imgH(p)}</div><b><a href="#/p/${esc(p.id)}" style="color:inherit;text-decoration:none">${esc(p.n)}</a></b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span>${wm?`<a class="m" href="#/m/${esc(p.mid)}">${esc(p.m)}</a>`:''}<div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}${buyH(p,i)}<a class="m" style="text-align:center;color:var(--olive)" href="#/p/${esc(p.id)}">التفاصيل ›</a></article>`;
 function fillMerchants(){const sel=$('#fm'),cur=sel.value,ms={};P.forEach(p=>{if(p.mid)ms[p.mid]=p.m});const sig=JSON.stringify(ms);
 if(sel.dataset.sig!==sig){sel.dataset.sig=sig;sel.innerHTML='<option value="">كل التجار</option>'+Object.entries(ms).map(([k,v])=>`<option value="${esc(k)}">${esc(v)}</option>`).join('');sel.value=ms[cur]?cur:''}}
+const PRESS=`<div class="ld" role="status"><svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true"><g class="plate"><rect x="57" y="2" width="6" height="18" rx="2" fill="#a8892a"/><rect x="28" y="20" width="64" height="9" rx="4" fill="#a8892a"/></g><circle class="olv" cx="44" cy="54" r="9" fill="#58691f"/><circle class="olv" cx="62" cy="56" r="9" fill="#7d9020"/><circle class="olv" cx="79" cy="54" r="8" fill="#58691f"/><rect x="24" y="64" width="72" height="7" rx="3" fill="#8a6a22"/><path class="drp" d="M60 73c-3 5-3 8 0 10 3-2 3-5 0-10z" fill="#e0b83a"/><rect x="46" y="90" width="28" height="26" rx="7" fill="none" stroke="#e0b83a" stroke-width="2.5"/><rect class="oil" x="49" y="93" width="22" height="20" rx="5" fill="#e0b83a" opacity=".9"/></svg><p>جارٍ عرض المنتجات…</p><span class="m">نعصر لك أجود الزيوت</span></div>`+'<div class="sk"></div>'.repeat(4);
 function shop(){fillMerchants();
+if(PL){$('#cnt').textContent='';$('#grid').innerHTML=PRESS;return}
 const q=$('#fq').value.trim().toLowerCase(),t=$('#ft').value,m=$('#fm').value,o=$('#fo').value;
 const L=P.map((p,i)=>({p,i})).filter(({p})=>(t=='all'||(t=='w')==!!p.w)&&(!m||p.mid==m)&&(!q||[p.n,p.m,p.o].join(' ').toLowerCase().includes(q)));
 const key={new:x=>-x.p.ts,pa:x=>x.p.p,pd:x=>-x.p.p,la:x=>pl(x.p),rt:x=>-ravg(x.p.id)}[o];L.sort((a,b)=>key(a)-key(b));
@@ -252,9 +267,9 @@ const ST={new:'جديد',accepted:'مقبول',done:'مكتمل',cancelled:'مل
 const OWNER='mahmoudabdelaalaboalsaoud@gmail.com';
 let LOGO='',OD={},MPD={},EP=null,REG=false,BLK=false,BU=[],BF='',BQ='',OC={},RU=null,RR='b',IMT='',PIMG=null,U=null,M=null,AM=[],AF='',AQ='',OWN=false,ISADM=false,RL=[],seq=0,sign=false;
 
-async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));
+async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));PL=false;
 if(s.empty){setP([]);return}
-setP(s.docs.map(d=>{const x=d.data();return{id:d.id,mid:x.merchantId,n:String(x.name||''),o:String(x.origin||''),a:+x.acidity||0,l:+x.liters||1,p:+x.price||0,m:String(x.merchantName||''),img:okImg(x.image),ts:(x.createdAt&&x.createdAt.seconds)||0,st:x.stock==null?null:+x.stock,ph:String(x.merchantPhone||''),t:Array.isArray(x.tags)?x.tags:[],w:x.wholesale?1:0,c:'#6d7d1c'}}))}catch{}}
+setP(s.docs.map(d=>{const x=d.data();return{id:d.id,mid:x.merchantId,n:String(x.name||''),o:String(x.origin||''),a:+x.acidity||0,l:+x.liters||1,p:+x.price||0,m:String(x.merchantName||''),img:okImg(x.image),ts:(x.createdAt&&x.createdAt.seconds)||0,st:x.stock==null?null:+x.stock,ph:String(x.merchantPhone||''),t:Array.isArray(x.tags)?x.tags:[],w:x.wholesale?1:0,c:'#6d7d1c'}}))}catch{PL=false;shop()}}
 
 async function loadM(){try{
 const e=M.endsAt.toDate(),d=Math.ceil((e-Date.now())/D),a=M.status=='active';
@@ -436,7 +451,7 @@ if(!n){er.textContent='اكتب اسمك';return}
 if(RR=='m'&&(!ph||!c)){er.textContent='أكمل رقم الهاتف والمدينة';return}
 bt.disabled=true;er.textContent='';
 try{if(RU.displayName!=n)await updateProfile(RU,{displayName:n});await mkProfile(RU,RR,n,ph,c);if(ph)localStorage.zph=ph;$('#rd').close();await init(auth.currentUser);toast('تم تسجيلك بنجاح')}
-catch{er.textContent='تعذر إكمال التسجيل، حاول مرة أخرى'}finally{bt.disabled=false}};
+catch(x){er.textContent='تعذر إكمال التسجيل ('+(x.code||x.message||'خطأ')+')'}finally{bt.disabled=false}};
 
 async function loadU(){try{const[u,o]=await Promise.all([getDocs(collection(db,'users')),getDocs(collection(db,'orders'))]);
 OC={};o.docs.forEach(d=>{const b=d.data().buyerId;OC[b]=(OC[b]||0)+1});
@@ -501,7 +516,7 @@ $('#ag').onclick=async()=>{const r=$('#ar').value,n=$('#an').value.trim(),ph=$('
 if(mer&&(!n||!ph||!c))return toast('أكمل بيانات المتجر أولاً');
 busy(1);REG=sign;try{const k=await signInWithPopup(auth,new GoogleAuthProvider());
 if(sign){const ps=await getDoc(doc(db,'users',k.user.uid));if(!ps.exists())await mkProfile(k.user,r,n||k.user.displayName||'عضو',ph,c)}
-dlg.close();await init(auth.currentUser);toast('أهلاً '+((auth.currentUser&&auth.currentUser.displayName)||''))}catch(x){toast(ER[x.code]||'تعذر الدخول بحساب Google')}finally{REG=false;busy(0)}};
+dlg.close();await init(auth.currentUser);toast('أهلاً '+((auth.currentUser&&auth.currentUser.displayName)||''))}catch(x){toast(ER[x.code]||'تعذر الدخول بحساب Google ('+(x.code||'')+')')}finally{REG=false;busy(0)}};
 $('#af').onsubmit=async e=>{e.preventDefault();busy(1);REG=sign;const em=$('#ae').value.trim(),pw=$('#ap').value;
 try{if(!sign)await signInWithEmailAndPassword(auth,em,pw);
 else{const r=$('#ar').value,n=$('#an').value.trim(),ph=$('#aph').value.trim(),c=$('#ac').value.trim();
@@ -510,7 +525,7 @@ const k=await createUserWithEmailAndPassword(auth,em,pw);await updateProfile(k.u
 if(ph)localStorage.zph=ph;
 await mkProfile(k.user,r,n,ph,c);
 await init(auth.currentUser)}
-dlg.close();e.target.reset();toast('أهلاً '+((auth.currentUser&&auth.currentUser.displayName)||''))}catch(x){toast(ER[x.code]||'تعذر تنفيذ الطلب')}finally{REG=false;busy(0)}};
+dlg.close();e.target.reset();toast('أهلاً '+((auth.currentUser&&auth.currentUser.displayName)||''))}catch(x){toast(ER[x.code]||'تعذر تنفيذ الطلب ('+(x.code||'')+')')}finally{REG=false;busy(0)}};
 
 $('#pf').onsubmit=async e=>{e.preventDefault();const t=[...$$('[name=pt]:checked')].map(x=>x.value);
 let img='';if(PIMG){toast('جارٍ رفع الصورة…');try{img=await upImg(PIMG)}catch(x){return toast(upMsg(x))}}
