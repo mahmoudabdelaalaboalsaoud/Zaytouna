@@ -58,7 +58,20 @@ main{max-width:1000px;margin:auto;padding:16px}
 .sec{margin:26px 0 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .f button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:4px 14px}
 .f button[aria-pressed=true]{background:var(--olive);color:var(--bg);border-color:var(--olive)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(min-width:640px){.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}}
+.grid .card{padding:10px;gap:4px}.grid .card b{font-size:15px;line-height:1.4}.grid .card .m{font-size:13px;line-height:1.4}
+.grid .card .price{font-size:17px}.grid .card .btn{padding:6px 10px;font-size:14px;text-align:center}
+.grid .bt{height:84px}.grid .bt.ph{height:120px}#vx>article .bt.ph{height:220px}
+.fb{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:12px}.fb:focus-within{border-color:var(--olive)}
+.fb input{display:block;width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;padding:10px 14px;outline:0}
+.fr{display:flex}.fr select{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:14px;padding:10px 8px}.fr select+select{border-inline-start:1px solid var(--line)}
+.cov{border-radius:18px;overflow:hidden;background:var(--card);border:1px solid var(--line);margin-bottom:12px}
+.cvr{height:84px;background:linear-gradient(160deg,#2f3a12,#58691f 62%,#a8892a)}
+.cvi{display:flex;gap:14px;align-items:flex-end;padding:0 16px 14px;margin-top:-36px}
+.lg{width:84px;height:84px;border-radius:20px;border:3px solid var(--card);background:var(--line);object-fit:cover;display:grid;place-items:center;font-size:34px;font-weight:700;color:var(--olive);flex:none;overflow:hidden}
+.stt{display:flex;gap:8px;margin:10px 0}.stt div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}.stt b{display:block;font-size:18px}
+.cta{display:flex;gap:8px;flex-wrap:wrap}.cta .btn{flex:1 1 calc(50% - 8px);text-align:center}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
 .bt{height:96px;border-radius:10px;background:var(--line);display:grid;place-items:center;overflow:hidden}.bt.ph{height:180px}
 .price{font:700 20px 'IBM Plex Sans Arabic',Tahoma,sans-serif}
@@ -109,7 +122,8 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <p>اختر استخدامك أو اكتب ما تحتاجه، ويرشح لك المساعد الأنسب.</p>
 <form id="q" class="srch"><select id="qk" aria-label="الاستخدام"><option value="">الاستخدام</option><option value="s">للسلطة</option><option value="c">للطبخ</option><option value="h">للصحة اليومية</option></select><input id="qi" aria-label="اسأل المساعد" placeholder="مثال: بحدود 200 جنيه"><button>اسأل</button></form>
 <div class="rec" id="rec"></div></div>
-<div class="sec"><h2>كل المنتجات</h2><div class="f"><button data-f="all" aria-pressed="true">الكل</button> <button data-f="r" aria-pressed="false">أفراد</button> <button data-f="w" aria-pressed="false">جملة</button></div></div>
+<div class="sec"><h2>كل المنتجات</h2><span class="m" id="cnt"></span></div>
+<div class="fb"><input id="fq" type="search" placeholder="ابحث باسم المنتج أو التاجر أو المنشأ" aria-label="بحث"><div class="fr"><select id="ft" aria-label="النوع"><option value="all">كل الأنواع</option><option value="r">أفراد</option><option value="w">جملة</option></select><select id="fm" aria-label="التاجر"><option value="">كل التجار</option></select><select id="fo" aria-label="الترتيب"><option value="new">الأحدث</option><option value="pa">الأرخص سعراً</option><option value="pd">الأعلى سعراً</option><option value="la">الأرخص بالتر</option><option value="rt">الأعلى تقييماً</option></select></div></div>
 <div class="grid" id="grid"></div></section>
 
 <section id="vm" hidden>
@@ -199,12 +213,21 @@ function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeou
 function cartUI(pop){const n=cart.length,b=$('#cn');b.innerHTML='السلة'+(n?`<span class="bdg">${n}</span> <span class="m">· ${cart.reduce((s,x)=>s+x.p,0)} ج</span>`:'');
 if(pop&&n){b.querySelector('.bdg').classList.add('pop');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump')}}
 function add(i){const p=P[i];if(p.st===0)return toast('نفدت الكمية');if(p.st!=null&&cart.filter(x=>x.id==p.id).length>=p.st)return toast('الكمية المتاحة '+p.st+' فقط');cart.push(P[i]);cartUI(1);toast('أضفنا '+P[i].n+' إلى السلة')}
-function shop(){$('#grid').innerHTML=!P.length?'<p class="m">لا توجد منتجات بعد، وسيظهر هنا ما يضيفه التجار.</p>':P.map((p,i)=>({p,i})).filter(({p})=>f=='all'||(f=='w')==!!p.w).map(({p,i})=>`<article class="card"><div class="bt${p.img?' ph':''}">${imgH(p)}</div><b><a href="#/p/${esc(p.id)}" style="color:inherit;text-decoration:none">${esc(p.n)}</a></b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span><a class="m" href="#/m/${esc(p.mid)}">${esc(p.m)}</a><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}${buyH(p,i)}<a class="btn o" style="text-decoration:none;text-align:center" href="#/p/${esc(p.id)}">التفاصيل والتقييمات</a></article>`).join('')}
+const ravg=id=>{const r=RV[id];return r?r.s/r.c:0};
+const cardH=(p,i,wm)=>`<article class="card"><div class="bt${p.img?' ph':''}">${imgH(p)}</div><b><a href="#/p/${esc(p.id)}" style="color:inherit;text-decoration:none">${esc(p.n)}</a></b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span>${wm?`<a class="m" href="#/m/${esc(p.mid)}">${esc(p.m)}</a>`:''}<div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}${buyH(p,i)}<a class="m" style="text-align:center;color:var(--olive)" href="#/p/${esc(p.id)}">التفاصيل ›</a></article>`;
+function fillMerchants(){const sel=$('#fm'),cur=sel.value,ms={};P.forEach(p=>{if(p.mid)ms[p.mid]=p.m});const sig=JSON.stringify(ms);
+if(sel.dataset.sig!==sig){sel.dataset.sig=sig;sel.innerHTML='<option value="">كل التجار</option>'+Object.entries(ms).map(([k,v])=>`<option value="${esc(k)}">${esc(v)}</option>`).join('');sel.value=ms[cur]?cur:''}}
+function shop(){fillMerchants();
+const q=$('#fq').value.trim().toLowerCase(),t=$('#ft').value,m=$('#fm').value,o=$('#fo').value;
+const L=P.map((p,i)=>({p,i})).filter(({p})=>(t=='all'||(t=='w')==!!p.w)&&(!m||p.mid==m)&&(!q||[p.n,p.m,p.o].join(' ').toLowerCase().includes(q)));
+const key={new:x=>-x.p.ts,pa:x=>x.p.p,pd:x=>-x.p.p,la:x=>pl(x.p),rt:x=>-ravg(x.p.id)}[o];L.sort((a,b)=>key(a)-key(b));
+$('#cnt').textContent=P.length?L.length+' منتج':'';
+$('#grid').innerHTML=!P.length?'<p class="m" style="grid-column:1/-1">لا توجد منتجات بعد، وسيظهر هنا ما يضيفه التجار.</p>':!L.length?'<p class="m" style="grid-column:1/-1">لا توجد نتائج مطابقة.</p>':L.map(({p,i})=>cardH(p,i,1)).join('')}
 function rec(k){$('#qk').value=k;
 const r=P.map((p,i)=>({p,i})).filter(({p})=>p.t.includes(k)&&!p.w).sort((a,b)=>k=='h'?a.p.a-b.p.a:pl(a.p)-pl(b.p))[0];if(!r){$('#rec').textContent='لا يوجد منتج مناسب بعد.';return}const p=r.p;
 $('#rec').innerHTML=`<div class="rc"><div><b>${esc(p.n)}</b> · ${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span><br><span class="m">${why[k]}</span></div><button class="btn" onclick="add(${r.i})">أضف للسلة</button></div>`}
 $('#qk').onchange=()=>{const k=$('#qk').value;if(k)rec(k);else $('#rec').textContent=''};
-$$('.f button').forEach(b=>b.onclick=()=>{f=b.dataset.f;$$('.f button').forEach(x=>x.setAttribute('aria-pressed',x==b));shop()});
+['#fq','#ft','#fm','#fo'].forEach(id=>$(id).addEventListener('input',shop));
 $$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x==b));['s','m','a','o','x'].forEach(v=>$('#v'+v).hidden=v!=b.dataset.v);scrollTo(0,0);if(location.hash)history.replaceState(null,'',location.pathname+location.search)});
 $('#q').onsubmit=async e=>{e.preventDefault();const q=$('#qi').value.trim();if(!q){const k=$('#qk').value;if(k)rec(k);return}$('#rec').textContent='جارٍ البحث…';
 try{const r=await fetch('/api/assistant',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({question:q,catalog:P.map((p,i)=>({id:i,name:p.n,origin:p.o,acidity:p.a,liters:p.l,price:p.p,wholesale:!!p.w}))})});
@@ -231,7 +254,7 @@ let LOGO='',OD={},MPD={},EP=null,REG=false,BLK=false,BU=[],BF='',BQ='',OC={},RU=
 
 async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));
 if(s.empty){setP([]);return}
-setP(s.docs.map(d=>{const x=d.data();return{id:d.id,mid:x.merchantId,n:String(x.name||''),o:String(x.origin||''),a:+x.acidity||0,l:+x.liters||1,p:+x.price||0,m:String(x.merchantName||''),img:okImg(x.image),st:x.stock==null?null:+x.stock,ph:String(x.merchantPhone||''),t:Array.isArray(x.tags)?x.tags:[],w:x.wholesale?1:0,c:'#6d7d1c'}}))}catch{}}
+setP(s.docs.map(d=>{const x=d.data();return{id:d.id,mid:x.merchantId,n:String(x.name||''),o:String(x.origin||''),a:+x.acidity||0,l:+x.liters||1,p:+x.price||0,m:String(x.merchantName||''),img:okImg(x.image),ts:(x.createdAt&&x.createdAt.seconds)||0,st:x.stock==null?null:+x.stock,ph:String(x.merchantPhone||''),t:Array.isArray(x.tags)?x.tags:[],w:x.wholesale?1:0,c:'#6d7d1c'}}))}catch{}}
 
 async function loadM(){try{
 const e=M.endsAt.toDate(),d=Math.ceil((e-Date.now())/D),a=M.status=='active';
@@ -308,7 +331,6 @@ er.textContent='';bt.disabled=true;
 try{await updateDoc(doc(db,'merchants',U.uid),d);Object.assign(M,d);await syncStore();toast('تم حفظ بيانات المتجر');loadM()}
 catch{er.textContent='تعذر الحفظ، حاول مرة أخرى'}finally{bt.disabled=false}};
 
-const cardH=(p,i)=>`<article class="card"><div class="bt${p.img?' ph':''}">${imgH(p)}</div><b><a href="#/p/${esc(p.id)}" style="color:inherit;text-decoration:none">${esc(p.n)}</a></b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}${buyH(p,i)}<a class="btn o" style="text-decoration:none;text-align:center" href="#/p/${esc(p.id)}">التفاصيل والتقييمات</a></article>`;
 const IC={cp:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>',wa:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4.2M8.6 13.4l6.8 4.2"/></svg>'};
 const shr=(q,t)=>`<div style="margin-top:6px"><button type="button" class="lkt" data-tg aria-expanded="false">${q[0]=='m'?'رابط المتجر':'رابط المنتج'} <span class="ar">▾</span></button><div class="lkp"><button class="btn o" data-sh="${q}">${IC.cp} نسخ الرابط</button><a class="btn o" style="text-decoration:none" href="https://wa.me/?text=${encodeURIComponent(t+' '+LK(q))}" target="_blank" rel="noopener">${IC.wa} مشاركة على واتساب</a></div></div>`;
 function page(h){['s','m','a','o'].forEach(v=>$('#v'+v).hidden=true);$$('nav button').forEach(x=>x.setAttribute('aria-pressed','false'));$('#vx').hidden=false;$('#vx').innerHTML='<button class="btn o" data-back>← المتجر</button>'+h;scrollTo(0,0)}
@@ -317,9 +339,15 @@ let st={};try{const s=await getDoc(doc(db,'stores',mid));if(s.exists())st=s.data
 const L=P.map((p,i)=>({p,i})).filter(({p})=>p.mid==mid);
 if(!L.length&&!st.name)return page('<p class="m">المتجر غير موجود أو لا توجد له منتجات الآن.</p>');
 const nm=st.name||(L[0]&&L[0].p.m)||'متجر',ph=st.phone||(L[0]&&L[0].p.ph)||'';
-page(`<div style="display:flex;gap:12px;align-items:center">${okImg(st.logo)?`<img src="${esc(st.logo)}" alt="" style="width:72px;height:72px;border-radius:16px;object-fit:cover">`:''}<div><h2>${esc(nm)}</h2><p class="m">${esc(st.city||'')}</p></div></div>${st.about?`<p>${esc(st.about)}</p>`:''}<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">${ph?`<a class="btn" style="text-decoration:none" href="${wa(ph)}?text=${encodeURIComponent('مرحباً '+nm)}" target="_blank" rel="noopener">تواصل واتساب</a>`:''}</div>${shr('m/'+mid,'متجر '+nm+' على زيتونة:')}<h3 style="margin-top:14px">المنتجات</h3><div class="grid" style="margin-top:8px">${L.map(({p,i})=>cardH(p,i)).join('')||'<p class="m">لا توجد منتجات الآن.</p>'}</div>`)}
+let rs=0,rc=0;L.forEach(({p})=>{const r=RV[p.id];if(r){rs+=r.s;rc+=r.c}});const av=rc?rs/rc:0,a=Math.round(av);
+const tel='tel:'+wa(ph).replace('https://wa.me/','+');
+const lg=okImg(st.logo)?`<img class="lg" src="${esc(st.logo)}" alt="">`:`<div class="lg">${esc(nm.trim().charAt(0))}</div>`;
+page(`<div class="cov"><div class="cvr"></div><div class="cvi">${lg}<div><h2>${esc(nm)}</h2>${st.city?`<span class="m">${esc(st.city)}</span>`:''}</div></div>${st.about?`<p style="margin:0;padding:0 16px 14px">${esc(st.about)}</p>`:''}</div>
+<div class="stt"><div><b>${L.length}</b><span class="m">منتج</span></div><div><b>${rc?av.toFixed(1):'—'}</b><span class="m" style="color:#e0b13a">${rc?'★'.repeat(a)+'☆'.repeat(5-a):'بلا تقييم'}</span></div><div><b>${rc}</b><span class="m">تقييم</span></div></div>
+<div class="cta">${ph?`<a class="btn" href="${wa(ph)}?text=${encodeURIComponent('مرحباً '+nm)}" target="_blank" rel="noopener">واتساب</a><a class="btn o" href="${tel}">اتصال</a>`:''}<a class="btn o" href="https://wa.me/?text=${encodeURIComponent('متجر '+nm+' على زيتونة: '+LK('m/'+mid))}" target="_blank" rel="noopener">مشاركة</a><button class="btn o" data-sh="m/${mid}">نسخ الرابط</button></div>
+<h3 style="margin-top:16px">المنتجات</h3><div class="grid" style="margin-top:8px">${L.map(({p,i})=>cardH(p,i)).join('')||'<p class="m">لا توجد منتجات الآن.</p>'}</div>`)}
 async function loadRV(){try{const s=await getDocs(query(collectionGroup(db,'reviews'),limit(1000))),m={};
-s.docs.forEach(d=>{const x=d.data(),pid=d.ref.parent.parent.id;if(x.rating>0){(m[pid]=m[pid]||{s:0,c:0});m[pid].s+=x.rating;m[pid].c++}});RV=m;if(P.length)shop()}catch{}}
+s.docs.forEach(d=>{const x=d.data(),pid=d.ref.parent.parent.id;if(x.rating>0){(m[pid]=m[pid]||{s:0,c:0});m[pid].s+=x.rating;m[pid].c++}});RV=m;if(P.length)shop();if(/^#\/m\//.test(location.hash))route()}catch{}}
 async function loadReviews(pid,p){const box=$('#rvx');if(!box)return;let rs=[];
 try{const s=await getDocs(collection(db,'products',pid,'reviews'));rs=s.docs.map(d=>({id:d.id,...d.data()}))}catch{}
 rs.sort((a,b)=>((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0));
