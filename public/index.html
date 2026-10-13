@@ -123,23 +123,44 @@ td select{min-width:100px;width:auto}
 .rl{border:1px solid var(--olive);color:var(--olive);border-radius:99px;padding:1px 12px;font-size:14px}
 button:disabled{opacity:.6;cursor:wait}
 #al{list-style:none;padding:0;margin:8px 0;display:grid;gap:8px}#al li{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;overflow-wrap:anywhere}
+.fcard{padding:14px}.fcard h1{font-size:clamp(17px,4.6vw,24px);margin-bottom:10px}
+.sbox{display:flex;align-items:stretch;background:#f6f4dc;border-radius:14px;overflow:hidden;border:2px solid transparent}.sbox:focus-within{border-color:#e0b83a}
+.sbox input{flex:1;min-width:0;border:0;background:transparent;color:#2f3a12;font:inherit;padding:11px 14px;outline:0}.sbox input::placeholder{color:#7a7f5a}
+.sbox .ask{border:0;background:#2f3a12;color:#f6f4dc;padding:0 14px;font-weight:600;white-space:nowrap}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.fg label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:#e5e3c3}
+.fg select{border:0;background:#f6f4dc;color:#2f3a12;font:inherit;font-size:14px;padding:9px 10px;border-radius:10px;width:100%}
+.fi{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13px;color:#e5e3c3}.fi .lk{color:#f6f4dc}
+#sp{position:fixed;inset:0;z-index:300;display:grid;place-items:center;background:radial-gradient(circle at 50% 38%,#34411a 0%,#141a0a 70%);color:#f6f4dc;transition:opacity .6s ease,visibility .6s}
+#sp.out{opacity:0;visibility:hidden}.spi{text-align:center;padding:24px}.spi .ld{padding:0}
+.spt{font:700 56px 'Reem Kufi',Tahoma,sans-serif;background:linear-gradient(100deg,#9db04a 20%,#f3df8a 45%,#e0b83a 55%,#9db04a 80%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:spsh 3s linear infinite,spup .9s ease both}
+.spl{height:2px;width:0;margin:10px auto;background:linear-gradient(90deg,transparent,#e0b83a,transparent);animation:spw 1.2s .5s ease forwards}
+.sps{font-size:17px;opacity:0;animation:spf 1s .9s ease forwards}
+@keyframes spsh{from{background-position:120% 0}to{background-position:-120% 0}}
+@keyframes spup{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes spw{to{width:min(260px,70vw)}}@keyframes spf{from{opacity:0;transform:translateY(8px)}to{opacity:.95;transform:none}}
+@media (prefers-reduced-motion:reduce){.spt,.spl,.sps{animation:none;opacity:1;width:auto}}
 footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 </style></head><body>
+<div id="sp" role="status" aria-label="جارٍ التحميل"><div class="spi"><div class="ld"><svg viewBox="0 0 120 120" width="150" height="150" aria-hidden="true"><g class="plate"><rect x="57" y="2" width="6" height="18" rx="2" fill="#a8892a"/><rect x="28" y="20" width="64" height="9" rx="4" fill="#a8892a"/></g><circle class="olv" cx="44" cy="54" r="9" fill="#58691f"/><circle class="olv" cx="62" cy="56" r="9" fill="#7d9020"/><circle class="olv" cx="79" cy="54" r="8" fill="#58691f"/><rect x="24" y="64" width="72" height="7" rx="3" fill="#8a6a22"/><path class="drp" d="M60 73c-3 5-3 8 0 10 3-2 3-5 0-10z" fill="#e0b83a"/><rect x="46" y="90" width="28" height="26" rx="7" fill="none" stroke="#e0b83a" stroke-width="2.5"/><rect class="oil" x="49" y="93" width="22" height="20" rx="5" fill="#e0b83a" opacity=".9"/></svg></div><div class="spt">زيتونة</div><div class="spl"></div><div class="sps">أكبر منصة لبيع زيت الزيتون</div></div></div>
 <svg width="0" height="0" style="position:absolute"><symbol id="b" viewBox="0 0 40 90"><path d="M16 2h8v10l4 8v62a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V20l4-8z" fill="currentColor"/><rect x="14" y="40" width="12" height="24" rx="2" fill="#f6f4dc" opacity=".85"/></symbol></svg>
 <header class="top"><span class="brand">زيتونة</span>
 <nav><button data-v="s" aria-pressed="true">المتجر</button><button data-v="m" aria-pressed="false" hidden>لوحة التاجر</button><button data-v="a" aria-pressed="false" hidden>الإدارة</button><button data-v="o" aria-pressed="false" hidden>مشترياتي</button></nav>
 <button class="cart" id="au">دخول</button><button class="cart" id="cn">السلة</button></header>
 <main>
 <section id="vs">
-<div class="hero"><h1>زيت زيتون أصلي، من كل التجار في مكان واحد</h1>
-<p>اختر استخدامك أو اكتب ما تحتاجه، ويرشح لك المساعد الأنسب.</p>
-<form id="q" class="srch"><select id="qk" aria-label="الاستخدام"><option value="">الاستخدام</option><option value="s">للسلطة</option><option value="c">للطبخ</option><option value="h">للصحة اليومية</option></select><input id="qi" aria-label="اسأل المساعد" placeholder="مثال: بحدود 200 جنيه"><button>اسأل</button></form>
+<div class="hero fcard"><h1>زيت زيتون أصلي، من كل التجار في مكان واحد</h1>
+<div class="sbox"><input id="fq" type="search" aria-label="بحث" placeholder="ابحث، أو اكتب ما تحتاجه واسأل المساعد"><button type="button" id="fa" class="ask">✨ اسأل المساعد</button></div>
+<div class="fg">
+<label><span>الاستخدام</span><select id="fu"><option value="">الكل</option><option value="s">للسلطة</option><option value="c">للطبخ</option><option value="h">للصحة اليومية</option></select></label>
+<label><span>النوع</span><select id="ft"><option value="all">الكل</option><option value="r">أفراد</option><option value="w">جملة</option></select></label>
+<label><span>التاجر</span><select id="fm"><option value="">كل التجار</option></select></label>
+<label><span>الترتيب</span><select id="fo"><option value="new">الأحدث</option><option value="pa">الأرخص سعراً</option><option value="pd">الأعلى سعراً</option><option value="la">الأرخص بالتر</option><option value="rt">الأعلى تقييماً</option></select></label>
+</div>
+<div class="fi"><span id="cnt"></span><button type="button" class="lk" id="fx" hidden>مسح الفلاتر</button></div>
 <div class="rec" id="rec"></div></div>
-<div class="sec"><h2>كل المنتجات</h2><span class="m" id="cnt"></span></div>
-<div class="fb"><input id="fq" type="search" placeholder="ابحث باسم المنتج أو التاجر أو المنشأ" aria-label="بحث"><div class="fr"><select id="ft" aria-label="النوع"><option value="all">كل الأنواع</option><option value="r">أفراد</option><option value="w">جملة</option></select><select id="fm" aria-label="التاجر"><option value="">كل التجار</option></select><select id="fo" aria-label="الترتيب"><option value="new">الأحدث</option><option value="pa">الأرخص سعراً</option><option value="pd">الأعلى سعراً</option><option value="la">الأرخص بالتر</option><option value="rt">الأعلى تقييماً</option></select></div></div>
 <div class="grid" id="grid"></div></section>
 
-<section id="vm" hidden>
+<section id="vm" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button>
 <div class="sec"><h2 id="mt">لوحة التاجر</h2></div>
 <div class="box"><b id="mb"></b><div class="bar"><i id="mbar" style="width:0"></i></div>
 <p class="m" style="margin:8px 0 10px">للاشتراك في إحدى الباقات تواصل معنا على واتساب.</p><a class="btn" href="https://wa.me/?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D8%B2%D9%8A%D8%AA%D9%88%D9%86%D8%A9" target="_blank" rel="noopener">اشترك عبر واتساب</a></div>
@@ -161,11 +182,11 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="sec"><h3>منتجاتي</h3></div><div class="wrap"><table><tbody id="pb"></tbody></table></div><input type="file" id="pfile" accept="image/*" hidden>
 <div class="sec"><h3>الطلبات</h3></div><div class="wrap"><table><tbody id="ob"></tbody></table></div></section>
 
-<section id="vo" hidden>
+<section id="vo" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button>
 <div class="sec"><h2>مشترياتي</h2></div>
 <div class="wrap"><table><tbody id="bo"></tbody></table></div></section>
 <section id="vx" hidden></section>
-<section id="va" hidden>
+<section id="va" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button>
 <div class="sec"><h2>إدارة الأعضاء</h2></div>
 <div class="af" id="at" style="margin-bottom:12px"><button data-t="m" aria-pressed="true">التجار <span id="tcm"></span></button><button data-t="b" aria-pressed="false">المشترون <span id="tcb"></span></button></div>
 <div id="am"><div style="margin-bottom:10px"><button class="btn o" id="ah">إخفاء منتجات المنتهية اشتراكاتهم</button></div>
@@ -195,7 +216,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <button type="button" class="lk" id="afg">نسيت كلمة المرور؟</button>
 <button type="button" class="btn o" id="asw">حساب جديد</button><button type="button" class="btn o" id="acl">إغلاق</button></form></dialog>
 <dialog id="ud"><div class="fm"><h3 id="un"></h3><span class="m" id="ue" style="overflow-wrap:anywhere"></span><div class="af" id="ur"></div><button class="btn" id="uo">تسجيل الخروج</button><button class="btn o" id="uc">إغلاق</button></div></dialog>
-<dialog id="cd"><div class="fm"><h3>سلتك</h3><div id="cl"></div></div></dialog>
+<dialog id="cd"><div class="fm"><div style="display:flex;align-items:center;gap:10px"><button type="button" class="btn o" data-cc style="padding:4px 12px">→ رجوع</button><h3>سلتك</h3></div><div id="cl"></div></div></dialog>
 <dialog id="ed"><form id="ef" class="fm"><h3>تعديل المنتج</h3>
 <input id="en" placeholder="اسم المنتج" required><input id="eo" placeholder="المنشأ" required>
 <div class="r"><input id="ea" type="number" step="0.1" min="0" placeholder="الحموضة %" style="flex:1;min-width:90px" required><input id="eq" type="number" step="any" min="0.1" placeholder="حجم العبوة (لتر)" style="flex:1;min-width:90px" required><input id="er" type="number" min="1" placeholder="السعر ج" style="flex:1;min-width:90px" required></div>
@@ -210,7 +231,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <dialog id="md"><div class="fm"><p id="mm" style="white-space:pre-line;margin:0"></p><input id="mi" hidden><span id="me" class="m" style="color:var(--bad)"></span><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="mok">تأكيد</button><button class="btn o" id="mcn">إلغاء</button></div></div></dialog>
 <dialog id="od"><div class="fm"><h3>تم تسجيل طلبك ✅</h3><p class="m">ابعت تفاصيل الطلب للتاجر على واتساب عشان يأكده معاك.</p><div id="ol" class="fm"></div><button class="btn o" id="ox">تمام</button></div></dialog>
 <script>
-let P=[],RV={},PL=true;
+let P=[],RV={},PL=true,AIQ=false;
 const buyH=(p,i)=>{const t=p.st!=null&&p.st>0&&p.st<=5?`<span class="m" style="color:#e0b83a">متبقي ${p.st} فقط</span>`:'';return t+(p.st===0?'<button class="btn" disabled>نفدت الكمية</button>':`<button class="btn" onclick="add(${i})">أضف للسلة</button>`)};
 const SB='https://ptimioffmszhmpxxuqha.supabase.co/storage/v1/object/public/zaytouna-products/';
 const okImg=u=>typeof u=='string'&&u.startsWith(SB)?u:'';
@@ -220,10 +241,10 @@ const why={s:'الأوفر للتر بين زيوت السلطة البكر.',c:
 const L={t:'تجربة مجانية',a:'نشط',e:'منتهي'};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),pl=p=>Math.round(p.p/p.l);
 const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';'),wa=p=>'https://wa.me/'+String(p||'').replace(/\D/g,'').replace(/^0/,'20');
-function setP(a){P=a;shop();$('footer').textContent='زيتونة — سوق زيت الزيتون'}
+function setP(a){P=a;restoreCart();shop();$('footer').textContent='زيتونة — سوق زيت الزيتون'}
 let cart=[],f='all';
 function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.i);toast.i=setTimeout(()=>e.hidden=true,2200)}
-function cartUI(pop){const n=cart.length,b=$('#cn');b.innerHTML='السلة'+(n?`<span class="bdg">${n}</span> <span class="m">· ${cart.reduce((s,x)=>s+x.p,0)} ج</span>`:'');
+function cartUI(pop){const n=cart.length,b=$('#cn');try{localStorage.zcart=JSON.stringify(cart.map(x=>x.id))}catch{}b.innerHTML='السلة'+(n?`<span class="bdg">${n}</span> <span class="m">· ${cart.reduce((s,x)=>s+x.p,0)} ج</span>`:'');
 if(pop&&n){b.querySelector('.bdg').classList.add('pop');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump')}}
 function add(i){const p=P[i];if(p.st===0)return toast('نفدت الكمية');if(p.st!=null&&cart.filter(x=>x.id==p.id).length>=p.st)return toast('الكمية المتاحة '+p.st+' فقط');cart.push(P[i]);cartUI(1);toast('أضفنا '+P[i].n+' إلى السلة')}
 const ravg=id=>{const r=RV[id];return r?r.s/r.c:0};
@@ -233,22 +254,34 @@ if(sel.dataset.sig!==sig){sel.dataset.sig=sig;sel.innerHTML='<option value="">ك
 const PRESS=`<div class="ld" role="status"><svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true"><g class="plate"><rect x="57" y="2" width="6" height="18" rx="2" fill="#a8892a"/><rect x="28" y="20" width="64" height="9" rx="4" fill="#a8892a"/></g><circle class="olv" cx="44" cy="54" r="9" fill="#58691f"/><circle class="olv" cx="62" cy="56" r="9" fill="#7d9020"/><circle class="olv" cx="79" cy="54" r="8" fill="#58691f"/><rect x="24" y="64" width="72" height="7" rx="3" fill="#8a6a22"/><path class="drp" d="M60 73c-3 5-3 8 0 10 3-2 3-5 0-10z" fill="#e0b83a"/><rect x="46" y="90" width="28" height="26" rx="7" fill="none" stroke="#e0b83a" stroke-width="2.5"/><rect class="oil" x="49" y="93" width="22" height="20" rx="5" fill="#e0b83a" opacity=".9"/></svg><p>جارٍ عرض المنتجات…</p><span class="m">نعصر لك أجود الزيوت</span></div>`+'<div class="sk"></div>'.repeat(4);
 function shop(){fillMerchants();
 if(PL){$('#cnt').textContent='';$('#grid').innerHTML=PRESS;return}
-const q=$('#fq').value.trim().toLowerCase(),t=$('#ft').value,m=$('#fm').value,o=$('#fo').value;
-const L=P.map((p,i)=>({p,i})).filter(({p})=>(t=='all'||(t=='w')==!!p.w)&&(!m||p.mid==m)&&(!q||[p.n,p.m,p.o].join(' ').toLowerCase().includes(q)));
+const q=AIQ?'':$('#fq').value.trim().toLowerCase(),t=$('#ft').value,m=$('#fm').value,o=$('#fo').value,u=$('#fu').value;$('#fx').hidden=!($('#fq').value.trim()||u||t!='all'||m||o!='new');
+const L=P.map((p,i)=>({p,i})).filter(({p})=>(t=='all'||(t=='w')==!!p.w)&&(!u||p.t.includes(u))&&(!m||p.mid==m)&&(!q||[p.n,p.m,p.o].join(' ').toLowerCase().includes(q)));
 const key={new:x=>-x.p.ts,pa:x=>x.p.p,pd:x=>-x.p.p,la:x=>pl(x.p),rt:x=>-ravg(x.p.id)}[o];L.sort((a,b)=>key(a)-key(b));
-$('#cnt').textContent=P.length?L.length+' منتج':'';
+$('#cnt').textContent=P.length?(L.length==P.length?P.length+' منتج':L.length+' من '+P.length+' منتج'):'';
 $('#grid').innerHTML=!P.length?'<p class="m" style="grid-column:1/-1">لا توجد منتجات بعد، وسيظهر هنا ما يضيفه التجار.</p>':!L.length?'<p class="m" style="grid-column:1/-1">لا توجد نتائج مطابقة.</p>':L.map(({p,i})=>cardH(p,i,1)).join('')}
-function rec(k){$('#qk').value=k;
+function rec(k){
 const r=P.map((p,i)=>({p,i})).filter(({p})=>p.t.includes(k)&&!p.w).sort((a,b)=>k=='h'?a.p.a-b.p.a:pl(a.p)-pl(b.p))[0];if(!r){$('#rec').textContent='لا يوجد منتج مناسب بعد.';return}const p=r.p;
 $('#rec').innerHTML=`<div class="rc"><div><b>${esc(p.n)}</b> · ${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span><br><span class="m">${why[k]}</span></div><button class="btn" onclick="add(${r.i})">أضف للسلة</button></div>`}
-$('#qk').onchange=()=>{const k=$('#qk').value;if(k)rec(k);else $('#rec').textContent=''};
-['#fq','#ft','#fm','#fo'].forEach(id=>$(id).addEventListener('input',shop));
-$$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x==b));['s','m','a','o','x'].forEach(v=>$('#v'+v).hidden=v!=b.dataset.v);scrollTo(0,0);if(location.hash)history.replaceState(null,'',location.pathname+location.search)});
-$('#q').onsubmit=async e=>{e.preventDefault();const q=$('#qi').value.trim();if(!q){const k=$('#qk').value;if(k)rec(k);return}$('#rec').textContent='جارٍ البحث…';
+['#fq','#fu','#ft','#fm','#fo'].forEach(id=>$(id).addEventListener('input',()=>{AIQ=false;shop()}));
+$('#fx').onclick=()=>{AIQ=false;$('#fq').value='';$('#fu').value='';$('#ft').value='all';$('#fm').value='';$('#fo').value='new';$('#rec').textContent='';shop()};
+function go(v,push){$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v==v));['s','m','a','o','x'].forEach(k=>$('#v'+k).hidden=k!=v);
+if(push!==false){scrollTo(0,0);const h=v=='s'?location.pathname+location.search:'#/v/'+v;if(v=='s'?location.hash:location.hash!='#/v/'+v)history.pushState(null,'',h)}}
+$$('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
+document.addEventListener('click',e=>{if(e.target.closest('[data-bk]'))go('s')});
+$('#fa').onclick=async()=>{const q=$('#fq').value.trim();
+if(!q){const k=$('#fu').value;if(k)rec(k);else $('#rec').textContent='اكتب ما تحتاجه (مثال: زيت للسلطة بحدود 200 جنيه) ثم اضغط اسأل المساعد.';return}
+$('#rec').textContent='جارٍ البحث…';AIQ=true;shop();
 try{const r=await fetch('/api/assistant',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({question:q,catalog:P.map((p,i)=>({id:i,name:p.n,origin:p.o,acidity:p.a,liters:p.l,price:p.p,wholesale:!!p.w}))})});
-const d=await r.json();if(!r.ok)throw 0;const p=P[d.id];$('#qk').value='';
+const d=await r.json();if(!r.ok)throw 0;const p=P[d.id];
 $('#rec').innerHTML=`<div class="rc"><div><b>${esc(p.n)}</b> · ${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span><br><span class="m">${esc(d.reason)}</span></div><button class="btn" onclick="add(${d.id})">أضف للسلة</button></div>`}
-catch{$('#rec').textContent='المساعد غير متاح الآن، جرّب اختيار الاستخدام من القائمة.'}};
+catch{$('#rec').textContent='المساعد غير متاح الآن، جرّب الفلاتر.'}};
+try{const c=JSON.parse(localStorage.zpc||'null');if(c&&Date.now()-c.t<864e5&&Array.isArray(c.p)&&c.p.length){P=c.p;PL=false}}catch{}
+function restoreCart(){try{const ids=JSON.parse(localStorage.zcart||'[]');if(ids.length&&!cart.length&&P.length){cart=ids.map(id=>P.find(p=>p.id==id)).filter(Boolean);cartUI()}}catch{}}
+restoreCart();
+(()=>{const sp=$('#sp');if(!sp)return;
+try{if(sessionStorage.zsp&&!/[?&]splash/.test(location.search)){sp.remove();return}sessionStorage.zsp=1}catch{}
+const t0=performance.now(),hide=()=>{sp.classList.add('out');setTimeout(()=>sp.remove(),700)},
+chk=()=>{if(!PL)setTimeout(hide,Math.max(0,1800-(performance.now()-t0)));else setTimeout(chk,150)};chk();setTimeout(()=>{if(sp.isConnected)hide()},7000)})();
 shop();
 </script>
 <script type="module">
@@ -268,8 +301,8 @@ const OWNER='mahmoudabdelaalaboalsaoud@gmail.com';
 let LOGO='',OD={},MPD={},EP=null,REG=false,BLK=false,BU=[],BF='',BQ='',OC={},RU=null,RR='b',IMT='',PIMG=null,U=null,M=null,AM=[],AF='',AQ='',OWN=false,ISADM=false,RL=[],seq=0,sign=false;
 
 async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));PL=false;
-if(s.empty){setP([]);return}
-setP(s.docs.map(d=>{const x=d.data();return{id:d.id,mid:x.merchantId,n:String(x.name||''),o:String(x.origin||''),a:+x.acidity||0,l:+x.liters||1,p:+x.price||0,m:String(x.merchantName||''),img:okImg(x.image),ts:(x.createdAt&&x.createdAt.seconds)||0,st:x.stock==null?null:+x.stock,ph:String(x.merchantPhone||''),t:Array.isArray(x.tags)?x.tags:[],w:x.wholesale?1:0,c:'#6d7d1c'}}))}catch{PL=false;shop()}}
+if(s.empty){try{localStorage.removeItem('zpc')}catch{}setP([]);return}
+const arr=s.docs.map(d=>{const x=d.data();return{id:d.id,mid:x.merchantId,n:String(x.name||''),o:String(x.origin||''),a:+x.acidity||0,l:+x.liters||1,p:+x.price||0,m:String(x.merchantName||''),img:okImg(x.image),ts:(x.createdAt&&x.createdAt.seconds)||0,st:x.stock==null?null:+x.stock,ph:String(x.merchantPhone||''),t:Array.isArray(x.tags)?x.tags:[],w:x.wholesale?1:0,c:'#6d7d1c'}});try{localStorage.zpc=JSON.stringify({t:Date.now(),p:arr})}catch{}setP(arr)}catch{PL=false;shop()}}
 
 async function loadM(){try{
 const e=M.endsAt.toDate(),d=Math.ceil((e-Date.now())/D),a=M.status=='active';
@@ -348,7 +381,7 @@ catch{er.textContent='تعذر الحفظ، حاول مرة أخرى'}finally{bt
 
 const IC={cp:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>',wa:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4.2M8.6 13.4l6.8 4.2"/></svg>'};
 const shr=(q,t)=>`<div style="margin-top:6px"><button type="button" class="lkt" data-tg aria-expanded="false">${q[0]=='m'?'رابط المتجر':'رابط المنتج'} <span class="ar">▾</span></button><div class="lkp"><button class="btn o" data-sh="${q}">${IC.cp} نسخ الرابط</button><a class="btn o" style="text-decoration:none" href="https://wa.me/?text=${encodeURIComponent(t+' '+LK(q))}" target="_blank" rel="noopener">${IC.wa} مشاركة على واتساب</a></div></div>`;
-function page(h){['s','m','a','o'].forEach(v=>$('#v'+v).hidden=true);$$('nav button').forEach(x=>x.setAttribute('aria-pressed','false'));$('#vx').hidden=false;$('#vx').innerHTML='<button class="btn o" data-back>← المتجر</button>'+h;scrollTo(0,0)}
+function page(h){['s','m','a','o'].forEach(v=>$('#v'+v).hidden=true);$$('nav button').forEach(x=>x.setAttribute('aria-pressed','false'));$('#vx').hidden=false;$('#vx').innerHTML='<button class="btn o" data-back>→ رجوع للمتجر</button>'+h;scrollTo(0,0)}
 async function showStore(mid){page('<p class="m">جارٍ التحميل…</p>');
 let st={};try{const s=await getDoc(doc(db,'stores',mid));if(s.exists())st=s.data()}catch{}
 const L=P.map((p,i)=>({p,i})).filter(({p})=>p.mid==mid);
@@ -379,10 +412,13 @@ try{await deleteDoc(doc(db,'products',pid,'reviews',b.dataset.del));loadRV();loa
 async function showProduct(id){const i=P.findIndex(p=>p.id==id);if(i<0)return page('<p class="m">هذا المنتج غير متاح الآن.</p>');const p=P[i];
 page(`<article class="card" style="max-width:520px"><div class="bt${p.img?' ph':''}">${imgH(p)}</div><h2>${esc(p.n)}</h2><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر${p.w?' · جملة':''}</span><a class="m" href="#/m/${esc(p.mid)}">${esc(p.m)}</a><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}${buyH(p,i)}${shr('p/'+id,esc(p.n)+' على زيتونة:')}<div id="rvx" style="margin-top:16px"><p class="m">جارٍ تحميل التقييمات…</p></div></article>`);
 await loadReviews(id,p)}
-function route(){const m=location.hash.match(/^#\/(m|p)\/([\w-]+)$/);
-if(!m){if(!$('#vx').hidden)$('[data-v=s]').click();return}
-m[1]=='m'?showStore(m[2]):showProduct(m[2])}
-$('#vx').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-back'))$('[data-v=s]').click();else if(b.hasAttribute('data-tg')){const o=b.nextElementSibling.classList.toggle('open');b.setAttribute('aria-expanded',o)}else if(b.dataset.sh)cp(LK(b.dataset.sh))};
+let LRT=0;const rt=()=>{if(Date.now()-LRT<60)return;LRT=Date.now();route()};
+function route(){if(PL)return;
+const h=location.hash,m=h.match(/^#\/(m|p)\/([\w-]+)$/),v=h.match(/^#\/v\/(m|a|o)$/);
+if(m)return m[1]=='m'?showStore(m[2]):showProduct(m[2]);
+if(v){const b=$('[data-v='+v[1]+']');if(b&&!b.hidden)return go(v[1],false)}
+go('s',false)}
+$('#vx').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-back'))go('s');else if(b.hasAttribute('data-tg')){const o=b.nextElementSibling.classList.toggle('open');b.setAttribute('aria-expanded',o)}else if(b.dataset.sh)cp(LK(b.dataset.sh))};
 
 function mbox(o){return new Promise(res=>{const d=$('#md'),i=$('#mi'),ok=$('#mok');
 $('#mm').textContent=o.msg;$('#me').textContent='';i.hidden=!o.input;i.value=o.value||'';i.placeholder=o.ph||'';i.type=o.type||'text';
@@ -497,7 +533,7 @@ else if(u&&prof&&sessionStorage.zl!==u.uid){sessionStorage.zl=u.uid;updateDoc(do
 if(BLK)toast('حسابك محظور من الطلب والتعليق، تواصل مع الإدارة');
 $('#au').textContent=u?(u.displayName||'حسابي').split(' ')[0]:'دخول';
 $('[data-v=m]').hidden=!m;$('[data-v=a]').hidden=!ad;$('[data-v=o]').hidden=!u;
-if(!u&&(!$('#vm').hidden||!$('#va').hidden||!$('#vo').hidden))$('[data-v=s]').click();
+route();
 if(m)loadM();if(ad)loadA();if(u)loadO()}
 onAuthStateChanged(auth,init);
 
@@ -540,7 +576,7 @@ $('#ob').onchange=async e=>{const s=e.target;if(!s.dataset.id)return;const prev=
 
 
 products().then(route);loadRV();
-addEventListener('hashchange',route);
+addEventListener('hashchange',rt);addEventListener('popstate',rt);
 </script>
 <script>
 (()=>{
