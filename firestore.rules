@@ -165,5 +165,41 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'lastLogin']));
       allow delete: if isAdmin();
     }
+    // ===== التسويق بالعمولة =====
+    // كود المسوّق: يُنشأ مرة واحدة ولا يتغيّر، ويُقرأ عند التسجيل فقط (get بدون list)
+    match /codes/{code} {
+      allow get: if true;
+      allow create: if signed() && code.matches('^[A-Z0-9]{6}$')
+        && request.resource.data.keys().hasOnly(['uid'])
+        && request.resource.data.uid == request.auth.uid;
+    }
+    match /marketers/{uid} {
+      allow read: if me(uid) || isAdmin();
+      allow create: if me(uid)
+        && request.resource.data.keys().hasOnly(['name', 'phone', 'code', 'createdAt'])
+        && request.resource.data.name is string && request.resource.data.name.size() >= 2 && request.resource.data.name.size() <= 60
+        && request.resource.data.phone is string && request.resource.data.phone.matches('^01[0125][0-9]{8}$')
+        && request.resource.data.code is string
+        && get(/databases/$(db)/documents/codes/$(request.resource.data.code)).data.uid == uid
+        && request.resource.data.createdAt == request.time;
+      allow update: if isAdmin() || (me(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone'])
+        && request.resource.data.name.size() >= 2 && request.resource.data.name.size() <= 60
+        && request.resource.data.phone.matches('^01[0125][0-9]{8}$'));
+      allow delete: if isAdmin();
+    }
+    // إحالة تاجر: يُنشئها التاجر عند التسجيل، والعمولة تعتمدها الإدارة فقط
+    match /refs/{mid} {
+      allow read: if me(mid) || (signed() && resource.data.mk == request.auth.uid) || isAdmin();
+      allow create: if me(mid)
+        && request.resource.data.keys().hasOnly(['mk', 'name', 'status', 'amount', 'createdAt'])
+        && request.resource.data.status == 'registered' && request.resource.data.amount == 0
+        && request.resource.data.mk is string && request.resource.data.mk != request.auth.uid
+        && exists(/databases/$(db)/documents/marketers/$(request.resource.data.mk))
+        && exists(/databases/$(db)/documents/merchants/$(mid))
+        && request.resource.data.name is string && request.resource.data.name.size() <= 80
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if isAdmin();
+    }
   }
 }
