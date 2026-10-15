@@ -176,7 +176,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="box"><h3>بيانات المتجر</h3>
 <form id="sf" class="fm" style="margin-top:8px">
 <div style="display:flex;gap:12px;align-items:center"><img id="slg" alt="شعار المتجر" hidden style="width:72px;height:72px;border-radius:16px;object-fit:cover;background:var(--line)"><button type="button" class="btn o" id="slb">اختيار شعار المتجر</button><input type="file" id="slf" accept="image/*" hidden></div>
-<input id="sn" placeholder="اسم المتجر" required><input id="sp" type="tel" inputmode="numeric" placeholder="رقم الموبايل (واتساب)" required><input id="sc" placeholder="المدينة" required>
+<input id="sn" placeholder="اسم المتجر" required><input id="sph" type="tel" inputmode="numeric" placeholder="رقم الموبايل (واتساب)" required><input id="sc" placeholder="المدينة" required>
 <textarea id="sa" maxlength="300" placeholder="نبذة عن متجرك (تظهر في صفحة المتجر)"></textarea>
 <span id="se" class="m" style="color:var(--bad)"></span><button class="btn">حفظ البيانات</button></form></div>
 <div class="box"><h3>رابط متجرك</h3><div class="fm" style="margin-top:8px"><input id="ml" readonly aria-label="رابط المتجر"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="mcp">نسخ الرابط</button><a class="btn o" id="msh" style="text-decoration:none" target="_blank" rel="noopener">مشاركة على واتساب</a></div></div>
@@ -327,7 +327,7 @@ const arr=s.docs.map(d=>{const x=d.data();return{id:d.id,mid:x.merchantId,n:Stri
 async function loadM(){try{
 const e=M.endsAt.toDate(),d=Math.ceil((e-Date.now())/D),a=M.status=='active';
 $('#mt').textContent='لوحة التاجر — '+M.name;
-$('#ml').value=LK('m/'+U.uid);$('#msh').href='https://wa.me/?text='+encodeURIComponent('متجري على زيتونة: '+LK('m/'+U.uid));$('#sn').value=M.name||'';$('#sp').value=M.phone||'';$('#sc').value=M.city||'';$('#sa').value=M.about||'';LOGO=M.logo||'';setLogo(LOGO);syncStore();
+$('#ml').value=LK('m/'+U.uid);$('#msh').href='https://wa.me/?text='+encodeURIComponent('متجري على زيتونة: '+LK('m/'+U.uid));$('#sn').value=M.name||'';$('#sph').value=M.phone||'';$('#sc').value=M.city||'';$('#sa').value=M.about||'';LOGO=M.logo||'';setLogo(LOGO);syncStore();
 $('#mb').textContent=d<=0?'انتهى اشتراكك، تواصل معنا للتجديد':a?'اشتراك نشط حتى '+dt(M.endsAt):'تجربتك المجانية: باقي '+d+' يوماً من 90';
 $('#mbar').style.width=(a?100:Math.min(100,Math.max(0,(90-d)/.9)))+'%';
 const[ps,os]=await Promise.all(['products','orders'].map(c=>getDocs(query(collection(db,c),where('merchantId','==',U.uid)))));
@@ -392,7 +392,7 @@ $('#slb').onclick=()=>$('#slf').click();
 $('#slf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
 try{toast('جارٍ رفع الشعار…');const b=await shrink(f);if(!b)return toast('الصورة كبيرة جداً، اختر صورة أصغر');LOGO=await upImg(b);setLogo(LOGO);toast('تم رفع الشعار، اضغط حفظ البيانات')}catch(x){toast(upMsg(x))}};
 $('#sf').onsubmit=async e=>{e.preventDefault();const er=$('#se'),bt=e.target.querySelector('.btn:last-child'),
-d={name:$('#sn').value.trim(),phone:norm($('#sp').value),city:$('#sc').value.trim(),about:$('#sa').value.trim().slice(0,300),logo:LOGO};
+d={name:$('#sn').value.trim(),phone:norm($('#sph').value),city:$('#sc').value.trim(),about:$('#sa').value.trim().slice(0,300),logo:LOGO};
 if(d.name.length<2||d.name.length>60){er.textContent='اسم المتجر من 2 إلى 60 حرفاً';return}
 if(!/^01[0125]\d{8}$/.test(d.phone)){er.textContent='اكتب رقم موبايل مصري صحيح من 11 رقم';return}
 if(!d.city){er.textContent='اكتب المدينة';return}
