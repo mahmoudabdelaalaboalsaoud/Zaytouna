@@ -16,6 +16,11 @@ service cloud.firestore {
         && get(/databases/$(db)/documents/users/$(request.auth.uid)).data.status == 'blocked';
     }
     function mer() { return get(/databases/$(db)/documents/merchants/$(request.auth.uid)).data; }
+    // أقصى مدة تجربة مسموح بها عند التسجيل (من إعدادات الموقع، والافتراضي 90 يوماً)
+    function trialMax() {
+      return exists(/databases/$(db)/documents/settings/site)
+        ? int(get(/databases/$(db)/documents/settings/site).data.get('trialDays', 90)) + 1 : 91;
+    }
     function subOk() {
       let m = mer();
       return m.status in ['trial', 'active'] && m.endsAt > request.time;
@@ -102,7 +107,7 @@ service cloud.firestore {
         && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
         && request.resource.data.city is string && request.resource.data.city.size() <= 80
         && request.resource.data.endsAt is timestamp
-        && request.resource.data.endsAt <= request.time + duration.value(91, 'd');
+        && request.resource.data.endsAt <= request.time + duration.value(trialMax(), 'd');
       allow update: if isAdmin() || (me(uid)
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'city', 'about', 'logo'])
         && request.resource.data.name.size() >= 2 && request.resource.data.name.size() <= 60
@@ -212,6 +217,46 @@ service cloud.firestore {
       allow read: if signed() && (resource.data.mk == request.auth.uid || isAdmin());
       allow create: if isOwner();
       allow update, delete: if false;
+    }
+    // إعدادات الموقع: تُقرأ للجميع ويعدّلها المالك فقط
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if isOwner()
+        && request.resource.data.trialDays is int && request.resource.data.trialDays >= 1 && request.resource.data.trialDays <= 365
+        && request.resource.data.commission is int && request.resource.data.commission >= 0 && request.resource.data.commission <= 10000;
+    }
+    // الباقات: يديرها المدير ويراها التجار المعروضة فقط
+    match /plans/{id} {
+      allow read: if resource.data.active == true || isAdmin();
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['name', 'price', 'months', 'features', 'order', 'active', 'createdAt'])
+        && request.resource.data.name is string && request.resource.data.name.size() >= 2 && request.resource.data.name.size() <= 60
+        && request.resource.data.price is int && request.resource.data.price >= 0 && request.resource.data.price <= 100000
+        && request.resource.data.months is int && request.resource.data.months >= 1 && request.resource.data.months <= 24
+        && request.resource.data.features is list && request.resource.data.features.size() <= 10
+        && request.resource.data.active is bool;
+      allow delete: if isAdmin();
+    }
+    // طلب اشتراك: يرسله التاجر لباقة معروضة بنفس سعرها ومدتها، وتعتمده الإدارة
+    match /subReqs/{uid} {
+      allow read: if me(uid) || isAdmin();
+      allow create, update: if isAdmin() || (me(uid)
+        && exists(/databases/$(db)/documents/merchants/$(uid))
+        && request.resource.data.keys().hasOnly(['planId', 'planName', 'price', 'months', 'name', 'phone', 'status', 'createdAt'])
+        && request.resource.data.status == 'pending'
+        && request.resource.data.planId is string
+        && get(/databases/$(db)/documents/plans/$(request.resource.data.planId)).data.active == true
+        && get(/databases/$(db)/documents/plans/$(request.resource.data.planId)).data.price == request.resource.data.price
+        && get(/databases/$(db)/documents/plans/$(request.resource.data.planId)).data.months == request.resource.data.months
+        && get(/databases/$(db)/documents/plans/$(request.resource.data.planId)).data.name == request.resource.data.planName
+        && request.resource.data.name is string && request.resource.data.name.size() <= 80
+        && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
+        && request.resource.data.createdAt == request.time);
+      allow delete: if isAdmin();
+    }
+    // ملاحظات الإدارة الداخلية على الأعضاء (لا يقرأها العضو)
+    match /adminNotes/{uid} {
+      allow read, write: if isAdmin();
     }
   }
 }
