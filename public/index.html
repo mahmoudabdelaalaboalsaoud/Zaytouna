@@ -159,7 +159,7 @@ button:disabled{opacity:.6;cursor:wait}
 @keyframes nbp{0%,100%{box-shadow:0 0 0 2px var(--bg),0 0 0 0 rgba(224,86,58,.6)}50%{box-shadow:0 0 0 2px var(--bg),0 0 0 7px rgba(224,86,58,0)}}
 @media (prefers-reduced-motion:reduce){.nb.pulse{animation:none}}
 footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
-.fl{margin-top:8px}.fl a,.lg a{color:var(--olive)}.lg h2{margin:0 0 4px;font-size:20px}.lg h3{margin:16px 0 4px;font-size:15.5px}.lg p,.lg li{line-height:1.9;font-size:14.5px}.lg ul{padding-inline-start:20px;margin:4px 0}.lgc{font-size:12.5px;text-align:center;color:var(--mut)}.lgc a{color:var(--olive)}
+.fl{margin-top:8px}.fl a,.lgp a{color:var(--olive)}.lgp h2{margin:0 0 4px;font-size:20px}.lgp h3{margin:16px 0 4px;font-size:15.5px}.lgp p,.lgp li{line-height:1.9;font-size:14.5px}.lgp ul{padding-inline-start:20px;margin:4px 0}.lgc{font-size:12.5px;text-align:center;color:var(--mut)}.lgc a{color:var(--olive)}
 </style></head><body>
 <div class="ann" id="ann" hidden><span id="ant"></span><button class="lk" id="anx" aria-label="إغلاق" style="color:#1a1a0a;justify-self:auto">✕</button></div>
 <div id="mnt" hidden><div><h2>الموقع تحت الصيانة</h2><p class="m" style="margin:8px 0 16px">نعود قريباً بإذن الله.</p><button class="btn o" id="mna">دخول الإدارة</button></div></div>
@@ -210,7 +210,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <section id="vk" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button>
 <div class="sec"><h2>اربح 200 جنيه عن كل تاجر</h2></div><div id="kb"></div></section>
 <section id="vx" hidden></section>
-<section id="vl" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button><div class="box lg" id="lg"></div></section>
+<section id="vl" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button><div class="box lgp" id="lgp"></div></section>
 <section id="va" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button>
 <div class="sec"><h2>لوحة الإدارة</h2></div>
 <div class="af sc" id="at" style="margin-bottom:12px"><button data-t="o" aria-pressed="true">نظرة عامة</button><button data-t="b" aria-pressed="false">الأعضاء <span id="tcb"></span></button><button data-t="m" aria-pressed="false">التجار <span id="tcm"></span></button><button data-t="p" aria-pressed="false">الباقات <span id="tcp"></span></button><button data-t="c" aria-pressed="false">العمولات <span id="tcc"></span></button><button data-t="s" aria-pressed="false" hidden>الموقع</button></div>
@@ -499,7 +499,7 @@ privacy:()=>`<h2>سياسة الخصوصية</h2><p class="m">آخر تحديث:
 contact:()=>`<h2>تواصل معنا</h2><p>لأي سؤال أو شكوى أو طلب حذف بيانات أو بلاغ عن محتوى مخالف، تواصل مع إدارة زيتونة.</p>
 ${CFG.waNumber?`<a class="btn" style="text-decoration:none;display:block;text-align:center" target="_blank" rel="noopener" href="${wa(CFG.waNumber)}?text=${encodeURIComponent('السلام عليكم، عندي استفسار بخصوص موقع زيتونة')}">راسلنا على واتساب</a>`:'<p class="m">قناة التواصل ستُضاف قريباً.</p>'}
 <p class="m" style="margin-top:12px">للتجار: بخصوص الاشتراك والدفع، أرسل الإيصال عبر واتساب من لوحة التاجر. راجع <a href="#/l/terms" data-lg>الشروط</a> و<a href="#/l/privacy" data-lg>الخصوصية</a>.</p>`};
-function showLegal(k,keep){if(!LG[k])return;LGK=k;$('#lg').innerHTML=LG[k]();go('l',false);if(!keep)scrollTo(0,0);document.title=LGT[k]+' — زيتونة'}
+function showLegal(k,keep){if(!LG[k])return;LGK=k;$('#lgp').innerHTML=LG[k]();go('l',false);if(!keep)scrollTo(0,0);document.title=LGT[k]+' — زيتونة'}
 document.addEventListener('click',e=>{if(e.target.closest('a[data-lg]'))$$('dialog[open]').forEach(d=>d.close())});
 function route(){const lh=location.hash.match(/^#\/l\/(terms|privacy|contact)$/);if(lh)return showLegal(lh[1]);if(PL)return;
 const h=location.hash,m=h.match(/^#\/(m|p)\/([\w-]+)$/),v=h.match(/^#\/v\/(m|a|o|k)$/);
