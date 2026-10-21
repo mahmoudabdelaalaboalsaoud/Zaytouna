@@ -155,6 +155,12 @@ button:disabled{opacity:.6;cursor:wait}
 .kpi.k3{grid-template-columns:repeat(3,1fr);gap:8px}.kpi.k3 div{padding:10px 12px}.kpi.k3 b{font-size:19px}
 .pi{padding:11px 0;border-top:1px solid var(--line)}.pi:first-child,.oi:first-child{border-top:0;padding-top:0}.pt{display:flex;align-items:center;gap:10px}.pt img{width:44px;height:44px;border-radius:10px;object-fit:cover;flex:none}.pt .n{flex:1;min-width:0;overflow-wrap:anywhere}.pt b{white-space:nowrap}.pa{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.pa .btn{padding:4px 11px;font-size:13px}
 .oi{padding:11px 0;border-top:1px solid var(--line)}.oi[data-s=new]{border-inline-start:3px solid #e0b83a;padding-inline-start:10px}.oi .ot{display:flex;justify-content:space-between;align-items:center;gap:8px}.oi .it{margin-top:4px;font-size:14.5px;line-height:1.7}.oi select{border:1px solid var(--line);border-radius:10px;padding:6px 10px;font:inherit;background:var(--bg);color:var(--ink);margin-top:8px}
+.soc{margin:4px auto 16px;max-width:420px}.soc h4{margin:0 0 16px;font-size:14px;color:var(--mut);font-weight:600}.sr{display:flex;flex-wrap:wrap;justify-content:center;gap:18px 14px}
+.si{position:relative;width:48px;height:48px;border-radius:50%;background:var(--bc);color:#fff;display:grid;place-items:center;box-shadow:0 3px 10px rgba(0,0,0,.3);transition:transform .2s}.si:hover,.si:active{transform:translateY(-2px) scale(1.07)}.si svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.si::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--bc);opacity:0;pointer-events:none}.si.pop::after{animation:sring 1.8s ease-out}
+.si .b{position:absolute;left:50%;top:6px;width:10px;height:10px;margin-left:-5px;border-radius:50%;border:1.5px solid var(--bc);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.6),transparent 65%);opacity:0;pointer-events:none}.si.pop .b{animation:sbub 1.5s ease-out both}
+.si .b:nth-of-type(1){--dx:-14px;--dy:-50px;--s:1.1;animation-delay:0s}.si .b:nth-of-type(2){--dx:11px;--dy:-60px;--s:.9;animation-delay:.22s}.si .b:nth-of-type(3){--dx:-3px;--dy:-46px;--s:1.3;animation-delay:.46s}.si .b:nth-of-type(4){--dx:16px;--dy:-54px;--s:.8;animation-delay:.7s}
+@keyframes sbub{0%{opacity:0;transform:translate(0,0) scale(.4)}18%{opacity:.95}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(var(--s))}}@keyframes sring{0%{opacity:.7;transform:scale(.92)}100%{opacity:0;transform:scale(1.65)}}@media (prefers-reduced-motion:reduce){.si.pop::after,.si.pop .b{animation:none}}
 .plx{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:8px}.plx>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:11px 14px;font-weight:600;font-size:15px}.plx>summary::-webkit-details-marker{display:none}.plx>summary .m{flex:1;font-weight:400;font-size:13px}.plx>summary::after{content:"▾";color:var(--mut);transition:transform .2s}.plx[open]>summary::after{transform:rotate(180deg)}.plr{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line)}.plr .i{flex:1;min-width:0}.plr b{display:block;font-size:15px}.plr .m{font-size:12.5px;display:block;overflow-wrap:anywhere}.plr .pr{font-weight:700;white-space:nowrap;font-size:15px}.plr .btn{padding:6px 12px;font-size:14px;white-space:nowrap}.plp{padding:8px 14px 12px;border-top:1px solid var(--line);margin:0}
 .ann{background:#a8892a;color:#1a1a0a;padding:8px 14px;text-align:center;font-size:14px;display:flex;gap:10px;justify-content:center;align-items:center}
 #mnt{position:fixed;inset:0;z-index:250;display:grid;place-items:center;text-align:center;background:radial-gradient(circle at 50% 38%,#34411a 0%,#141a0a 70%);color:#f6f4dc;padding:24px}
@@ -178,14 +184,14 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="rbn" id="rbn" hidden><span id="rbt">دعاك أحد شركائنا للانضمام كتاجر على زيتونة. تجربة مجانية 90 يوماً.</span><button class="btn" id="rbj">سجّل كتاجر</button></div>
 <h1 class="vh">زيت زيتون أصلي، من كل التجار في مكان واحد</h1>
 <div class="fbar">
-<div class="sbox"><input id="fq" type="search" aria-label="بحث" placeholder="ابحث أو اسأل المساعد…"><button type="button" id="fa" class="ask" aria-label="اسأل المساعد">✨ اسأل</button><button type="button" id="ff" class="ask" aria-expanded="false" aria-label="تصفية">تصفية<span id="fb"></span></button></div>
+<div class="sbox"><input id="fq" type="search" aria-label="بحث" placeholder="ابحث بالاسم أو المنشأ أو التاجر…"><button type="button" id="ff" class="ask" aria-expanded="false" aria-label="تصفية">تصفية<span id="fb"></span></button></div>
 <div id="fpn" hidden><div class="fg">
 <label><span>الاستخدام</span><select id="fu"><option value="">الكل</option><option value="s">للسلطة</option><option value="c">للطبخ</option><option value="h">للصحة اليومية</option></select></label>
 <label><span>النوع</span><select id="ft"><option value="all">الكل</option><option value="r">أفراد</option><option value="w">جملة</option></select></label>
 <label><span>التاجر</span><select id="fm"><option value="">كل التجار</option></select></label>
 <label><span>الترتيب</span><select id="fo"><option value="new">الأحدث</option><option value="pa">الأرخص سعراً</option><option value="pd">الأعلى سعراً</option><option value="la">الأرخص بالتر</option><option value="rt">الأعلى تقييماً</option></select></label>
 </div><div class="fi"><span id="cnt"></span><button type="button" class="lk" id="fx" hidden>مسح الفلاتر</button></div></div>
-<div class="rec" id="rec"></div></div>
+</div>
 <div class="grid" id="grid"></div></section>
 
 <section id="vm" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button>
@@ -250,15 +256,15 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <label><input type="checkbox" id="s5"> تفعيل شريط الإعلان</label><input id="s6" maxlength="200" placeholder="نص الإعلان">
 <label><input type="checkbox" id="s7"> وضع الصيانة (إغلاق الموقع على الزوار)</label>
 <label><input type="checkbox" id="s8"> السماح بتسجيل تجار جدد</label>
-<label><input type="checkbox" id="s9"> تفعيل المساعد الذكي</label>
 <label><input type="checkbox" id="s10"> تفعيل التسويق بالعمولة</label>
 <label>اسم زر التسويق (يظهر في الشريط العلوي)<input id="s11" maxlength="20" placeholder="اربح معنا"></label>
+<details class="dx" style="margin:0"><summary><span class="ic">🌐</span><span class="t">روابط التواصل الاجتماعي<small>تظهر كأيقونات أسفل الموقع</small></span></summary><div class="dxb fm"><label>إنستجرام<input id="s12" type="url" dir="ltr" maxlength="200" placeholder="https://instagram.com/…"></label><label>صفحة فيسبوك<input id="s13" type="url" dir="ltr" maxlength="200" placeholder="https://facebook.com/…"></label><label>جروب فيسبوك<input id="s14" type="url" dir="ltr" maxlength="200" placeholder="https://facebook.com/groups/…"></label><label>جروب أو قناة واتساب<input id="s15" type="url" dir="ltr" maxlength="200" placeholder="https://chat.whatsapp.com/…"></label><label>يوتيوب<input id="s16" type="url" dir="ltr" maxlength="200" placeholder="https://youtube.com/…"></label><label>تيك توك<input id="s17" type="url" dir="ltr" maxlength="200" placeholder="https://tiktok.com/@…"></label><span class="m">الرابط لازم يبدأ بـ https:// . أيقونة واتساب بتظهر تلقائياً من رقم واتساب الإدارة. اترك الخانة فاضية لإخفاء الأيقونة.</span></div></details>
 <span id="se2" class="m" style="color:var(--bad)"></span><button class="btn">حفظ الإعدادات</button></form>
 <div class="box" id="tlb" hidden style="margin-top:18px"><h3>تنظيف بيانات التجربة</h3><p class="m">الحذف نهائي ولا يمكن التراجع عنه، وينفّذه المالك فقط.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn o" id="wo">حذف كل الطلبات</button><button class="btn o" id="wp">حذف كل المنتجات</button></div></div>
 <div class="box" id="adb" hidden style="margin-top:18px"><h3>مديرو الموقع</h3><p class="m">أضف إيميل مدير جديد، وهيدخل بحساب Google بنفس الإيميل ليظهر له زرار الإدارة.</p>
 <ul id="al"></ul><form id="adf" class="tb" style="margin:0"><input id="aem" type="email" placeholder="إيميل المدير الجديد" required><button class="btn">إضافة مدير</button></form></div></div></section>
 </main>
-<footer>زيتونة — سوق زيت الزيتون<div class="fl"><a href="#/l/terms">الشروط</a> · <a href="#/l/privacy">الخصوصية</a> · <a href="#/l/contact">تواصل معنا</a></div></footer>
+<footer><div class="soc" id="soc" hidden><h4>تابعنا على منصات التواصل الاجتماعي</h4><div class="sr" id="sr"></div></div>زيتونة — سوق زيت الزيتون<div class="fl"><a href="#/l/terms">الشروط</a> · <a href="#/l/privacy">الخصوصية</a> · <a href="#/l/contact">تواصل معنا</a></div></footer>
 <div id="toast" hidden></div>
 <dialog id="dlg"><form id="af" class="fm"><h3 id="dt">دخول</h3>
 <div id="sx" class="fm" hidden><select id="ar" aria-label="نوع الحساب"><option value="b">مشتري</option><option value="m">تاجر</option></select>
@@ -295,16 +301,18 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <dialog id="md"><div class="fm"><p id="mm" style="white-space:pre-line;margin:0"></p><input id="mi" hidden><span id="me" class="m" style="color:var(--bad)"></span><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="mok">تأكيد</button><button class="btn o" id="mcn">إلغاء</button></div></div></dialog>
 <dialog id="od"><div class="fm"><h3>تم تسجيل طلبك ✅</h3><p class="m">ابعت تفاصيل الطلب للتاجر على واتساب عشان يأكده معاك.</p><div id="ol" class="fm"></div><button class="btn o" id="ox">تمام</button></div></dialog>
 <script>
-let P=[],RV={},PL=true,AIQ=false;
+let P=[],RV={},PL=true;
 const buyH=(p,i)=>{const t=p.st!=null&&p.st>0&&p.st<=5?`<span class="m" style="color:#e0b83a">متبقي ${p.st} فقط</span>`:'';return t+(p.st===0?'<button class="btn" disabled>نفدت الكمية</button>':`<button class="btn" onclick="add(${i})">أضف للسلة</button>`)};
 const SB='https://ptimioffmszhmpxxuqha.supabase.co/storage/v1/object/public/zaytouna-products/';
 const okImg=u=>typeof u=='string'&&u.startsWith(SB)?u:'';
 const imgH=p=>p.img?`<img src="${esc(p.img)}" alt="${esc(p.n)}" loading="lazy" style="width:100%;height:100%;object-fit:cover">`:`<svg style="color:${p.c}" width="38" height="84"><use href="#b"/></svg>`;
 const stH=id=>{const r=RV[id];if(!r)return '';const a=Math.round(r.s/r.c);return `<span class="m" style="color:#e0b13a">${'★'.repeat(a)}${'☆'.repeat(5-a)} <span class="m">${(r.s/r.c).toFixed(1)} (${r.c})</span></span>`};
-const why={s:'الأوفر للتر بين زيوت السلطة البكر.',c:'الأوفر للتر في زيوت الطبخ.',h:'الأقل حموضة، أي الأعلى جودة وعصرة على البارد.'};
 const L={t:'تجربة مجانية',a:'نشط',e:'منتهي'};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),pl=p=>Math.round(p.p/p.l);
 const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';'),wa=p=>'https://wa.me/'+String(p||'').replace(/\D/g,'').replace(/^0/,'20');
+const nz=s=>String(s||'').toLowerCase().replace(/[\u064B-\u065F\u0670\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[٠-٩]/g,d=>d.charCodeAt(0)-1632);
+const UT={s:'للسلطه سلطه',c:'للطبخ طبخ',h:'للصحه صحه يوميه'};
+const hm=(p,qs)=>{const x=nz([p.n,p.m,p.o,p.w?'جمله':'',...(p.t||[]).map(k=>UT[k]||'')].join(' '));return qs.every(t=>x.includes(t)||(t.startsWith('ال')&&t.length>3&&x.includes(t.slice(2))))};
 function setP(a){P=a;restoreCart();shop()}
 let cart=[],f='all';
 function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.i);toast.i=setTimeout(()=>e.hidden=true,2200)}
@@ -318,28 +326,18 @@ if(sel.dataset.sig!==sig){sel.dataset.sig=sig;sel.innerHTML='<option value="">ك
 const PRESS=`<div class="ld" role="status"><svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true"><g class="plate"><rect x="57" y="2" width="6" height="18" rx="2" fill="#a8892a"/><rect x="28" y="20" width="64" height="9" rx="4" fill="#a8892a"/></g><circle class="olv" cx="44" cy="54" r="9" fill="#58691f"/><circle class="olv" cx="62" cy="56" r="9" fill="#7d9020"/><circle class="olv" cx="79" cy="54" r="8" fill="#58691f"/><rect x="24" y="64" width="72" height="7" rx="3" fill="#8a6a22"/><path class="drp" d="M60 73c-3 5-3 8 0 10 3-2 3-5 0-10z" fill="#e0b83a"/><rect x="46" y="90" width="28" height="26" rx="7" fill="none" stroke="#e0b83a" stroke-width="2.5"/><rect class="oil" x="49" y="93" width="22" height="20" rx="5" fill="#e0b83a" opacity=".9"/></svg><p>جارٍ عرض المنتجات…</p><span class="m">نعصر لك أجود الزيوت</span></div>`+'<div class="sk"></div>'.repeat(4);
 function shop(){fillMerchants();
 if(PL){$('#cnt').textContent='';$('#grid').innerHTML=PRESS;return}
-const q=AIQ?'':$('#fq').value.trim().toLowerCase(),t=$('#ft').value,m=$('#fm').value,o=$('#fo').value,u=$('#fu').value;$('#fx').hidden=!($('#fq').value.trim()||u||t!='all'||m||o!='new');{const k=[u,t!='all',m,o!='new'].filter(Boolean).length;$('#fb').textContent=k||''}
-const L=P.map((p,i)=>({p,i})).filter(({p})=>(t=='all'||(t=='w')==!!p.w)&&(!u||p.t.includes(u))&&(!m||p.mid==m)&&(!q||[p.n,p.m,p.o].join(' ').toLowerCase().includes(q)));
+const qs=nz($('#fq').value).split(/\s+/).filter(Boolean),t=$('#ft').value,m=$('#fm').value,o=$('#fo').value,u=$('#fu').value;$('#fx').hidden=!($('#fq').value.trim()||u||t!='all'||m||o!='new');{const k=[u,t!='all',m,o!='new'].filter(Boolean).length;$('#fb').textContent=k||''}
+const L=P.map((p,i)=>({p,i})).filter(({p})=>(t=='all'||(t=='w')==!!p.w)&&(!u||p.t.includes(u))&&(!m||p.mid==m)&&(!qs.length||hm(p,qs)));
 const key={new:x=>-x.p.ts,pa:x=>x.p.p,pd:x=>-x.p.p,la:x=>pl(x.p),rt:x=>-ravg(x.p.id)}[o];L.sort((a,b)=>key(a)-key(b));
 $('#cnt').textContent=P.length?(L.length==P.length?P.length+' منتج':L.length+' من '+P.length+' منتج'):'';
-$('#grid').innerHTML=!P.length?'<p class="m" style="grid-column:1/-1">لا توجد منتجات بعد، وسيظهر هنا ما يضيفه التجار.</p>':!L.length?'<p class="m" style="grid-column:1/-1">لا توجد نتائج مطابقة.</p>':L.map(({p,i})=>cardH(p,i,1)).join('')}
-function rec(k){
-const r=P.map((p,i)=>({p,i})).filter(({p})=>p.t.includes(k)&&!p.w).sort((a,b)=>k=='h'?a.p.a-b.p.a:pl(a.p)-pl(b.p))[0];if(!r){$('#rec').textContent='لا يوجد منتج مناسب بعد.';return}const p=r.p;
-$('#rec').innerHTML=`<div class="rc"><div><b>${esc(p.n)}</b> · ${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span><br><span class="m">${why[k]}</span></div><button class="btn" onclick="add(${r.i})">أضف للسلة</button></div>`}
-['#fq','#fu','#ft','#fm','#fo'].forEach(id=>$(id).addEventListener('input',()=>{AIQ=false;shop()}));
-$('#fx').onclick=()=>{AIQ=false;$('#fq').value='';$('#fu').value='';$('#ft').value='all';$('#fm').value='';$('#fo').value='new';$('#rec').textContent='';shop()};
+$('#grid').innerHTML=!P.length?'<p class="m" style="grid-column:1/-1">لا توجد منتجات بعد، وسيظهر هنا ما يضيفه التجار.</p>':!L.length?'<p class="m" style="grid-column:1/-1">لا توجد نتائج مطابقة، جرّب كلمات أقل أو امسح الفلاتر.</p>':L.map(({p,i})=>cardH(p,i,1)).join('')}
+['#fq','#fu','#ft','#fm','#fo'].forEach(id=>$(id).addEventListener('input',()=>shop()));
+$('#fx').onclick=()=>{$('#fq').value='';$('#fu').value='';$('#ft').value='all';$('#fm').value='';$('#fo').value='new';shop()};
 $('#ff').onclick=()=>{const q=$('#fpn');q.hidden=!q.hidden;$('#ff').setAttribute('aria-expanded',!q.hidden)};
 function go(v,push){$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v==v));['s','m','a','o','k','x','l'].forEach(k=>$('#v'+k).hidden=k!=v);document.dispatchEvent(new CustomEvent('view',{detail:v}));try{document.querySelector('nav button[aria-pressed=true]').scrollIntoView({inline:'center',block:'nearest'})}catch{}
 if(push!==false){scrollTo(0,0);const h=v=='s'?location.pathname+location.search:'#/v/'+v;if(v=='s'?location.hash:location.hash!='#/v/'+v)history.pushState(null,'',h)}}
 $$('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 document.addEventListener('click',e=>{if(e.target.closest('[data-bk]'))go('s')});
-$('#fa').onclick=async()=>{const q=$('#fq').value.trim();
-if(!q){const k=$('#fu').value;if(k)rec(k);else $('#rec').textContent='اكتب ما تحتاجه (مثال: زيت للسلطة بحدود 200 جنيه) ثم اضغط اسأل المساعد.';return}
-$('#rec').textContent='جارٍ البحث…';AIQ=true;shop();
-try{const r=await fetch('/api/assistant',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({question:q,catalog:P.map((p,i)=>({id:i,name:p.n,origin:p.o,acidity:p.a,liters:p.l,price:p.p,wholesale:!!p.w}))})});
-const d=await r.json();if(!r.ok)throw 0;const p=P[d.id];
-$('#rec').innerHTML=`<div class="rc"><div><b>${esc(p.n)}</b> · ${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span><br><span class="m">${esc(d.reason)}</span></div><button class="btn" onclick="add(${d.id})">أضف للسلة</button></div>`}
-catch{$('#rec').textContent='المساعد غير متاح الآن، جرّب الفلاتر.'}};
 try{const r=new URLSearchParams(location.search).get('ref');if(r&&/^[A-Za-z0-9]{4,12}$/.test(r)){const o=JSON.parse(localStorage.zref||'null');if(!o||Date.now()-o.t>30*864e5)localStorage.zref=JSON.stringify({c:r.toUpperCase(),t:Date.now()})}}catch{}
 try{const c=JSON.parse(localStorage.zpc||'null');if(c&&Date.now()-c.t<864e5&&Array.isArray(c.p)&&c.p.length){P=c.p;PL=false}}catch{}
 function restoreCart(){try{const ids=JSON.parse(localStorage.zcart||'[]');if(ids.length&&!cart.length&&P.length){cart=ids.map(id=>P.find(p=>p.id==id)).filter(Boolean);cartUI()}}catch{}}
@@ -364,8 +362,8 @@ return `مرحباً ${o.merchantName}،\nأنا ${o.buyerName||''}، طلبت �
 const wlink=(o,id)=>o.merchantPhone?wa(o.merchantPhone)+'?text='+encodeURIComponent(wmsg(o,id)):'';
 const ST={new:'جديد',accepted:'مقبول',done:'مكتمل',cancelled:'ملغي'};
 const OWNER='mahmoudabdelaalaboalsaoud@gmail.com';
-let LGK='',OL=[],OSH=8;
-let CFG={trialDays:90,commission:200,waNumber:'',payInfo:'',announceOn:false,announce:'',maintenance:false,regMerchants:true,assistantOn:true,mktOn:true,mktLabel:'اربح معنا'},MPLS={},LOGO='',OD={},MPD={},EP=null,REG=false,BLK=false,BU=[],BF='',BQ='',OC={},RU=null,RR='b',IMT='',PIMG=null,U=null,M=null,AM=[],AF='',AQ='',OWN=false,ISADM=false,RL=[],seq=0,sign=false;
+let LGK='',OL=[],OSH=8,SOCT=null,SOCI=0,SOCV=false;
+let CFG={trialDays:90,commission:200,waNumber:'',payInfo:'',announceOn:false,announce:'',maintenance:false,regMerchants:true,mktOn:true,mktLabel:'اربح معنا',socIg:'',socFb:'',socFbg:'',socWag:'',socYt:'',socTt:''},MPLS={},LOGO='',OD={},MPD={},EP=null,REG=false,BLK=false,BU=[],BF='',BQ='',OC={},RU=null,RR='b',IMT='',PIMG=null,U=null,M=null,AM=[],AF='',AQ='',OWN=false,ISADM=false,RL=[],seq=0,sign=false;
 
 async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));PL=false;
 if(s.empty){try{localStorage.removeItem('zpc')}catch{}setP([]);return}
@@ -495,14 +493,14 @@ terms:()=>`<h2>شروط الاستخدام</h2><p class="m">آخر تحديث: �
 <h3>4) التجار والاشتراك</h3><p>يحصل التاجر على تجربة مجانية مدتها <b>${esc(String(CFG.trialDays))} يوماً</b> من التسجيل، ثم يلزمه اشتراك في إحدى الباقات المعروضة ليستمر في عرض منتجاته. يُفعَّل الاشتراك يدوياً من الإدارة بعد تأكيد الدفع. يلتزم التاجر بنشر بيانات صحيحة (الاسم، الهاتف، السعر، الحموضة، المنشأ، الكمية) وبعدم نشر منتج مغشوش أو مخالف. يحق للإدارة إيقاف أي تاجر أو إخفاء منتجاته عند المخالفة أو انتهاء الاشتراك.</p>
 <h3>5) التقييمات والتعليقات</h3><p>يجب أن تكون صادقة ومحترمة. يُسمح بتقييم النجوم لمن اشترى المنتج فعلاً (طلب مكتمل). يحق للإدارة حذف أي محتوى مسيء أو مخالف.</p>
 <h3>6) التسويق بالعمولة</h3><p>يحصل المسوّق على <b>${esc(String(CFG.commission))} جنيهاً</b> عن كل تاجر يسجّل عبر رابطه ويشترك في باقة مدفوعة، <b>مرة واحدة لكل تاجر</b>. لا تُحتسب العمولة على التسجيل بحسابك أنت، وتُحوَّل يدوياً على المحفظة أو إنستاباي الذي حددته. تحتفظ الإدارة بحق إلغاء أي عمولة ثبت أنها ناتجة عن غش أو تلاعب.</p>
-<h3>7) حدود المسؤولية</h3><p>تُقدَّم المنصة كما هي، ولا نضمن خلوها من الأخطاء أو توفرها دون انقطاع. لا نتحمل مسؤولية أي خلاف أو ضرر ينشأ عن التعامل بين المشتري والتاجر. نتائج المساعد الذكي مجرد ترشيح استرشادي.</p>
+<h3>7) حدود المسؤولية</h3><p>تُقدَّم المنصة كما هي، ولا نضمن خلوها من الأخطاء أو توفرها دون انقطاع. لا نتحمل مسؤولية أي خلاف أو ضرر ينشأ عن التعامل بين المشتري والتاجر.</p>
 <h3>8) التعديل</h3><p>قد نعدّل هذه الشروط، واستمرارك في استخدام الموقع يعني موافقتك على النسخة المحدّثة.</p>
 <p class="m">للاستفسار: صفحة <a href="#/l/contact" data-lg>تواصل معنا</a>. راجع أيضاً <a href="#/l/privacy" data-lg>سياسة الخصوصية</a>.</p>`,
 privacy:()=>`<h2>سياسة الخصوصية</h2><p class="m">آخر تحديث: أكتوبر 2026</p>
 <h3>1) البيانات التي نجمعها</h3><ul><li>عند التسجيل: الاسم، البريد الإلكتروني، ورقم الهاتف والمدينة (إن أدخلتهما)، ونوع الحساب. وعند الدخول بجوجل نستلم الاسم والبريد من حسابك.</li><li>للتاجر: اسم المتجر والهاتف والمدينة والنبذة والشعار وصور المنتجات وبياناتها.</li><li>عند الطلب: اسمك ورقم هاتفك وتفاصيل الطلب، وتصل للتاجر المعني.</li><li>التقييمات والتعليقات التي تكتبها (تظهر باسمك).</li><li>للمسوّق: الاسم والهاتف ووسيلة تحويل العمولة ورقمها.</li></ul>
 <h3>2) كيف نستخدمها</h3><p>لتشغيل حسابك، وإيصال طلبك للتاجر، وإدارة الاشتراكات والعمولات، ومنع إساءة الاستخدام. <b>لا نبيع بياناتك</b> ولا نستخدمها للإعلانات.</p>
 <h3>3) من يرى بياناتك</h3><ul><li>التاجر يرى اسمك ورقمك وطلبك عند إرسال طلب إليه فقط.</li><li>بيانات المتجر ومنتجاته وتقييماتك عامة.</li><li>الإدارة تطّلع على بيانات الأعضاء لإدارة الموقع.</li></ul>
-<h3>4) الخدمات التي نعتمد عليها</h3><p>نستخدم خدمات طرف ثالث لتشغيل الموقع: <b>Google Firebase</b> (الدخول وقاعدة البيانات)، و<b>Supabase</b> (تخزين صور المنتجات)، و<b>Cloudflare</b> (استضافة الموقع). وعند استخدامك زر ✨ المساعد الذكي يُرسَل نص سؤالك مع قائمة المنتجات (دون اسمك أو هاتفك) إلى مزوّد خدمة ذكاء اصطناعي ليرشّح لك منتجاً. قد تُنقل بياناتك وتُخزَّن على خوادم خارج مصر.</p>
+<h3>4) الخدمات التي نعتمد عليها</h3><p>نستخدم خدمات طرف ثالث لتشغيل الموقع: <b>Google Firebase</b> (الدخول وقاعدة البيانات)، و<b>Supabase</b> (تخزين صور المنتجات)، و<b>Cloudflare</b> (استضافة الموقع). قد تُنقل بياناتك وتُخزَّن على خوادم خارج مصر.</p>
 <h3>5) ما يُحفظ على جهازك</h3><p>نحفظ في متصفحك بيانات صغيرة لتسريع الموقع: سلة الطلبات، ونسخة من المنتجات، ورمز الإحالة (30 يوماً). لا نستخدم ملفات تتبّع إعلانية.</p>
 <h3>6) حقوقك</h3><p>يمكنك طلب الاطلاع على بياناتك أو تصحيحها أو حذف حسابك وبياناتك عبر <a href="#/l/contact" data-lg>تواصل معنا</a>. قد نحتفظ بما يلزم قانوناً أو لحل نزاع قائم.</p>
 <h3>7) الأمان</h3><p>نبذل جهداً معقولاً لحماية بياناتك، لكن لا توجد وسيلة نقل أو تخزين آمنة 100%. لا ترسل كلمة مرورك لأحد، ولن نطلبها منك أبداً.</p>
@@ -749,15 +747,23 @@ $('#mpl').onclick=async e=>{const b=e.target.closest('[data-pl]');if(!b)return;c
 if(!await yes('طلب باقة «'+p.name+'» بسعر '+p.price+' ج لمدة '+p.months+' شهر؟',{ok:'إرسال الطلب'}))return;
 try{await setDoc(doc(db,'subReqs',U.uid),{planId:p.id,planName:p.name,price:+p.price,months:+p.months,name:M.name,phone:M.phone||'',status:'pending',createdAt:serverTimestamp()});toast('تم إرسال طلبك');loadPlans()}catch{toast('تعذر إرسال الطلب')}};
 
+
+const SOCD=[['wa','','واتساب','#1fa855',`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/><path d="M9.5 9c0 3 2.5 5.5 5.5 5.5l1-1.5-1.8-.9-.8.8c-.9-.4-1.6-1.1-2-2l.8-.8-.9-1.8z"/></svg>`],['wag','socWag','جروب واتساب','#15803d',`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`],['fb','socFb','فيسبوك','#1877f2',`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`],['fbg','socFbg','جروب فيسبوك','#1e4f9a',`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`],['ig','socIg','إنستجرام','#c13584',`<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg>`],['yt','socYt','يوتيوب','#d62020',`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><path d="M9.75 15.02 15.5 11.75 9.75 8.48z"/></svg>`],['tt','socTt','تيك توك','#16a39a',`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.4 2.6 2 4.4 5 4.7"/></svg>`]];
+const okU=u=>/^https:\/\/[^\s"'<>]+$/i.test(String(u||''))?String(u):'';
+function renderSoc(){const it=SOCD.map(([k,f,n,c,s])=>{const u=k=='wa'?(CFG.waNumber?wa(CFG.waNumber):''):okU(CFG[f]);return u?`<a class="si" href="${esc(u)}" target="_blank" rel="noopener noreferrer" aria-label="${n}" title="${n}" style="--bc:${c}">${s}<i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i></a>`:''}).join('');
+$('#sr').innerHTML=it;$('#soc').hidden=!it;clearInterval(SOCT);const els=[...document.querySelectorAll('#sr .si')];if(!els.length||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+SOCT=setInterval(()=>{if(document.hidden||!SOCV)return;els.forEach(e=>e.classList.remove('pop'));const e=els[SOCI++%els.length];void e.offsetWidth;e.classList.add('pop')},2300)}
+if('IntersectionObserver'in window)new IntersectionObserver(es=>{SOCV=es[0].isIntersecting}).observe($('#soc'));else SOCV=true;
 function applySettings(){COMM=Number.isFinite(+CFG.commission)?+CFG.commission:200;
 const an=$('#ann'),show=CFG.announceOn&&CFG.announce&&!sessionStorage.zan;an.hidden=!show;if(show)$('#ant').textContent=CFG.announce;
-$('#mnt').hidden=!(CFG.maintenance&&!ISADM);$('[data-v=k]').hidden=!CFG.mktOn;{const l=CFG.mktLabel||'اربح معنا';$('[data-v=k]').textContent=l;$('#kh').textContent=l}$('#fa').hidden=!CFG.assistantOn;if(LGK&&!$('#vl').hidden)showLegal(LGK,true);
+$('#mnt').hidden=!(CFG.maintenance&&!ISADM);$('[data-v=k]').hidden=!CFG.mktOn;{const l=CFG.mktLabel||'اربح معنا';$('[data-v=k]').textContent=l;$('#kh').textContent=l}renderSoc();if(LGK&&!$('#vl').hidden)showLegal(LGK,true);
 $$('#ar option[value=m]').forEach(o=>o.disabled=!CFG.regMerchants);const rm=$('#rr [data-r=m]');if(rm)rm.hidden=!CFG.regMerchants;
 const bn=$('#rbt');if(bn)bn.textContent='دعاك أحد شركائنا للانضمام كتاجر على زيتونة. تجربة مجانية '+(CFG.trialDays||90)+' يوماً.'}
 async function loadST(){try{const s=await getDoc(doc(db,'settings','site'));if(s.exists())CFG={...CFG,...s.data()}}catch{}applySettings();fillST()}
-function fillST(){$('#s1').value=CFG.trialDays;$('#s2').value=CFG.commission;$('#s3').value=CFG.waNumber||'';$('#s4').value=CFG.payInfo||'';$('#s5').checked=!!CFG.announceOn;$('#s6').value=CFG.announce||'';$('#s7').checked=!!CFG.maintenance;$('#s8').checked=CFG.regMerchants!==false;$('#s9').checked=CFG.assistantOn!==false;$('#s10').checked=CFG.mktOn!==false;$('#s11').value=CFG.mktLabel||'اربح معنا'}
+function fillST(){$('#s1').value=CFG.trialDays;$('#s2').value=CFG.commission;$('#s3').value=CFG.waNumber||'';$('#s4').value=CFG.payInfo||'';$('#s5').checked=!!CFG.announceOn;$('#s6').value=CFG.announce||'';$('#s7').checked=!!CFG.maintenance;$('#s8').checked=CFG.regMerchants!==false;$('#s10').checked=CFG.mktOn!==false;$('#s11').value=CFG.mktLabel||'اربح معنا';$('#s12').value=CFG.socIg||'';$('#s13').value=CFG.socFb||'';$('#s14').value=CFG.socFbg||'';$('#s15').value=CFG.socWag||'';$('#s16').value=CFG.socYt||'';$('#s17').value=CFG.socTt||'';}
 $('#anx').onclick=()=>{try{sessionStorage.zan=1}catch{}$('#ann').hidden=true};$('#mna').onclick=()=>openDlg();
-$('#stf').onsubmit=async e=>{e.preventDefault();const er=$('#se2'),d={trialDays:Math.round(+$('#s1').value),commission:Math.round(+$('#s2').value),waNumber:norm($('#s3').value),payInfo:$('#s4').value.trim().slice(0,500),announceOn:$('#s5').checked,announce:$('#s6').value.trim().slice(0,200),maintenance:$('#s7').checked,regMerchants:$('#s8').checked,assistantOn:$('#s9').checked,mktOn:$('#s10').checked,mktLabel:$('#s11').value.trim().slice(0,20)||'اربح معنا'};
+$('#stf').onsubmit=async e=>{e.preventDefault();const er=$('#se2'),d={trialDays:Math.round(+$('#s1').value),commission:Math.round(+$('#s2').value),waNumber:norm($('#s3').value),payInfo:$('#s4').value.trim().slice(0,500),announceOn:$('#s5').checked,announce:$('#s6').value.trim().slice(0,200),maintenance:$('#s7').checked,regMerchants:$('#s8').checked,mktOn:$('#s10').checked,mktLabel:$('#s11').value.trim().slice(0,20)||'اربح معنا',socIg:$('#s12').value.trim(),socFb:$('#s13').value.trim(),socFbg:$('#s14').value.trim(),socWag:$('#s15').value.trim(),socYt:$('#s16').value.trim(),socTt:$('#s17').value.trim()};
+for(const[k,n]of[['socIg','إنستجرام'],['socFb','صفحة فيسبوك'],['socFbg','جروب فيسبوك'],['socWag','جروب أو قناة واتساب'],['socYt','يوتيوب'],['socTt','تيك توك']])if(d[k]&&!okU(d[k])){er.textContent='رابط '+n+' لازم يبدأ بـ https://';return}
 if(!(d.trialDays>=1&&d.trialDays<=365)||!(d.commission>=0&&d.commission<=10000)){er.textContent='راجع مدة التجربة (من 1 إلى 365) والعمولة (من 0 إلى 10000)';return}
 if(d.waNumber&&!/^01[0125]\d{8}$/.test(d.waNumber)){er.textContent='رقم واتساب غير صحيح';return}
 if(d.maintenance&&!await yes('وضع الصيانة سيغلق الموقع على الزوار. متأكد؟',{ok:'تفعيل',danger:1}))return;
