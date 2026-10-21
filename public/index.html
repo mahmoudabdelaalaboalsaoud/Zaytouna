@@ -159,6 +159,7 @@ button:disabled{opacity:.6;cursor:wait}
 @keyframes nbp{0%,100%{box-shadow:0 0 0 2px var(--bg),0 0 0 0 rgba(224,86,58,.6)}50%{box-shadow:0 0 0 2px var(--bg),0 0 0 7px rgba(224,86,58,0)}}
 @media (prefers-reduced-motion:reduce){.nb.pulse{animation:none}}
 footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
+.fl{margin-top:8px}.fl a,.lg a{color:var(--olive)}.lg h2{margin:0 0 4px;font-size:20px}.lg h3{margin:16px 0 4px;font-size:15.5px}.lg p,.lg li{line-height:1.9;font-size:14.5px}.lg ul{padding-inline-start:20px;margin:4px 0}.lgc{font-size:12.5px;text-align:center;color:var(--mut)}.lgc a{color:var(--olive)}
 </style></head><body>
 <div class="ann" id="ann" hidden><span id="ant"></span><button class="lk" id="anx" aria-label="إغلاق" style="color:#1a1a0a;justify-self:auto">✕</button></div>
 <div id="mnt" hidden><div><h2>الموقع تحت الصيانة</h2><p class="m" style="margin:8px 0 16px">نعود قريباً بإذن الله.</p><button class="btn o" id="mna">دخول الإدارة</button></div></div>
@@ -209,6 +210,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <section id="vk" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button>
 <div class="sec"><h2>اربح 200 جنيه عن كل تاجر</h2></div><div id="kb"></div></section>
 <section id="vx" hidden></section>
+<section id="vl" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button><div class="box lg" id="lg"></div></section>
 <section id="va" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button>
 <div class="sec"><h2>لوحة الإدارة</h2></div>
 <div class="af sc" id="at" style="margin-bottom:12px"><button data-t="o" aria-pressed="true">نظرة عامة</button><button data-t="b" aria-pressed="false">الأعضاء <span id="tcb"></span></button><button data-t="m" aria-pressed="false">التجار <span id="tcm"></span></button><button data-t="p" aria-pressed="false">الباقات <span id="tcp"></span></button><button data-t="c" aria-pressed="false">العمولات <span id="tcc"></span></button><button data-t="s" aria-pressed="false" hidden>الموقع</button></div>
@@ -250,7 +252,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="box" id="adb" hidden style="margin-top:18px"><h3>مديرو الموقع</h3><p class="m">أضف إيميل مدير جديد، وهيدخل بحساب Google بنفس الإيميل ليظهر له زرار الإدارة.</p>
 <ul id="al"></ul><form id="adf" class="tb" style="margin:0"><input id="aem" type="email" placeholder="إيميل المدير الجديد" required><button class="btn">إضافة مدير</button></form></div></div></section>
 </main>
-<footer>زيتونة — سوق زيت الزيتون</footer>
+<footer>زيتونة — سوق زيت الزيتون<div class="fl"><a href="#/l/terms">الشروط</a> · <a href="#/l/privacy">الخصوصية</a> · <a href="#/l/contact">تواصل معنا</a></div></footer>
 <div id="toast" hidden></div>
 <dialog id="dlg"><form id="af" class="fm"><h3 id="dt">دخول</h3>
 <div id="sx" class="fm" hidden><select id="ar" aria-label="نوع الحساب"><option value="b">مشتري</option><option value="m">تاجر</option></select>
@@ -261,6 +263,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="pw"><input id="ap" type="password" placeholder="كلمة المرور" required minlength="6" autocomplete="current-password"><button type="button" id="apv">إظهار</button></div>
 <button class="btn" id="ago">دخول</button>
 <button type="button" class="lk" id="afg">نسيت كلمة المرور؟</button>
+<div class="lgc">بالتسجيل أو الدخول أنت توافق على <a href="#/l/terms" data-lg>الشروط</a> و<a href="#/l/privacy" data-lg>سياسة الخصوصية</a></div>
 <button type="button" class="btn o" id="asw">حساب جديد</button><button type="button" class="btn o" id="acl">إغلاق</button></form></dialog>
 <dialog id="ud"><div class="fm"><h3 id="un"></h3><span class="m" id="ue" style="overflow-wrap:anywhere"></span><div class="af" id="ur"></div><button class="btn" id="uo">تسجيل الخروج</button><button class="btn o" id="uc">إغلاق</button></div></dialog>
 <dialog id="cd"><div class="fm"><div style="display:flex;align-items:center;gap:10px"><button type="button" class="btn o" data-cc style="padding:4px 12px">→ رجوع</button><h3>سلتك</h3></div><div id="cl"></div></div></dialog>
@@ -278,6 +281,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <span id="pe2" class="m" style="color:var(--bad)"></span><div style="display:flex;gap:8px"><button class="btn" id="psb">حفظ</button><button type="button" class="btn o" id="pcl">إلغاء</button></div></form></dialog>
 <dialog id="mdl"><div class="fm" id="mdb"></div></dialog>
 <dialog id="rd"><form id="rf2" class="fm"><h3>أكمل تسجيلك</h3><p class="m" style="margin:0">اختر نوع حسابك لنخصص تجربتك.</p>
+<p class="lgc" style="margin:0">بالمتابعة أنت توافق على الشروط وسياسة الخصوصية (الرابط أسفل الصفحة).</p>
 <div class="af" id="rr"><button type="button" data-r="b" aria-pressed="true">مشتري</button><button type="button" data-r="m" aria-pressed="false">تاجر</button></div>
 <input id="rn" placeholder="الاسم (أو اسم المتجر للتاجر)"><input id="rp" type="tel" inputmode="numeric" placeholder="رقم الموبايل (مطلوب للتاجر)">
 <div id="rm" class="fm" hidden><input id="rc" placeholder="المدينة"><span class="m">التاجر يبدأ بتجربة مجانية 90 يوماً.</span></div>
@@ -319,7 +323,7 @@ $('#rec').innerHTML=`<div class="rc"><div><b>${esc(p.n)}</b> · ${p.p} ج <span 
 ['#fq','#fu','#ft','#fm','#fo'].forEach(id=>$(id).addEventListener('input',()=>{AIQ=false;shop()}));
 $('#fx').onclick=()=>{AIQ=false;$('#fq').value='';$('#fu').value='';$('#ft').value='all';$('#fm').value='';$('#fo').value='new';$('#rec').textContent='';shop()};
 $('#ff').onclick=()=>{const q=$('#fpn');q.hidden=!q.hidden;$('#ff').setAttribute('aria-expanded',!q.hidden)};
-function go(v,push){$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v==v));['s','m','a','o','k','x'].forEach(k=>$('#v'+k).hidden=k!=v);document.dispatchEvent(new CustomEvent('view',{detail:v}));try{document.querySelector('nav button[aria-pressed=true]').scrollIntoView({inline:'center',block:'nearest'})}catch{}
+function go(v,push){$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v==v));['s','m','a','o','k','x','l'].forEach(k=>$('#v'+k).hidden=k!=v);document.dispatchEvent(new CustomEvent('view',{detail:v}));try{document.querySelector('nav button[aria-pressed=true]').scrollIntoView({inline:'center',block:'nearest'})}catch{}
 if(push!==false){scrollTo(0,0);const h=v=='s'?location.pathname+location.search:'#/v/'+v;if(v=='s'?location.hash:location.hash!='#/v/'+v)history.pushState(null,'',h)}}
 $$('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 document.addEventListener('click',e=>{if(e.target.closest('[data-bk]'))go('s')});
@@ -354,6 +358,7 @@ return `مرحباً ${o.merchantName}،\nأنا ${o.buyerName||''}، طلبت �
 const wlink=(o,id)=>o.merchantPhone?wa(o.merchantPhone)+'?text='+encodeURIComponent(wmsg(o,id)):'';
 const ST={new:'جديد',accepted:'مقبول',done:'مكتمل',cancelled:'ملغي'};
 const OWNER='mahmoudabdelaalaboalsaoud@gmail.com';
+let LGK='';
 let CFG={trialDays:90,commission:200,waNumber:'',payInfo:'',announceOn:false,announce:'',maintenance:false,regMerchants:true,assistantOn:true,mktOn:true},MPLS={},LOGO='',OD={},MPD={},EP=null,REG=false,BLK=false,BU=[],BF='',BQ='',OC={},RU=null,RR='b',IMT='',PIMG=null,U=null,M=null,AM=[],AF='',AQ='',OWN=false,ISADM=false,RL=[],seq=0,sign=false;
 
 async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));PL=false;
@@ -470,7 +475,33 @@ async function showProduct(id){const i=P.findIndex(p=>p.id==id);if(i<0)return pa
 page(`<article class="card" style="max-width:520px"><div class="bt${p.img?' ph':''}">${imgH(p)}</div><h2>${esc(p.n)}</h2><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر${p.w?' · جملة':''}</span><a class="m" href="#/m/${esc(p.mid)}">${esc(p.m)}</a><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}${buyH(p,i)}${shr('p/'+id,esc(p.n)+' على زيتونة:')}<div id="rvx" style="margin-top:16px"><p class="m">جارٍ تحميل التقييمات…</p></div></article>`);
 await loadReviews(id,p)}
 let LRT=0;const rt=()=>{if(Date.now()-LRT<60)return;LRT=Date.now();route()};
-function route(){if(PL)return;
+const LGT={terms:'شروط الاستخدام',privacy:'سياسة الخصوصية',contact:'تواصل معنا'};
+const LG={
+terms:()=>`<h2>شروط الاستخدام</h2><p class="m">آخر تحديث: أكتوبر 2026</p>
+<h3>1) عن زيتونة</h3><p>زيتونة منصة تجمع تجار زيت الزيتون في مكان واحد لتسهيل عرض المنتجات والتواصل مع المشتري. المنصة <b>وسيط للعرض والتواصل فقط</b>، وليست طرفاً في عملية البيع بين المشتري والتاجر.</p>
+<h3>2) الطلبات والدفع</h3><p>الطلب عبر الموقع هو <b>طلب شراء</b> يصل للتاجر، ويتم الاتفاق على التفاصيل والدفع والتسليم بينك وبينه مباشرة (غالباً عبر واتساب). لا يوجد دفع إلكتروني داخل الموقع. الأسعار والكميات والمواصفات يحددها التاجر، وهو المسؤول عنها وعن جودة منتجه وسلامته ومطابقته للقوانين.</p>
+<h3>3) حساب المستخدم</h3><p>أنت مسؤول عن صحة بياناتك وعن سرية كلمة المرور. لا يجوز إنشاء حسابات وهمية أو انتحال شخصية أو إرسال طلبات غير جادة. يحق للإدارة حظر أي حساب يخالف الشروط وإخفاء محتواه.</p>
+<h3>4) التجار والاشتراك</h3><p>يحصل التاجر على تجربة مجانية مدتها <b>${esc(String(CFG.trialDays))} يوماً</b> من التسجيل، ثم يلزمه اشتراك في إحدى الباقات المعروضة ليستمر في عرض منتجاته. يُفعَّل الاشتراك يدوياً من الإدارة بعد تأكيد الدفع. يلتزم التاجر بنشر بيانات صحيحة (الاسم، الهاتف، السعر، الحموضة، المنشأ، الكمية) وبعدم نشر منتج مغشوش أو مخالف. يحق للإدارة إيقاف أي تاجر أو إخفاء منتجاته عند المخالفة أو انتهاء الاشتراك.</p>
+<h3>5) التقييمات والتعليقات</h3><p>يجب أن تكون صادقة ومحترمة. يُسمح بتقييم النجوم لمن اشترى المنتج فعلاً (طلب مكتمل). يحق للإدارة حذف أي محتوى مسيء أو مخالف.</p>
+<h3>6) التسويق بالعمولة</h3><p>يحصل المسوّق على <b>${esc(String(CFG.commission))} جنيهاً</b> عن كل تاجر يسجّل عبر رابطه ويشترك في باقة مدفوعة، <b>مرة واحدة لكل تاجر</b>. لا تُحتسب العمولة على التسجيل بحسابك أنت، وتُحوَّل يدوياً على المحفظة أو إنستاباي الذي حددته. تحتفظ الإدارة بحق إلغاء أي عمولة ثبت أنها ناتجة عن غش أو تلاعب.</p>
+<h3>7) حدود المسؤولية</h3><p>تُقدَّم المنصة كما هي، ولا نضمن خلوها من الأخطاء أو توفرها دون انقطاع. لا نتحمل مسؤولية أي خلاف أو ضرر ينشأ عن التعامل بين المشتري والتاجر. نتائج المساعد الذكي مجرد ترشيح استرشادي.</p>
+<h3>8) التعديل</h3><p>قد نعدّل هذه الشروط، واستمرارك في استخدام الموقع يعني موافقتك على النسخة المحدّثة.</p>
+<p class="m">للاستفسار: صفحة <a href="#/l/contact" data-lg>تواصل معنا</a>. راجع أيضاً <a href="#/l/privacy" data-lg>سياسة الخصوصية</a>.</p>`,
+privacy:()=>`<h2>سياسة الخصوصية</h2><p class="m">آخر تحديث: أكتوبر 2026</p>
+<h3>1) البيانات التي نجمعها</h3><ul><li>عند التسجيل: الاسم، البريد الإلكتروني، ورقم الهاتف والمدينة (إن أدخلتهما)، ونوع الحساب. وعند الدخول بجوجل نستلم الاسم والبريد من حسابك.</li><li>للتاجر: اسم المتجر والهاتف والمدينة والنبذة والشعار وصور المنتجات وبياناتها.</li><li>عند الطلب: اسمك ورقم هاتفك وتفاصيل الطلب، وتصل للتاجر المعني.</li><li>التقييمات والتعليقات التي تكتبها (تظهر باسمك).</li><li>للمسوّق: الاسم والهاتف ووسيلة تحويل العمولة ورقمها.</li></ul>
+<h3>2) كيف نستخدمها</h3><p>لتشغيل حسابك، وإيصال طلبك للتاجر، وإدارة الاشتراكات والعمولات، ومنع إساءة الاستخدام. <b>لا نبيع بياناتك</b> ولا نستخدمها للإعلانات.</p>
+<h3>3) من يرى بياناتك</h3><ul><li>التاجر يرى اسمك ورقمك وطلبك عند إرسال طلب إليه فقط.</li><li>بيانات المتجر ومنتجاته وتقييماتك عامة.</li><li>الإدارة تطّلع على بيانات الأعضاء لإدارة الموقع.</li></ul>
+<h3>4) الخدمات التي نعتمد عليها</h3><p>نستخدم خدمات طرف ثالث لتشغيل الموقع: <b>Google Firebase</b> (الدخول وقاعدة البيانات)، و<b>Supabase</b> (تخزين صور المنتجات)، و<b>Cloudflare</b> (استضافة الموقع). وعند استخدامك زر ✨ المساعد الذكي يُرسَل نص سؤالك مع قائمة المنتجات (دون اسمك أو هاتفك) إلى مزوّد خدمة ذكاء اصطناعي ليرشّح لك منتجاً. قد تُنقل بياناتك وتُخزَّن على خوادم خارج مصر.</p>
+<h3>5) ما يُحفظ على جهازك</h3><p>نحفظ في متصفحك بيانات صغيرة لتسريع الموقع: سلة الطلبات، ونسخة من المنتجات، ورمز الإحالة (30 يوماً). لا نستخدم ملفات تتبّع إعلانية.</p>
+<h3>6) حقوقك</h3><p>يمكنك طلب الاطلاع على بياناتك أو تصحيحها أو حذف حسابك وبياناتك عبر <a href="#/l/contact" data-lg>تواصل معنا</a>. قد نحتفظ بما يلزم قانوناً أو لحل نزاع قائم.</p>
+<h3>7) الأمان</h3><p>نبذل جهداً معقولاً لحماية بياناتك، لكن لا توجد وسيلة نقل أو تخزين آمنة 100%. لا ترسل كلمة مرورك لأحد، ولن نطلبها منك أبداً.</p>
+<h3>8) التعديل</h3><p>قد نحدّث هذه السياسة وننشر التاريخ الجديد أعلاها. راجع أيضاً <a href="#/l/terms" data-lg>شروط الاستخدام</a>.</p>`,
+contact:()=>`<h2>تواصل معنا</h2><p>لأي سؤال أو شكوى أو طلب حذف بيانات أو بلاغ عن محتوى مخالف، تواصل مع إدارة زيتونة.</p>
+${CFG.waNumber?`<a class="btn" style="text-decoration:none;display:block;text-align:center" target="_blank" rel="noopener" href="${wa(CFG.waNumber)}?text=${encodeURIComponent('السلام عليكم، عندي استفسار بخصوص موقع زيتونة')}">راسلنا على واتساب</a>`:'<p class="m">قناة التواصل ستُضاف قريباً.</p>'}
+<p class="m" style="margin-top:12px">للتجار: بخصوص الاشتراك والدفع، أرسل الإيصال عبر واتساب من لوحة التاجر. راجع <a href="#/l/terms" data-lg>الشروط</a> و<a href="#/l/privacy" data-lg>الخصوصية</a>.</p>`};
+function showLegal(k,keep){if(!LG[k])return;LGK=k;$('#lg').innerHTML=LG[k]();go('l',false);if(!keep)scrollTo(0,0);document.title=LGT[k]+' — زيتونة'}
+document.addEventListener('click',e=>{if(e.target.closest('a[data-lg]'))$$('dialog[open]').forEach(d=>d.close())});
+function route(){const lh=location.hash.match(/^#\/l\/(terms|privacy|contact)$/);if(lh)return showLegal(lh[1]);if(PL)return;
 const h=location.hash,m=h.match(/^#\/(m|p)\/([\w-]+)$/),v=h.match(/^#\/v\/(m|a|o|k)$/);
 if(m)return m[1]=='m'?showStore(m[2]):showProduct(m[2]);
 if(v){const b=$('[data-v='+v[1]+']');if(b&&!b.hidden)return go(v[1],false)}
@@ -709,7 +740,7 @@ try{await setDoc(doc(db,'subReqs',U.uid),{planId:p.id,planName:p.name,price:+p.p
 
 function applySettings(){COMM=Number.isFinite(+CFG.commission)?+CFG.commission:200;
 const an=$('#ann'),show=CFG.announceOn&&CFG.announce&&!sessionStorage.zan;an.hidden=!show;if(show)$('#ant').textContent=CFG.announce;
-$('#mnt').hidden=!(CFG.maintenance&&!ISADM);$('[data-v=k]').hidden=!CFG.mktOn;$('#fa').hidden=!CFG.assistantOn;
+$('#mnt').hidden=!(CFG.maintenance&&!ISADM);$('[data-v=k]').hidden=!CFG.mktOn;$('#fa').hidden=!CFG.assistantOn;if(LGK&&!$('#vl').hidden)showLegal(LGK,true);
 $$('#ar option[value=m]').forEach(o=>o.disabled=!CFG.regMerchants);const rm=$('#rr [data-r=m]');if(rm)rm.hidden=!CFG.regMerchants;
 const bn=$('#rbt');if(bn)bn.textContent='دعاك أحد شركائنا للانضمام كتاجر على زيتونة. تجربة مجانية '+(CFG.trialDays||90)+' يوماً.'}
 async function loadST(){try{const s=await getDoc(doc(db,'settings','site'));if(s.exists())CFG={...CFG,...s.data()}}catch{}applySettings();fillST()}
