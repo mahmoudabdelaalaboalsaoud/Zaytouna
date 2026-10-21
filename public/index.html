@@ -146,6 +146,7 @@ button:disabled{opacity:.6;cursor:wait}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .fbar{background:linear-gradient(160deg,#2f3a12,#58691f 62%,#a8892a);border-radius:14px;padding:8px;margin-bottom:16px;color:#f6f4dc}.fbar .m{color:#e5e3c3}
 .fbar .sbox .ask{padding:0 12px}.fbar .sbox .ask+.ask{border-inline-start:1px solid #58691f}
+.fbar .sbox .ask.go{background:#e0b83a;color:#2f3a12;padding:0 15px;display:grid;place-items:center}.ask.go svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}.fbar .sbox .ask.go+.ask{border-inline-start:0}
 #fb:not(:empty){display:inline-grid;place-items:center;min-width:18px;height:18px;margin-inline-start:6px;border-radius:99px;background:#e0b83a;color:#2f3a12;font-size:12px}
 #fpn{margin-top:8px}
 .af.sc{flex-wrap:wrap;overflow:visible}.af.sc::-webkit-scrollbar{display:none}.af.sc button{flex:1 1 auto;white-space:nowrap;text-align:center;padding:5px 10px}
@@ -184,13 +185,14 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="rbn" id="rbn" hidden><span id="rbt">دعاك أحد شركائنا للانضمام كتاجر على زيتونة. تجربة مجانية 90 يوماً.</span><button class="btn" id="rbj">سجّل كتاجر</button></div>
 <h1 class="vh">زيت زيتون أصلي، من كل التجار في مكان واحد</h1>
 <div class="fbar">
-<div class="sbox"><input id="fq" type="search" aria-label="بحث" placeholder="ابحث بالاسم أو المنشأ أو التاجر…"><button type="button" id="ff" class="ask" aria-expanded="false" aria-label="تصفية">تصفية<span id="fb"></span></button></div>
+<div class="sbox"><input id="fq" type="search" enterkeyhint="search" aria-label="بحث" placeholder="ابحث بالاسم أو المنشأ أو التاجر…"><button type="button" id="fgo" class="ask go" aria-label="بحث"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg></button><button type="button" id="ff" class="ask" aria-expanded="false" aria-label="تصفية">تصفية<span id="fb"></span></button></div>
 <div id="fpn" hidden><div class="fg">
 <label><span>الاستخدام</span><select id="fu"><option value="">الكل</option><option value="s">للسلطة</option><option value="c">للطبخ</option><option value="h">للصحة اليومية</option></select></label>
 <label><span>النوع</span><select id="ft"><option value="all">الكل</option><option value="r">أفراد</option><option value="w">جملة</option></select></label>
 <label><span>التاجر</span><select id="fm"><option value="">كل التجار</option></select></label>
 <label><span>الترتيب</span><select id="fo"><option value="new">الأحدث</option><option value="pa">الأرخص سعراً</option><option value="pd">الأعلى سعراً</option><option value="la">الأرخص بالتر</option><option value="rt">الأعلى تقييماً</option></select></label>
-</div><div class="fi"><span id="cnt"></span><button type="button" class="lk" id="fx" hidden>مسح الفلاتر</button></div></div>
+</div><div class="fi"><span id="cnt"></span><button type="button" class="lk" id="fx" hidden>مسح الفلاتر</button></div>
+<button type="button" class="btn" id="fshow" style="width:100%;margin-top:8px;background:#e0b83a;color:#2f3a12;padding:9px">عرض النتائج</button></div>
 </div>
 <div class="grid" id="grid"></div></section>
 
@@ -329,10 +331,12 @@ if(PL){$('#cnt').textContent='';$('#grid').innerHTML=PRESS;return}
 const qs=nz($('#fq').value).split(/\s+/).filter(Boolean),t=$('#ft').value,m=$('#fm').value,o=$('#fo').value,u=$('#fu').value;$('#fx').hidden=!($('#fq').value.trim()||u||t!='all'||m||o!='new');{const k=[u,t!='all',m,o!='new'].filter(Boolean).length;$('#fb').textContent=k||''}
 const L=P.map((p,i)=>({p,i})).filter(({p})=>(t=='all'||(t=='w')==!!p.w)&&(!u||p.t.includes(u))&&(!m||p.mid==m)&&(!qs.length||hm(p,qs)));
 const key={new:x=>-x.p.ts,pa:x=>x.p.p,pd:x=>-x.p.p,la:x=>pl(x.p),rt:x=>-ravg(x.p.id)}[o];L.sort((a,b)=>key(a)-key(b));
-$('#cnt').textContent=P.length?(L.length==P.length?P.length+' منتج':L.length+' من '+P.length+' منتج'):'';
+$('#cnt').textContent=P.length?(L.length==P.length?P.length+' منتج':L.length+' من '+P.length+' منتج'):'';{const b=$('#fshow');if(b)b.textContent=L.length?'عرض '+L.length+' منتج':'لا توجد نتائج'}
 $('#grid').innerHTML=!P.length?'<p class="m" style="grid-column:1/-1">لا توجد منتجات بعد، وسيظهر هنا ما يضيفه التجار.</p>':!L.length?'<p class="m" style="grid-column:1/-1">لا توجد نتائج مطابقة، جرّب كلمات أقل أو امسح الفلاتر.</p>':L.map(({p,i})=>cardH(p,i,1)).join('')}
 ['#fq','#fu','#ft','#fm','#fo'].forEach(id=>$(id).addEventListener('input',()=>shop()));
 $('#fx').onclick=()=>{$('#fq').value='';$('#fu').value='';$('#ft').value='all';$('#fm').value='';$('#fo').value='new';shop()};
+function showRes(){const a=document.activeElement;if(a&&a.blur)a.blur();shop();$('#fpn').hidden=true;$('#ff').setAttribute('aria-expanded','false');setTimeout(()=>{const hd=document.querySelector('.top'),y=$('.fbar').getBoundingClientRect().top+scrollY-(hd?hd.offsetHeight:0)-8;scrollTo({top:Math.max(0,y),behavior:'smooth'})},220)}
+$('#fgo').onclick=showRes;$('#fshow').onclick=showRes;$('#fq').addEventListener('keydown',e=>{if(e.key=='Enter'){e.preventDefault();showRes()}});
 $('#ff').onclick=()=>{const q=$('#fpn');q.hidden=!q.hidden;$('#ff').setAttribute('aria-expanded',!q.hidden)};
 function go(v,push){$$('nav button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v==v));['s','m','a','o','k','x','l'].forEach(k=>$('#v'+k).hidden=k!=v);document.dispatchEvent(new CustomEvent('view',{detail:v}));try{document.querySelector('nav button[aria-pressed=true]').scrollIntoView({inline:'center',block:'nearest'})}catch{}
 if(push!==false){scrollTo(0,0);const h=v=='s'?location.pathname+location.search:'#/v/'+v;if(v=='s'?location.hash:location.hash!='#/v/'+v)history.pushState(null,'',h)}}
