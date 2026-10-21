@@ -18,8 +18,8 @@ button{font:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .top{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--line);padding:8px 14px 0}
 .tr{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:1000px;margin:auto}.tact{display:flex;gap:8px;align-items:center}
-.top nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 0 10px;max-width:1000px;margin:auto}.top nav::-webkit-scrollbar{display:none}
-.top nav button{flex:none;white-space:nowrap;padding:6px 14px}
+.top nav{display:flex;flex-wrap:wrap;gap:6px;padding:8px 0 10px;max-width:1000px;margin:auto}.top nav::-webkit-scrollbar{display:none}
+.top nav button{flex:1 1 auto;white-space:nowrap;padding:6px 10px;font-size:14.5px;text-align:center}
 .brand{font:700 26px 'Reem Kufi',Tahoma,sans-serif;color:var(--olive)}
 nav{display:flex;gap:4px;margin-inline-start:auto}
 nav button{border:0;background:none;color:var(--mut);padding:6px 12px;border-radius:99px;font-weight:600}
@@ -148,7 +148,7 @@ button:disabled{opacity:.6;cursor:wait}
 .fbar .sbox .ask{padding:0 12px}.fbar .sbox .ask+.ask{border-inline-start:1px solid #58691f}
 #fb:not(:empty){display:inline-grid;place-items:center;min-width:18px;height:18px;margin-inline-start:6px;border-radius:99px;background:#e0b83a;color:#2f3a12;font-size:12px}
 #fpn{margin-top:8px}
-.af.sc{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.af.sc::-webkit-scrollbar{display:none}.af.sc button{flex:none;white-space:nowrap}
+.af.sc{flex-wrap:wrap;overflow:visible}.af.sc::-webkit-scrollbar{display:none}.af.sc button{flex:1 1 auto;white-space:nowrap;text-align:center;padding:5px 10px}
 .pc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}.pc ul{margin:0;padding-inline-start:18px;font-size:14px;line-height:1.7}
 .dx{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}.dx>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 14px;font-weight:600;font-size:16px}.dx>summary::-webkit-details-marker{display:none}.dx>summary .ic{width:36px;height:36px;border-radius:11px;background:var(--bg);display:grid;place-items:center;font-size:18px;flex:none}.dx>summary .t{flex:1;min-width:0}.dx>summary small{display:block;font-weight:400;color:var(--mut);font-size:12.5px}.dx>summary::after{content:"▾";color:var(--mut);transition:transform .25s}.dx[open]>summary::after{transform:rotate(180deg)}.dx[open]>summary{border-bottom:1px solid var(--line)}.dxb{padding:14px}.dx[open]>.dxb{animation:dxo .25s ease}@keyframes dxo{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}@media (prefers-reduced-motion:reduce){.dx[open]>.dxb{animation:none}}
 .bd{min-width:24px;height:24px;border-radius:12px;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-size:13px;font-weight:700;display:grid;place-items:center;padding:0 7px}.bd.nw{background:var(--bad);border-color:var(--bad);color:#fff}
@@ -172,7 +172,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div id="sp" role="status" aria-label="جارٍ التحميل"><div class="spi"><div class="ld"><svg viewBox="0 0 120 120" width="150" height="150" aria-hidden="true"><g class="plate"><rect x="57" y="2" width="6" height="18" rx="2" fill="#a8892a"/><rect x="28" y="20" width="64" height="9" rx="4" fill="#a8892a"/></g><circle class="olv" cx="44" cy="54" r="9" fill="#58691f"/><circle class="olv" cx="62" cy="56" r="9" fill="#7d9020"/><circle class="olv" cx="79" cy="54" r="8" fill="#58691f"/><rect x="24" y="64" width="72" height="7" rx="3" fill="#8a6a22"/><path class="drp" d="M60 73c-3 5-3 8 0 10 3-2 3-5 0-10z" fill="#e0b83a"/><rect x="46" y="90" width="28" height="26" rx="7" fill="none" stroke="#e0b83a" stroke-width="2.5"/><rect class="oil" x="49" y="93" width="22" height="20" rx="5" fill="#e0b83a" opacity=".9"/></svg></div><div class="spt">زيتونة</div><div class="spl"></div><div class="sps">أكبر منصة لبيع زيت الزيتون</div></div></div>
 <svg width="0" height="0" style="position:absolute"><symbol id="b" viewBox="0 0 40 90"><path d="M16 2h8v10l4 8v62a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V20l4-8z" fill="currentColor"/><rect x="14" y="40" width="12" height="24" rx="2" fill="#f6f4dc" opacity=".85"/></symbol></svg>
 <header class="top"><div class="tr"><span class="brand">زيتونة</span><div class="tact"><button class="cart" id="au">دخول</button><button class="cart" id="cn">السلة</button></div></div>
-<nav><button data-v="s" aria-pressed="true">المتجر</button><button data-v="m" aria-pressed="false" hidden>لوحة التاجر<span class="nb" id="nbm" hidden></span></button><button data-v="a" aria-pressed="false" hidden>الإدارة<span class="nb" id="nba" hidden></span></button><button data-v="o" aria-pressed="false" hidden>مشترياتي</button><button data-v="k" aria-pressed="false">اربح 200 ج</button></nav></header>
+<nav><button data-v="s" aria-pressed="true">المتجر</button><button data-v="m" aria-pressed="false" hidden>لوحة التاجر<span class="nb" id="nbm" hidden></span></button><button data-v="a" aria-pressed="false" hidden>الإدارة<span class="nb" id="nba" hidden></span></button><button data-v="o" aria-pressed="false" hidden>مشترياتي</button><button data-v="k" aria-pressed="false">اربح معنا</button></nav></header>
 <main>
 <section id="vs">
 <div class="rbn" id="rbn" hidden><span id="rbt">دعاك أحد شركائنا للانضمام كتاجر على زيتونة. تجربة مجانية 90 يوماً.</span><button class="btn" id="rbj">سجّل كتاجر</button></div>
@@ -213,7 +213,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div class="sec"><h2>مشترياتي</h2></div>
 <div class="wrap"><table><tbody id="bo"></tbody></table></div></section>
 <section id="vk" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button>
-<div class="sec"><h2>اربح 200 جنيه عن كل تاجر</h2></div><div id="kb"></div></section>
+<div class="sec"><h2 id="kh">اربح معنا</h2></div><div id="kb"></div></section>
 <section id="vx" hidden></section>
 <section id="vl" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button><div class="box lgp" id="lgp"></div></section>
 <section id="va" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button>
@@ -252,6 +252,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <label><input type="checkbox" id="s8"> السماح بتسجيل تجار جدد</label>
 <label><input type="checkbox" id="s9"> تفعيل المساعد الذكي</label>
 <label><input type="checkbox" id="s10"> تفعيل التسويق بالعمولة</label>
+<label>اسم زر التسويق (يظهر في الشريط العلوي)<input id="s11" maxlength="20" placeholder="اربح معنا"></label>
 <span id="se2" class="m" style="color:var(--bad)"></span><button class="btn">حفظ الإعدادات</button></form>
 <div class="box" id="tlb" hidden style="margin-top:18px"><h3>تنظيف بيانات التجربة</h3><p class="m">الحذف نهائي ولا يمكن التراجع عنه، وينفّذه المالك فقط.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn o" id="wo">حذف كل الطلبات</button><button class="btn o" id="wp">حذف كل المنتجات</button></div></div>
 <div class="box" id="adb" hidden style="margin-top:18px"><h3>مديرو الموقع</h3><p class="m">أضف إيميل مدير جديد، وهيدخل بحساب Google بنفس الإيميل ليظهر له زرار الإدارة.</p>
@@ -364,7 +365,7 @@ const wlink=(o,id)=>o.merchantPhone?wa(o.merchantPhone)+'?text='+encodeURICompon
 const ST={new:'جديد',accepted:'مقبول',done:'مكتمل',cancelled:'ملغي'};
 const OWNER='mahmoudabdelaalaboalsaoud@gmail.com';
 let LGK='',OL=[],OSH=8;
-let CFG={trialDays:90,commission:200,waNumber:'',payInfo:'',announceOn:false,announce:'',maintenance:false,regMerchants:true,assistantOn:true,mktOn:true},MPLS={},LOGO='',OD={},MPD={},EP=null,REG=false,BLK=false,BU=[],BF='',BQ='',OC={},RU=null,RR='b',IMT='',PIMG=null,U=null,M=null,AM=[],AF='',AQ='',OWN=false,ISADM=false,RL=[],seq=0,sign=false;
+let CFG={trialDays:90,commission:200,waNumber:'',payInfo:'',announceOn:false,announce:'',maintenance:false,regMerchants:true,assistantOn:true,mktOn:true,mktLabel:'اربح معنا'},MPLS={},LOGO='',OD={},MPD={},EP=null,REG=false,BLK=false,BU=[],BF='',BQ='',OC={},RU=null,RR='b',IMT='',PIMG=null,U=null,M=null,AM=[],AF='',AQ='',OWN=false,ISADM=false,RL=[],seq=0,sign=false;
 
 async function products(){try{const s=await getDocs(query(collection(db,'products'),where('active','==',true)));PL=false;
 if(s.empty){try{localStorage.removeItem('zpc')}catch{}setP([]);return}
@@ -750,13 +751,13 @@ try{await setDoc(doc(db,'subReqs',U.uid),{planId:p.id,planName:p.name,price:+p.p
 
 function applySettings(){COMM=Number.isFinite(+CFG.commission)?+CFG.commission:200;
 const an=$('#ann'),show=CFG.announceOn&&CFG.announce&&!sessionStorage.zan;an.hidden=!show;if(show)$('#ant').textContent=CFG.announce;
-$('#mnt').hidden=!(CFG.maintenance&&!ISADM);$('[data-v=k]').hidden=!CFG.mktOn;$('#fa').hidden=!CFG.assistantOn;if(LGK&&!$('#vl').hidden)showLegal(LGK,true);
+$('#mnt').hidden=!(CFG.maintenance&&!ISADM);$('[data-v=k]').hidden=!CFG.mktOn;{const l=CFG.mktLabel||'اربح معنا';$('[data-v=k]').textContent=l;$('#kh').textContent=l}$('#fa').hidden=!CFG.assistantOn;if(LGK&&!$('#vl').hidden)showLegal(LGK,true);
 $$('#ar option[value=m]').forEach(o=>o.disabled=!CFG.regMerchants);const rm=$('#rr [data-r=m]');if(rm)rm.hidden=!CFG.regMerchants;
 const bn=$('#rbt');if(bn)bn.textContent='دعاك أحد شركائنا للانضمام كتاجر على زيتونة. تجربة مجانية '+(CFG.trialDays||90)+' يوماً.'}
 async function loadST(){try{const s=await getDoc(doc(db,'settings','site'));if(s.exists())CFG={...CFG,...s.data()}}catch{}applySettings();fillST()}
-function fillST(){$('#s1').value=CFG.trialDays;$('#s2').value=CFG.commission;$('#s3').value=CFG.waNumber||'';$('#s4').value=CFG.payInfo||'';$('#s5').checked=!!CFG.announceOn;$('#s6').value=CFG.announce||'';$('#s7').checked=!!CFG.maintenance;$('#s8').checked=CFG.regMerchants!==false;$('#s9').checked=CFG.assistantOn!==false;$('#s10').checked=CFG.mktOn!==false}
+function fillST(){$('#s1').value=CFG.trialDays;$('#s2').value=CFG.commission;$('#s3').value=CFG.waNumber||'';$('#s4').value=CFG.payInfo||'';$('#s5').checked=!!CFG.announceOn;$('#s6').value=CFG.announce||'';$('#s7').checked=!!CFG.maintenance;$('#s8').checked=CFG.regMerchants!==false;$('#s9').checked=CFG.assistantOn!==false;$('#s10').checked=CFG.mktOn!==false;$('#s11').value=CFG.mktLabel||'اربح معنا'}
 $('#anx').onclick=()=>{try{sessionStorage.zan=1}catch{}$('#ann').hidden=true};$('#mna').onclick=()=>openDlg();
-$('#stf').onsubmit=async e=>{e.preventDefault();const er=$('#se2'),d={trialDays:Math.round(+$('#s1').value),commission:Math.round(+$('#s2').value),waNumber:norm($('#s3').value),payInfo:$('#s4').value.trim().slice(0,500),announceOn:$('#s5').checked,announce:$('#s6').value.trim().slice(0,200),maintenance:$('#s7').checked,regMerchants:$('#s8').checked,assistantOn:$('#s9').checked,mktOn:$('#s10').checked};
+$('#stf').onsubmit=async e=>{e.preventDefault();const er=$('#se2'),d={trialDays:Math.round(+$('#s1').value),commission:Math.round(+$('#s2').value),waNumber:norm($('#s3').value),payInfo:$('#s4').value.trim().slice(0,500),announceOn:$('#s5').checked,announce:$('#s6').value.trim().slice(0,200),maintenance:$('#s7').checked,regMerchants:$('#s8').checked,assistantOn:$('#s9').checked,mktOn:$('#s10').checked,mktLabel:$('#s11').value.trim().slice(0,20)||'اربح معنا'};
 if(!(d.trialDays>=1&&d.trialDays<=365)||!(d.commission>=0&&d.commission<=10000)){er.textContent='راجع مدة التجربة (من 1 إلى 365) والعمولة (من 0 إلى 10000)';return}
 if(d.waNumber&&!/^01[0125]\d{8}$/.test(d.waNumber)){er.textContent='رقم واتساب غير صحيح';return}
 if(d.maintenance&&!await yes('وضع الصيانة سيغلق الموقع على الزوار. متأكد؟',{ok:'تفعيل',danger:1}))return;
