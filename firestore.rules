@@ -21,6 +21,11 @@ service cloud.firestore {
       return exists(/databases/$(db)/documents/settings/site)
         ? int(get(/databases/$(db)/documents/settings/site).data.get('trialDays', 90)) + 1 : 91;
     }
+    // أقصى طول لوصف المنتج (من إعدادات الموقع، والافتراضي 200 حرف)
+    function descMax() {
+      return exists(/databases/$(db)/documents/settings/site)
+        ? int(get(/databases/$(db)/documents/settings/site).data.get('descMax', 200)) : 200;
+    }
     function subOk() {
       let m = mer();
       return m.status in ['trial', 'active'] && m.endsAt > request.time;
@@ -29,7 +34,7 @@ service cloud.firestore {
     // شكل المنتج وحدود القيم، واسم التاجر ورقمه يطابقان بياناته
     function prodOk(d) {
       let m = mer();
-      return d.keys().hasOnly(['merchantId', 'merchantName', 'merchantPhone', 'name', 'origin', 'acidity', 'liters', 'price', 'wholesale', 'tags', 'active', 'image', 'stock', 'createdAt'])
+      return d.keys().hasOnly(['merchantId', 'merchantName', 'merchantPhone', 'name', 'origin', 'acidity', 'liters', 'price', 'wholesale', 'tags', 'active', 'image', 'stock', 'description', 'createdAt'])
         && d.name is string && d.name.size() >= 2 && d.name.size() <= 80
         && d.origin is string && d.origin.size() <= 60
         && d.acidity is number && d.acidity >= 0 && d.acidity <= 5
@@ -38,6 +43,7 @@ service cloud.firestore {
         && d.wholesale is bool && d.active is bool
         && d.tags is list && d.tags.size() <= 3
         && (!('stock' in d) || (d.stock is int && d.stock >= 0 && d.stock <= 100000))
+        && (!('description' in d) || (d.description is string && d.description.size() <= descMax()))
         && (!('image' in d) || (d.image is string
             && d.image.matches('^https://ptimioffmszhmpxxuqha[.]supabase[.]co/storage/v1/object/public/zaytouna-products/' + d.merchantId + '/.+')))
         && d.merchantName == m.name && d.merchantPhone == m.phone;
@@ -223,7 +229,8 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isOwner()
         && request.resource.data.trialDays is int && request.resource.data.trialDays >= 1 && request.resource.data.trialDays <= 365
-        && request.resource.data.commission is int && request.resource.data.commission >= 0 && request.resource.data.commission <= 10000;
+        && request.resource.data.commission is int && request.resource.data.commission >= 0 && request.resource.data.commission <= 10000
+        && request.resource.data.get('descMax', 200) is int && request.resource.data.get('descMax', 200) >= 20 && request.resource.data.get('descMax', 200) <= 1000;
     }
     // الباقات: يديرها المدير ويراها التجار المعروضة فقط
     match /plans/{id} {
