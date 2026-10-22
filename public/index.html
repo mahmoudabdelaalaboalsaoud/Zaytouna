@@ -65,7 +65,7 @@ main{max-width:1000px;margin:auto;padding:16px}
 @media(min-width:640px){.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}}
 .grid .card{padding:10px;gap:4px}.grid .card b{font-size:15px;line-height:1.4}.grid .card .m{font-size:13px;line-height:1.4}
 .grid .card .price{font-size:17px}.grid .card .btn{padding:6px 10px;font-size:14px;text-align:center}
-.grid .bt{height:84px}.grid .bt.ph{height:120px}#vx>article .bt.ph{height:220px}
+.grid .bt{height:120px;position:relative}.cb{margin-top:auto;display:flex;flex-direction:column;gap:4px;padding-top:6px}.lw{position:absolute;top:6px;inset-inline-start:6px;background:#e0b83a;color:#2f3a12;font-size:12px;font-weight:600;padding:2px 9px;border-radius:99px;box-shadow:0 1px 4px rgba(0,0,0,.35)}.grid .bt.ph{height:120px}#vx>article .bt.ph{height:220px}
 .fb{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:12px}.fb:focus-within{border-color:var(--olive)}
 .fb input{display:block;width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;padding:10px 14px;outline:0}
 .fr{display:flex}.fr select{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:14px;padding:10px 8px}.fr select+select{border-inline-start:1px solid var(--line)}
@@ -308,11 +308,13 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <dialog id="od"><div class="fm"><h3>تم تسجيل طلبك ✅</h3><p class="m">ابعت تفاصيل الطلب للتاجر على واتساب عشان يأكده معاك.</p><div id="ol" class="fm"></div><button class="btn o" id="ox">تمام</button></div></dialog>
 <script>
 let P=[],RV={},PL=true;
+const buyC=(p,i)=>p.st===0?'<button class="btn" disabled>نفدت الكمية</button>':`<button class="btn" onclick="add(${i})">أضف للسلة</button>`;
+const lowH=p=>p.st!=null&&p.st>0&&p.st<=5?`<span class="lw">متبقي ${p.st} فقط</span>`:'';
 const buyH=(p,i)=>{const t=p.st!=null&&p.st>0&&p.st<=5?`<span class="m" style="color:#e0b83a">متبقي ${p.st} فقط</span>`:'';return t+(p.st===0?'<button class="btn" disabled>نفدت الكمية</button>':`<button class="btn" onclick="add(${i})">أضف للسلة</button>`)};
 const SB='https://ptimioffmszhmpxxuqha.supabase.co/storage/v1/object/public/zaytouna-products/';
 const okImg=u=>typeof u=='string'&&u.startsWith(SB)?u:'';
 const imgH=p=>p.img?`<img src="${esc(p.img)}" alt="${esc(p.n)}" loading="lazy" style="width:100%;height:100%;object-fit:cover">`:`<svg style="color:${p.c}" width="38" height="84"><use href="#b"/></svg>`;
-const stH=id=>{const r=RV[id];if(!r)return '';const a=Math.round(r.s/r.c);return `<span class="m" style="color:#e0b13a">${'★'.repeat(a)}${'☆'.repeat(5-a)} <span class="m">${(r.s/r.c).toFixed(1)} (${r.c})</span></span>`};
+const stH=id=>{const r=RV[id];if(!r)return '<span class="m" style="color:var(--mut)">☆☆☆☆☆ <span class="m">لا تقييمات بعد</span></span>';const a=Math.round(r.s/r.c);return `<span class="m" style="color:#e0b13a">${'★'.repeat(a)}${'☆'.repeat(5-a)} <span class="m">${(r.s/r.c).toFixed(1)} (${r.c})</span></span>`};
 const L={t:'تجربة مجانية',a:'نشط',e:'منتهي'};
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),pl=p=>Math.round(p.p/p.l);
 const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';'),wa=p=>'https://wa.me/'+String(p||'').replace(/\D/g,'').replace(/^0/,'20');
@@ -326,7 +328,7 @@ function cartUI(pop){const n=cart.length,b=$('#cn');try{localStorage.zcart=JSON.
 if(pop&&n){b.querySelector('.bdg').classList.add('pop');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump')}}
 function add(i){const p=P[i];if(p.st===0)return toast('نفدت الكمية');if(p.st!=null&&cart.filter(x=>x.id==p.id).length>=p.st)return toast('الكمية المتاحة '+p.st+' فقط');cart.push(P[i]);cartUI(1);toast('أضفنا '+P[i].n+' إلى السلة')}
 const ravg=id=>{const r=RV[id];return r?r.s/r.c:0};
-const cardH=(p,i,wm)=>`<article class="card"><div class="bt${p.img?' ph':''}">${imgH(p)}</div><b><a href="#/p/${esc(p.id)}" style="color:inherit;text-decoration:none">${esc(p.n)}</a></b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span>${p.d?`<span class="pdsc">${esc(p.d)}</span>`:''}${wm?`<a class="m" href="#/m/${esc(p.mid)}">${esc(p.m)}</a>`:''}<div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}${buyH(p,i)}<a class="m" style="text-align:center;color:var(--olive)" href="#/p/${esc(p.id)}">التفاصيل ›</a></article>`;
+const cardH=(p,i,wm)=>`<article class="card"><div class="bt${p.img?' ph':''}">${imgH(p)}${lowH(p)}</div><b><a href="#/p/${esc(p.id)}" style="color:inherit;text-decoration:none">${esc(p.n)}</a></b><span class="m">${esc(p.o)} · حموضة ${p.a}% · ${p.l} لتر</span>${p.d?`<span class="pdsc">${esc(p.d)}</span>`:''}${wm?`<a class="m" href="#/m/${esc(p.mid)}">${esc(p.m)}</a>`:''}<div class="cb"><div class="price">${p.p} ج <span class="m">(${pl(p)} ج/لتر)</span></div>${stH(p.id)}${buyC(p,i)}<a class="m" style="text-align:center;color:var(--olive)" href="#/p/${esc(p.id)}">التفاصيل ›</a></div></article>`;
 function fillMerchants(){const sel=$('#fm'),cur=sel.value,ms={};P.forEach(p=>{if(p.mid)ms[p.mid]=p.m});const sig=JSON.stringify(ms);
 if(sel.dataset.sig!==sig){sel.dataset.sig=sig;sel.innerHTML='<option value="">كل التجار</option>'+Object.entries(ms).map(([k,v])=>`<option value="${esc(k)}">${esc(v)}</option>`).join('');sel.value=ms[cur]?cur:''}}
 const PRESS=`<div class="ld" role="status"><svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true"><g class="plate"><rect x="57" y="2" width="6" height="18" rx="2" fill="#a8892a"/><rect x="28" y="20" width="64" height="9" rx="4" fill="#a8892a"/></g><circle class="olv" cx="44" cy="54" r="9" fill="#58691f"/><circle class="olv" cx="62" cy="56" r="9" fill="#7d9020"/><circle class="olv" cx="79" cy="54" r="8" fill="#58691f"/><rect x="24" y="64" width="72" height="7" rx="3" fill="#8a6a22"/><path class="drp" d="M60 73c-3 5-3 8 0 10 3-2 3-5 0-10z" fill="#e0b83a"/><rect x="46" y="90" width="28" height="26" rx="7" fill="none" stroke="#e0b83a" stroke-width="2.5"/><rect class="oil" x="49" y="93" width="22" height="20" rx="5" fill="#e0b83a" opacity=".9"/></svg><p>جارٍ عرض المنتجات…</p><span class="m">نعصر لك أجود الزيوت</span></div>`+'<div class="sk"></div>'.repeat(4);
