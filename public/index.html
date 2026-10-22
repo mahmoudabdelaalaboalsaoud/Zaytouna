@@ -822,6 +822,10 @@ $('#pf').onsubmit=async e=>{e.preventDefault();const t=[...$$('[name=pt]:checked
 let img='';if(PIMG){toast('جارٍ رفع الصورة…');try{img=await upImg(PIMG)}catch(x){return toast(upMsg(x))}}
 try{await addDoc(collection(db,'products'),{merchantId:U.uid,merchantName:M.name,merchantPhone:M.phone||'',name:$('#pn').value.trim(),origin:$('#po').value.trim(),acidity:+$('#pa').value,liters:+$('#pq').value,price:+$('#pr').value,wholesale:$('#pw').checked,tags:t.length?t:['c'],active:true,...(img?{image:img}:{}),...($('#pst').value!==''?{stock:Math.max(0,Math.floor(+$('#pst').value))}:{}),createdAt:serverTimestamp()});
 e.target.reset();PIMG=null;$('#pprev').hidden=true;toast('تمت إضافة المنتج');loadM();products()}catch{toast('تعذرت الإضافة، تأكد أن اشتراكك ساري')}};
+function openEdit(id){const p=MPD[id];if(!p)return toast('تعذر فتح المنتج، حدّث الصفحة');EP=id;$('#en').value=p.name||'';$('#eo').value=p.origin||'';$('#ea').value=p.acidity??'';$('#eq').value=p.liters??'';$('#er').value=p.price??'';$('#es').value=p.stock!=null?p.stock:'';$('#ew').checked=!!p.wholesale;$$('[name=et]').forEach(c=>{c.checked=(p.tags||[]).includes(c.value)});$('#ee').textContent='';$('#ed').showModal()}
+$('#ecl').onclick=()=>$('#ed').close();
+$('#ef').onsubmit=async e=>{e.preventDefault();if(!EP)return;const t=[...$$('[name=et]:checked')].map(x=>x.value),st=$('#es').value.trim(),btn=$('#eok');btn.disabled=true;
+try{await updateDoc(doc(db,'products',EP),{name:$('#en').value.trim(),origin:$('#eo').value.trim(),acidity:+$('#ea').value,liters:+$('#eq').value,price:+$('#er').value,wholesale:$('#ew').checked,tags:t.length?t:['c'],stock:st!==''?Math.max(0,Math.floor(+st)):deleteField(),merchantName:M.name,merchantPhone:M.phone||''});$('#ed').close();toast('تم حفظ التعديلات');loadM();products()}catch{$('#ee').textContent='تعذر الحفظ، تأكد أن اشتراكك ساري وأن القيم صحيحة'}finally{btn.disabled=false}};
 $('#pb').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const id=b.dataset.id;
 if(b.dataset.a=='cp')return cp(LK('p/'+id));
 if(b.dataset.a=='im'){IMT=id;return $('#pfile').click()}
