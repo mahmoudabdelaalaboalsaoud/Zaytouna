@@ -3,7 +3,7 @@
 <title>زيتونة — سوق زيت الزيتون</title>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#f5f6ea" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#141a0a" media="(prefers-color-scheme: dark)">
-<link rel="icon" type="image/png" href="/icons/icon-192.png"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="/icons/icon-192.png?v=2"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=2">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="زيتونة">
 <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -20,7 +20,7 @@ button{font:inherit;cursor:pointer}
 .tr{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:1000px;margin:auto}.tact{display:flex;gap:8px;align-items:center}
 .top nav{display:flex;flex-wrap:wrap;gap:6px;padding:8px 0 10px;max-width:1000px;margin:auto}.top nav::-webkit-scrollbar{display:none}
 .top nav button{flex:1 1 auto;white-space:nowrap;padding:6px 10px;font-size:14.5px;text-align:center}
-.brand{font:700 26px 'Reem Kufi',Tahoma,sans-serif;color:var(--olive)}
+.brand{line-height:0;display:flex;align-items:center}.brand img{height:46px;width:auto;display:block}
 nav{display:flex;gap:4px;margin-inline-start:auto}
 nav button{border:0;background:none;color:var(--mut);padding:6px 12px;border-radius:99px;font-weight:600}
 nav button[aria-pressed=true]{background:var(--olive);color:var(--bg)}
@@ -135,6 +135,7 @@ button:disabled{opacity:.6;cursor:wait}
 .fi{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13px;color:#e5e3c3}.fi .lk{color:#f6f4dc}
 #sp{position:fixed;inset:0;z-index:300;display:grid;place-items:center;background:radial-gradient(circle at 50% 38%,#34411a 0%,#141a0a 70%);color:#f6f4dc;transition:opacity .6s ease,visibility .6s}
 #sp.out{opacity:0;visibility:hidden}.spi{text-align:center;padding:24px}.spi .ld{padding:0}
+.splg{width:min(220px,58vw);height:auto;animation:spup .9s ease both;filter:drop-shadow(0 6px 18px rgba(0,0,0,.45))}
 .spt{font:700 56px 'Reem Kufi',Tahoma,sans-serif;background:linear-gradient(100deg,#9db04a 20%,#f3df8a 45%,#e0b83a 55%,#9db04a 80%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:spsh 3s linear infinite,spup .9s ease both}
 .spl{height:2px;width:0;margin:10px auto;background:linear-gradient(90deg,transparent,#e0b83a,transparent);animation:spw 1.2s .5s ease forwards}
 .sps{font-size:17px;opacity:0;animation:spf 1s .9s ease forwards}
@@ -177,9 +178,9 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 </style></head><body>
 <div class="ann" id="ann" hidden><span id="ant"></span><button class="lk" id="anx" aria-label="إغلاق" style="color:#1a1a0a;justify-self:auto">✕</button></div>
 <div id="mnt" hidden><div><h2>الموقع تحت الصيانة</h2><p class="m" style="margin:8px 0 16px">نعود قريباً بإذن الله.</p><button class="btn o" id="mna">دخول الإدارة</button></div></div>
-<div id="sp" role="status" aria-label="جارٍ التحميل"><div class="spi"><div class="ld"><svg viewBox="0 0 120 120" width="150" height="150" aria-hidden="true"><g class="plate"><rect x="57" y="2" width="6" height="18" rx="2" fill="#a8892a"/><rect x="28" y="20" width="64" height="9" rx="4" fill="#a8892a"/></g><circle class="olv" cx="44" cy="54" r="9" fill="#58691f"/><circle class="olv" cx="62" cy="56" r="9" fill="#7d9020"/><circle class="olv" cx="79" cy="54" r="8" fill="#58691f"/><rect x="24" y="64" width="72" height="7" rx="3" fill="#8a6a22"/><path class="drp" d="M60 73c-3 5-3 8 0 10 3-2 3-5 0-10z" fill="#e0b83a"/><rect x="46" y="90" width="28" height="26" rx="7" fill="none" stroke="#e0b83a" stroke-width="2.5"/><rect class="oil" x="49" y="93" width="22" height="20" rx="5" fill="#e0b83a" opacity=".9"/></svg></div><div class="spt">زيتونة</div><div class="spl"></div><div class="sps">أكبر منصة لبيع زيت الزيتون</div></div></div>
+<div id="sp" role="status" aria-label="جارٍ التحميل"><div class="spi"><div class="ld"><svg viewBox="0 0 120 120" width="150" height="150" aria-hidden="true"><g class="plate"><rect x="57" y="2" width="6" height="18" rx="2" fill="#a8892a"/><rect x="28" y="20" width="64" height="9" rx="4" fill="#a8892a"/></g><circle class="olv" cx="44" cy="54" r="9" fill="#58691f"/><circle class="olv" cx="62" cy="56" r="9" fill="#7d9020"/><circle class="olv" cx="79" cy="54" r="8" fill="#58691f"/><rect x="24" y="64" width="72" height="7" rx="3" fill="#8a6a22"/><path class="drp" d="M60 73c-3 5-3 8 0 10 3-2 3-5 0-10z" fill="#e0b83a"/><rect x="46" y="90" width="28" height="26" rx="7" fill="none" stroke="#e0b83a" stroke-width="2.5"/><rect class="oil" x="49" y="93" width="22" height="20" rx="5" fill="#e0b83a" opacity=".9"/></svg></div><img class="splg" src="/icons/logo.png?v=2" alt="زيتونة" width="220" height="217"><div class="spl"></div><div class="sps">أكبر منصة لبيع زيت الزيتون</div></div></div>
 <svg width="0" height="0" style="position:absolute"><symbol id="b" viewBox="0 0 40 90"><path d="M16 2h8v10l4 8v62a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V20l4-8z" fill="currentColor"/><rect x="14" y="40" width="12" height="24" rx="2" fill="#f6f4dc" opacity=".85"/></symbol></svg>
-<header class="top"><div class="tr"><span class="brand">زيتونة</span><div class="tact"><button class="cart" id="au">دخول</button><button class="cart" id="cn">السلة</button></div></div>
+<header class="top"><div class="tr"><span class="brand"><img src="/icons/logo-mark.png?v=2" alt="زيتونة" width="54" height="46"></span><div class="tact"><button class="cart" id="au">دخول</button><button class="cart" id="cn">السلة</button></div></div>
 <nav><button data-v="s" aria-pressed="true">المتجر</button><button data-v="m" aria-pressed="false" hidden>لوحة التاجر<span class="nb" id="nbm" hidden></span></button><button data-v="a" aria-pressed="false" hidden>الإدارة<span class="nb" id="nba" hidden></span></button><button data-v="o" aria-pressed="false" hidden>مشترياتي</button><button data-v="k" aria-pressed="false">اربح معنا</button></nav></header>
 <main>
 <section id="vs">
@@ -858,7 +859,7 @@ if(box||sa()||Date.now()-get()<7*DAY)return;
 if(document.querySelector('dialog[open]'))return setTimeout(show,5000);
 const sh='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M12 3v12M8 7l4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
 box=document.createElement('div');box.className='ins';
-box.innerHTML=`<div role="dialog" aria-labelledby="ins-t"><div class="r"><img src="/icons/icon-192.png" alt=""><div><h3 id="ins-t">ثبّت تطبيق زيتونة</h3><p class="m">وصول أسرع من الشاشة الرئيسية، من غير متصفح.</p></div></div>${ev?'':`<ol class="m"><li>اضغط زر المشاركة ${sh} في المتصفح</li><li>اختر «إضافة إلى الشاشة الرئيسية»</li></ol>`}<div class="a">${ev?'<button class="btn" data-i>تثبيت التطبيق</button>':''}<button class="btn o" data-l>${ev?'لاحقاً':'تمام'}</button></div></div>`;
+box.innerHTML=`<div role="dialog" aria-labelledby="ins-t"><div class="r"><img src="/icons/icon-192.png?v=2" alt=""><div><h3 id="ins-t">ثبّت تطبيق زيتونة</h3><p class="m">وصول أسرع من الشاشة الرئيسية، من غير متصفح.</p></div></div>${ev?'':`<ol class="m"><li>اضغط زر المشاركة ${sh} في المتصفح</li><li>اختر «إضافة إلى الشاشة الرئيسية»</li></ol>`}<div class="a">${ev?'<button class="btn" data-i>تثبيت التطبيق</button>':''}<button class="btn o" data-l>${ev?'لاحقاً':'تمام'}</button></div></div>`;
 box.onclick=async e=>{const b=e.target.closest('button');if(!b)return;
 if(b.hasAttribute('data-i')&&ev){ev.prompt();const c=await ev.userChoice;ev=null;hide();if(c.outcome!='accepted')set(Date.now())}
 else{set(Date.now());hide()}};
