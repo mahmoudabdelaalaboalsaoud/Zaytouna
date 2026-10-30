@@ -619,7 +619,7 @@ function rB(){MEMS=members();const q=BQ.trim().toLowerCase(),wk=Date.now()-7*D,b
 $('#b0').textContent=MEMS.length;$('#b1').textContent=MEMS.filter(x=>x.createdAt&&x.createdAt.toDate&&x.createdAt.toDate().getTime()>wk).length;$('#b2').textContent=MEMS.filter(isMer).length;$('#b3').textContent=MEMS.filter(blk).length;$('#tcb').textContent='('+MEMS.length+')';
 const fl=MEMS.filter(x=>(!BF||(BF=='blocked'?blk(x):BF=='merchant'?isMer(x):BF=='marketer'?isMk(x):!isMer(x)))&&(!q||[x.name,x.email,x.phone].join(' ').toLowerCase().includes(q)));
 $('#bg').innerHTML=fl.map(x=>`<div class="mc"><b>${esc(x.name||'—')}</b><span class="m" style="overflow-wrap:anywhere">${esc(x.email||'')}</span><span class="m">${x.phone?`<a href="${wa(x.phone)}" target="_blank" rel="noopener">${esc(x.phone)}</a> · `:''}سجّل ${dt(x.createdAt)} · طلبات: ${OC[x.id]||0}</span><div class="af"><span class="rl">${isMer(x)?'تاجر':'مشتري'}</span>${isMk(x)?'<span class="rl">مسوّق</span>':''}${isAdm(x)?'<span class="rl">مدير</span>':''}${blk(x)?'<span class="rl" style="border-color:var(--bad);color:var(--bad)">محظور</span>':''}</div><div class="r2"><button class="btn o" data-id="${esc(x.id)}">تفاصيل وإدارة</button></div></div>`).join('')||'<p class="m">لا يوجد أعضاء مطابقون</p>'}
-$('#at').onclick=e=>{const b=e.target.closest('button');if(!b)return;$$('#at button').forEach(x=>x.setAttribute('aria-pressed',x==b));
+$('#at').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.t=='b')seenSet('b');if(b.dataset.t=='m')seenSet('m');$$('#at button').forEach(x=>x.setAttribute('aria-pressed',x==b));
 const M={o:'#ao',m:'#am',b:'#ab',p:'#apl',c:'#cmk',s:'#as'};Object.keys(M).forEach(k=>{const el=$(M[k]);if(el)el.hidden=b.dataset.t!=k})};
 $('#bq').oninput=e=>{BQ=e.target.value;rB()};
 $('#bf').onclick=e=>{const b=e.target.closest('button');if(!b)return;BF=b.dataset.f;$$('#bf button').forEach(x=>x.setAttribute('aria-pressed',x==b));rB()};
@@ -716,14 +716,25 @@ function rO(){const o=$('#ov');if(!o)return;const now=Date.now(),day=new Date();
 const c={t:0,a:0,e:0,s:0};AM.forEach(m=>c[stOf(m)]++);
 const tn=ORD.filter(x=>x.createdAt&&x.createdAt.toDate&&x.createdAt.toDate()>=day).length,rq=SRQ.filter(x=>x.status=='pending').length,
 due=CR.filter(x=>x.status=='earned').reduce((a,x)=>a+(+x.amount||0),0),soon=AM.filter(m=>stOf(m)!='s'&&ms(m)>now&&ms(m)<now+7*D).length;
-const ne=CR.filter(x=>x.status=='earned').length,tot=rq+(OWN?ne:0);setNb('#tcp',rq);setNb('#tcc',OWN?ne:0);setNb('#nba',tot);document.title=(tot?'('+tot+') ':'')+'زيتونة — سوق زيت الزيتون';
+const ne=CR.filter(x=>x.status=='earned').length,tot=rq+(OWN?ne:0)+NB;setNb('#tcp',rq);setNb('#tcc',OWN?ne:0);setNb('#nba',tot);document.title=(tot?'('+tot+') ':'')+'زيتونة — سوق زيت الزيتون';
 const k=(l,v,t)=>`<div><span class="m">${l}</span><b>${v}</b>${t?`<span class="m">${t}</span>`:''}</div>`;
 o.innerHTML=k('الأعضاء',MEMS.length)+k('التجار',AM.length,'نشط '+c.a+' · تجربة '+c.t+' · منتهٍ '+c.e)+k('طلبات اليوم',tn,'الإجمالي '+ORD.length)+k('منتجات معروضة',P.length)+k('طلبات اشتراك',rq,'بانتظار التفعيل')+k('عمولات مستحقة',due+' ج');
 const al=[];if(rq)al.push(['p',rq+' طلب اشتراك بانتظار التفعيل']);if(soon)al.push(['m',soon+' اشتراك ينتهي خلال 7 أيام']);if(c.e)al.push(['m',c.e+' اشتراك منتهٍ (أخفِ منتجاتهم من تبويب التجار)']);if(due)al.push(['c','عمولات مستحقة للتحويل: '+due+' ج']);if(OWN&&CFG.maintenance)al.push(['s','وضع الصيانة مفعّل: الموقع مغلق على الزوار']);
 $('#ova').innerHTML=al.length?'<div class="box" style="margin-top:12px"><h3>يحتاج انتباهك</h3>'+al.map(([t,m])=>`<div class="cl-row"><div>${esc(m)}</div><button class="btn o" data-go="${t}">فتح</button></div>`).join('')+'</div>':'<p class="m" style="margin-top:12px">لا توجد تنبيهات الآن ✅</p>'}
 $('#ova').onclick=e=>{const b=e.target.closest('[data-go]');if(b)$('#at [data-t='+b.dataset.go+']').click()};
 
-let PLN=[],SRQ=[],EPL=null,UNREQ=null,REQINIT=false;
+let PLN=[],SRQ=[],EPL=null,UNREQ=null,REQINIT=false,UNUS=null,NUS=[],NB=0,UINIT=false;
+const seenGet=k=>{try{const v=+localStorage['zseen_'+k];return v||Date.now()-3*864e5}catch{return Date.now()-3*864e5}};
+const seenSet=k=>{try{localStorage['zseen_'+k]=Date.now()}catch{}newCount()};
+const tms=d=>{const t=d.createdAt;return t&&t.toMillis?t.toMillis():Date.now()};
+const onTab=t=>!$('#va').hidden&&$('#at [data-t='+t+']').getAttribute('aria-pressed')=='true';
+function newCount(){if(onTab('b'))try{localStorage.zseen_b=Date.now()}catch{}if(onTab('m'))try{localStorage.zseen_m=Date.now()}catch{}
+const sb=seenGet('b'),sm=seenGet('m'),nb=NUS.filter(d=>tms(d)>sb).length,nm=NUS.filter(d=>d.role=='merchant'&&tms(d)>sm).length;NB=nb;setNb('#tcb',nb);setNb('#tcm',nm);try{rO()}catch{}}
+function watchNew(){if(UNUS)return;UINIT=false;const base=Math.min(seenGet('b'),seenGet('m'));
+UNUS=onSnapshot(query(collection(db,'users'),where('createdAt','>',Timestamp.fromMillis(base))),snap=>{
+NUS=snap.docs.map(d=>({id:d.id,...d.data()}));
+if(UINIT)snap.docChanges().forEach(c=>{if(c.type=='added'&&c.doc.id!==(U&&U.uid))toast('تسجيل جديد: '+(c.doc.data().name||'عضو')+(c.doc.data().role=='merchant'?' (تاجر)':''))});
+UINIT=true;newCount()},()=>{UNUS=null})}
 function watchReqs(){if(UNREQ)return;REQINIT=false;
 UNREQ=onSnapshot(query(collection(db,'subReqs'),where('status','==','pending')),snap=>{
 SRQ=SRQ.filter(x=>x.status!='pending').concat(snap.docs.map(d=>({id:d.id,...d.data()}))).sort(newest);
@@ -798,7 +809,7 @@ if(!ad&&u.emailVerified)try{ad=(await getDoc(doc(db,'admins',em))).exists()}catc
 try{const s=await getDoc(doc(db,'merchants',u.uid));m=s.exists()?s.data():null}catch{}
 try{const s=await getDoc(doc(db,'users',u.uid));prof=s.exists()?s.data():null}catch{}}
 if(my!==seq)return;M=m;ISADM=ad;BLK=!!(prof&&prof.status=='blocked');RL=u?[OWN?'المالك':ad?'مدير':'',m?'تاجر':'','مشتري'].filter(Boolean):[];
-if(!u){AM=[];['#mg','#pb','#ob','#bo','#al','#bg'].forEach(q=>$(q).innerHTML='');['#nbm','#nba','#tcp','#tcc'].forEach(q=>setNb(q,0));document.title='زيتونة — سوق زيت الزيتون'}
+if(!u){AM=[];['#mg','#pb','#ob','#bo','#al','#bg'].forEach(q=>$(q).innerHTML='');['#nbm','#nba','#tcp','#tcc','#tcb','#tcm'].forEach(q=>setNb(q,0));document.title='زيتونة — سوق زيت الزيتون'}
 if(u&&!prof&&!REG){if(m){try{await setDoc(doc(db,'users',u.uid),{name:m.name,email:(u.email||'').toLowerCase(),role:'merchant',phone:m.phone||'',city:m.city||'',status:'active',createdAt:serverTimestamp()})}catch{}}else openRole(u)}
 else if(u&&prof&&sessionStorage.zl!==u.uid){sessionStorage.zl=u.uid;updateDoc(doc(db,'users',u.uid),{lastLogin:serverTimestamp()}).catch(()=>{})}
 if(BLK)toast('حسابك محظور من الطلب والتعليق، تواصل مع الإدارة');
@@ -806,7 +817,7 @@ if(BLK)toast('حسابك محظور من الطلب والتعليق، تواص�
 $('#au').textContent=u?(u.displayName||'حسابي').split(' ')[0]:'دخول';$('#au').classList.toggle('call',!u);tipLogin(!u);
 $('[data-v=m]').hidden=!m;$('[data-v=a]').hidden=!ad;$('[data-v=o]').hidden=!u;
 route();
-if(ad)watchReqs();else if(UNREQ){UNREQ();UNREQ=null}
+if(ad){watchReqs();watchNew()}else{if(UNREQ){UNREQ();UNREQ=null}if(UNUS){UNUS();UNUS=null;NUS=[];NB=0}}
 if(m)loadM();if(ad)loadA();if(u)loadO();if(!$('#vk').hidden)loadK();applySettings()}
 onAuthStateChanged(auth,init);
 
@@ -843,11 +854,12 @@ dlg.close();e.target.reset();toast('أهلاً '+((auth.currentUser&&auth.curren
 $('#pf').onsubmit=async e=>{e.preventDefault();const t=[...$$('[name=pt]:checked')].map(x=>x.value);
 let img='';if(PIMG){toast('جارٍ رفع الصورة…');try{img=await upImg(PIMG)}catch(x){return toast(upMsg(x))}}
 try{await addDoc(collection(db,'products'),{merchantId:U.uid,merchantName:M.name,merchantPhone:M.phone||'',name:$('#pn').value.trim(),origin:$('#po').value.trim(),acidity:+$('#pa').value,liters:+$('#pq').value,price:+$('#pr').value,wholesale:$('#pw').checked,tags:t.length?t:['c'],active:true,...($('#pds').value.trim()?{description:$('#pds').value.trim().slice(0,Math.min(1000,Math.max(20,+CFG.descMax||200)))}:{}),...(img?{image:img}:{}),...($('#pst').value!==''?{stock:Math.max(0,Math.floor(+$('#pst').value))}:{}),createdAt:serverTimestamp()});
-e.target.reset();dcnt();PIMG=null;$('#pprev').hidden=true;toast('تمت إضافة المنتج');loadM();products()}catch{toast('تعذرت الإضافة، تأكد أن اشتراكك ساري')}};
+e.target.reset();dcnt();PIMG=null;$('#pprev').hidden=true;toast('تمت إضافة المنتج');loadM();products()}catch(x){toast(wErr(x))}};
+function wErr(x){const e=M&&M.endsAt&&M.endsAt.toMillis?M.endsAt.toMillis():0;if(M&&!['trial','active'].includes(M.status))return'حساب التاجر موقوف، تواصل مع الإدارة';if(M&&e&&e<=Date.now())return'انتهى اشتراكك، اطلب باقة من لوحة التاجر';const c=x&&(x.code||x.message)||'';if(/permission-denied/.test(c))return'اشتراكك ساري، لكن الخادم رفض العملية (permission-denied). بلّغ الإدارة لتحديث قواعد الحماية';return'تعذرت العملية'+(c?' ('+c+')':'')}
 function openEdit(id){const p=MPD[id];if(!p)return toast('تعذر فتح المنتج، حدّث الصفحة');EP=id;$('#en').value=p.name||'';$('#eo').value=p.origin||'';$('#ea').value=p.acidity??'';$('#eq').value=p.liters??'';$('#er').value=p.price??'';$('#es').value=p.stock!=null?p.stock:'';$('#ew').checked=!!p.wholesale;$('#ec').value=p.description||'';dcnt();$$('[name=et]').forEach(c=>{c.checked=(p.tags||[]).includes(c.value)});$('#ee').textContent='';$('#ed').showModal()}
 $('#ecl').onclick=()=>$('#ed').close();
 $('#ef').onsubmit=async e=>{e.preventDefault();if(!EP)return;const t=[...$$('[name=et]:checked')].map(x=>x.value),st=$('#es').value.trim(),dd=$('#ec').value.trim().slice(0,Math.min(1000,Math.max(20,+CFG.descMax||200))),btn=$('#eok');btn.disabled=true;
-try{await updateDoc(doc(db,'products',EP),{name:$('#en').value.trim(),origin:$('#eo').value.trim(),acidity:+$('#ea').value,liters:+$('#eq').value,price:+$('#er').value,wholesale:$('#ew').checked,tags:t.length?t:['c'],stock:st!==''?Math.max(0,Math.floor(+st)):deleteField(),description:dd?dd:deleteField(),merchantName:M.name,merchantPhone:M.phone||''});$('#ed').close();toast('تم حفظ التعديلات');loadM();products()}catch{$('#ee').textContent='تعذر الحفظ، تأكد أن اشتراكك ساري وأن القيم صحيحة'}finally{btn.disabled=false}};
+try{await updateDoc(doc(db,'products',EP),{name:$('#en').value.trim(),origin:$('#eo').value.trim(),acidity:+$('#ea').value,liters:+$('#eq').value,price:+$('#er').value,wholesale:$('#ew').checked,tags:t.length?t:['c'],stock:st!==''?Math.max(0,Math.floor(+st)):deleteField(),description:dd?dd:deleteField(),merchantName:M.name,merchantPhone:M.phone||''});$('#ed').close();toast('تم حفظ التعديلات');loadM();products()}catch(x){$('#ee').textContent=wErr(x)}finally{btn.disabled=false}};
 $('#pb').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const id=b.dataset.id;
 if(b.dataset.a=='cp')return cp(LK('p/'+id));
 if(b.dataset.a=='im'){IMT=id;return $('#pfile').click()}
