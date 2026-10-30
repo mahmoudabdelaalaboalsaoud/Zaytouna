@@ -164,6 +164,13 @@ button:disabled{opacity:.6;cursor:wait}
 .si .b:nth-of-type(1){--dx:-14px;--dy:-50px;--s:1.1;animation-delay:0s}.si .b:nth-of-type(2){--dx:11px;--dy:-60px;--s:.9;animation-delay:.22s}.si .b:nth-of-type(3){--dx:-3px;--dy:-46px;--s:1.3;animation-delay:.46s}.si .b:nth-of-type(4){--dx:16px;--dy:-54px;--s:.8;animation-delay:.7s}
 @keyframes sbub{0%{opacity:0;transform:translate(0,0) scale(.4)}18%{opacity:.95}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(var(--s))}}@keyframes sring{0%{opacity:.7;transform:scale(.92)}100%{opacity:0;transform:scale(1.65)}}@media (prefers-reduced-motion:reduce){.si.pop::after,.si.pop .b{animation:none}}
 .pdsc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13.5px;line-height:1.6;opacity:.88}.pdf{margin:6px 0;line-height:1.85;white-space:pre-line;overflow-wrap:anywhere}.dcn{text-align:end;font-size:12px}
+.gcall{display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden;padding:12px;font-size:16.5px;font-weight:700;background:linear-gradient(180deg,#f3df8a,#e0b83a);color:#2f3a12;animation:gpulse 2.2s ease-in-out infinite}.gcall::after{content:"";position:absolute;top:0;bottom:0;width:38%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg);animation:gshine 3.2s ease-in-out infinite;pointer-events:none}.gi{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#fff;color:#4285f4;font:700 16px Arial,sans-serif;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+@keyframes gpulse{0%,100%{box-shadow:0 0 0 0 rgba(224,184,58,.6)}60%{box-shadow:0 0 0 12px rgba(224,184,58,0)}}@keyframes gshine{0%,50%{left:-60%}100%{left:140%}}
+#ebx:not([hidden]){animation:dxo .25s ease}#aemt{padding:8px 0}
+.aw{position:relative;display:inline-flex}.cart.call{background:var(--olive);color:var(--bg);border-color:var(--olive);font-weight:700;animation:cring 2s ease-out infinite}@keyframes cring{0%{box-shadow:0 0 0 0 rgba(157,176,74,.65)}70%,100%{box-shadow:0 0 0 11px rgba(157,176,74,0)}}
+.tip{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);white-space:nowrap;background:#e0b83a;color:#2f3a12;font-size:13.5px;font-weight:700;padding:7px 12px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.4);z-index:40;animation:tipin .5s cubic-bezier(.2,1.4,.4,1) both,tipfl 2s 0.5s ease-in-out infinite}.tip::before{content:"";position:absolute;top:-6px;left:50%;margin-left:-6px;border:6px solid transparent;border-top:0;border-bottom-color:#e0b83a}
+@keyframes tipin{from{opacity:0;transform:translate(-50%,-8px) scale(.85)}to{opacity:1;transform:translate(-50%,0) scale(1)}}@keyframes tipfl{0%,100%{margin-top:0}50%{margin-top:3px}}
+@media (prefers-reduced-motion:reduce){.gcall,.gcall::after,.cart.call,.tip{animation:none}}
 .plx{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:8px}.plx>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:11px 14px;font-weight:600;font-size:15px}.plx>summary::-webkit-details-marker{display:none}.plx>summary .m{flex:1;font-weight:400;font-size:13px}.plx>summary::after{content:"▾";color:var(--mut);transition:transform .2s}.plx[open]>summary::after{transform:rotate(180deg)}.plr{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line)}.plr .i{flex:1;min-width:0}.plr b{display:block;font-size:15px}.plr .m{font-size:12.5px;display:block;overflow-wrap:anywhere}.plr .pr{font-weight:700;white-space:nowrap;font-size:15px}.plr .btn{padding:6px 12px;font-size:14px;white-space:nowrap}.plp{padding:8px 14px 12px;border-top:1px solid var(--line);margin:0}
 .ann{background:#a8892a;color:#1a1a0a;padding:8px 14px;text-align:center;font-size:14px;display:flex;gap:10px;justify-content:center;align-items:center}
 #mnt{position:fixed;inset:0;z-index:250;display:grid;place-items:center;text-align:center;background:radial-gradient(circle at 50% 38%,#34411a 0%,#141a0a 70%);color:#f6f4dc;padding:24px}
@@ -180,7 +187,7 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <div id="mnt" hidden><div><h2>الموقع تحت الصيانة</h2><p class="m" style="margin:8px 0 16px">نعود قريباً بإذن الله.</p><button class="btn o" id="mna">دخول الإدارة</button></div></div>
 <div id="sp" role="status" aria-label="جارٍ التحميل"><div class="spi"><div class="ld"><svg viewBox="0 0 120 120" width="150" height="150" aria-hidden="true"><g class="plate"><rect x="57" y="2" width="6" height="18" rx="2" fill="#a8892a"/><rect x="28" y="20" width="64" height="9" rx="4" fill="#a8892a"/></g><circle class="olv" cx="44" cy="54" r="9" fill="#58691f"/><circle class="olv" cx="62" cy="56" r="9" fill="#7d9020"/><circle class="olv" cx="79" cy="54" r="8" fill="#58691f"/><rect x="24" y="64" width="72" height="7" rx="3" fill="#8a6a22"/><path class="drp" d="M60 73c-3 5-3 8 0 10 3-2 3-5 0-10z" fill="#e0b83a"/><rect x="46" y="90" width="28" height="26" rx="7" fill="none" stroke="#e0b83a" stroke-width="2.5"/><rect class="oil" x="49" y="93" width="22" height="20" rx="5" fill="#e0b83a" opacity=".9"/></svg></div><img class="splg" src="/icons/logo.png?v=2" alt="زيتونة" width="220" height="217"><div class="spl"></div><div class="sps">أكبر منصة لبيع زيت الزيتون</div></div></div>
 <svg width="0" height="0" style="position:absolute"><symbol id="b" viewBox="0 0 40 90"><path d="M16 2h8v10l4 8v62a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V20l4-8z" fill="currentColor"/><rect x="14" y="40" width="12" height="24" rx="2" fill="#f6f4dc" opacity=".85"/></symbol></svg>
-<header class="top"><div class="tr"><span class="brand"><img src="/icons/logo-mark.png?v=2" alt="زيتونة" width="54" height="46"></span><div class="tact"><button class="cart" id="au">دخول</button><button class="cart" id="cn">السلة</button></div></div>
+<header class="top"><div class="tr"><span class="brand"><img src="/icons/logo-mark.png?v=2" alt="زيتونة" width="54" height="46"></span><div class="tact"><span class="aw"><button class="cart" id="au">دخول</button><span class="tip" id="atip" hidden>سجّل دخولك واطلب بسهولة 👋</span></span><button class="cart" id="cn">السلة</button></div></div>
 <nav><button data-v="s" aria-pressed="true">المتجر</button><button data-v="m" aria-pressed="false" hidden>لوحة التاجر<span class="nb" id="nbm" hidden></span></button><button data-v="a" aria-pressed="false" hidden>الإدارة<span class="nb" id="nba" hidden></span></button><button data-v="o" aria-pressed="false" hidden>مشترياتي</button><button data-v="k" aria-pressed="false">اربح معنا</button></nav></header>
 <main>
 <section id="vs">
@@ -275,12 +282,14 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <dialog id="dlg"><form id="af" class="fm"><h3 id="dt">دخول</h3>
 <div id="sx" class="fm" hidden><select id="ar" aria-label="نوع الحساب"><option value="b">مشتري</option><option value="m">تاجر</option></select>
 <input id="an" placeholder="الاسم (أو اسم المتجر للتاجر)"><input id="aph" type="tel" placeholder="رقم الهاتف"><input id="ac" placeholder="المدينة (للتاجر)"></div>
-<button type="button" class="btn o" id="ag">الدخول بحساب Google</button>
-<div class="m" style="text-align:center">أو بالبريد وكلمة المرور</div>
+<button type="button" class="btn gcall" id="ag"><span class="gi">G</span><span id="agt">الدخول بحساب Google</span></button>
+<button type="button" class="lk" id="aemt" aria-expanded="false" aria-controls="ebx">أو سجّل الدخول بالبريد الإلكتروني ▾</button>
+<div class="fm" id="ebx" hidden>
 <input id="ae" type="email" placeholder="البريد الإلكتروني" required autocomplete="email">
 <div class="pw"><input id="ap" type="password" placeholder="كلمة المرور" required minlength="6" autocomplete="current-password"><button type="button" id="apv">إظهار</button></div>
 <button class="btn" id="ago">دخول</button>
 <button type="button" class="lk" id="afg">نسيت كلمة المرور؟</button>
+</div>
 <div class="lgc">بالتسجيل أو الدخول أنت توافق على <a href="#/l/terms" data-lg>الشروط</a> و<a href="#/l/privacy" data-lg>سياسة الخصوصية</a></div>
 <button type="button" class="btn o" id="asw">حساب جديد</button><button type="button" class="btn o" id="acl">إغلاق</button></form></dialog>
 <dialog id="ud"><div class="fm"><h3 id="un"></h3><span class="m" id="ue" style="overflow-wrap:anywhere"></span><div class="af" id="ur"></div><button class="btn" id="uo">تسجيل الخروج</button><button class="btn o" id="uc">إغلاق</button></div></dialog>
@@ -794,23 +803,27 @@ if(u&&!prof&&!REG){if(m){try{await setDoc(doc(db,'users',u.uid),{name:m.name,ema
 else if(u&&prof&&sessionStorage.zl!==u.uid){sessionStorage.zl=u.uid;updateDoc(doc(db,'users',u.uid),{lastLogin:serverTimestamp()}).catch(()=>{})}
 if(BLK)toast('حسابك محظور من الطلب والتعليق، تواصل مع الإدارة');
 {let z=null;try{z=JSON.parse(localStorage.zref||'null')}catch{}$('#rbn').hidden=!(z&&Date.now()-z.t<30*864e5&&!u)}
-$('#au').textContent=u?(u.displayName||'حسابي').split(' ')[0]:'دخول';
+$('#au').textContent=u?(u.displayName||'حسابي').split(' ')[0]:'دخول';$('#au').classList.toggle('call',!u);tipLogin(!u);
 $('[data-v=m]').hidden=!m;$('[data-v=a]').hidden=!ad;$('[data-v=o]').hidden=!u;
 route();
 if(ad)watchReqs();else if(UNREQ){UNREQ();UNREQ=null}
 if(m)loadM();if(ad)loadA();if(u)loadO();if(!$('#vk').hidden)loadK();applySettings()}
 onAuthStateChanged(auth,init);
 
-function openDlg(s){sign=!!s;$('#sx').hidden=!sign;$('#afg').hidden=sign;$('#ap').autocomplete=sign?'new-password':'current-password';$('#ap').type='password';$('#apv').textContent='إظهار';$('#dt').textContent=sign?'حساب جديد':'دخول';$('#ago').textContent=sign?'إنشاء الحساب':'دخول';$('#ag').textContent=sign?'التسجيل بحساب Google':'الدخول بحساب Google';$('#asw').textContent=sign?'لدي حساب':'حساب جديد';if(!dlg.open)dlg.showModal()}
+function setEm(o){$('#ebx').hidden=!o;$('#aemt').setAttribute('aria-expanded',o);$('#aemt').textContent=(sign?'أو أنشئ الحساب بالبريد الإلكتروني':'أو سجّل الدخول بالبريد الإلكتروني')+(o?' ▴':' ▾')}
+let TPT=0;
+function tipLogin(on){const t=$('#atip');clearTimeout(TPT);if(!on){t.hidden=true;return}try{if(sessionStorage.zt)return}catch{}TPT=setTimeout(()=>{if(U)return;t.hidden=false;try{sessionStorage.zt=1}catch{}TPT=setTimeout(()=>{t.hidden=true},6500)},1800)}
+function openDlg(s){sign=!!s;$('#sx').hidden=!sign;$('#afg').hidden=sign;$('#ap').autocomplete=sign?'new-password':'current-password';$('#ap').type='password';$('#apv').textContent='إظهار';$('#dt').textContent=sign?'حساب جديد':'دخول';$('#ago').textContent=sign?'إنشاء الحساب':'دخول';$('#agt').textContent=sign?'التسجيل بحساب Google':'الدخول بحساب Google';setEm(dlg.open&&!$('#ebx').hidden);$('#asw').textContent=sign?'لدي حساب':'حساب جديد';if(!dlg.open)dlg.showModal()}
 $('#au').onclick=()=>{if(U){$('#un').textContent=U.displayName||'حسابي';$('#ue').textContent=U.email||'';$('#ur').innerHTML=RL.map(r=>`<span class="rl">${r}</span>`).join('');$('#ud').showModal()}else openDlg()};
 $('#asw').onclick=()=>openDlg(!sign);
+$('#aemt').onclick=()=>{const o=$('#ebx').hidden;setEm(o);if(o)$('#ae').focus()};
 $('#acl').onclick=()=>dlg.close();
 const busy=on=>{dlg.querySelectorAll('button').forEach(b=>b.disabled=!!on);$('#ago').textContent=on?'جارٍ التنفيذ…':sign?'إنشاء الحساب':'دخول'};
 $('#apv').onclick=()=>{const p=$('#ap'),h=p.type=='password';p.type=h?'text':'password';$('#apv').textContent=h?'إخفاء':'إظهار'};
 $('#afg').onclick=async()=>{const em=$('#ae').value.trim();if(!em)return toast('اكتب بريدك الإلكتروني أولاً');
 try{await sendPasswordResetEmail(auth,em);toast('أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك')}catch(x){toast(ER[x.code]||'تعذر إرسال الرابط')}};
 $('#uc').onclick=()=>$('#ud').close();
-$('#uo').onclick=async()=>{$('#ud').close();await signOut(auth);toast('تم تسجيل الخروج')};
+$('#uo').onclick=async()=>{$('#ud').close();const had=cart.length;await signOut(auth);cart=[];cartUI();try{localStorage.removeItem('zcart');localStorage.removeItem('zph')}catch{}toast(had?'تم تسجيل الخروج وتفريغ السلة':'تم تسجيل الخروج')};
 $('#ox').onclick=()=>$('#od').close();
 $('#ag').onclick=async()=>{const r=$('#ar').value,n=$('#an').value.trim(),ph=$('#aph').value.trim(),c=$('#ac').value.trim(),mer=sign&&r=='m';
 if(mer&&(!n||!ph||!c))return toast('أكمل بيانات المتجر أولاً');
