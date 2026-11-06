@@ -631,7 +631,7 @@ async function loadU(){try{const[u,o]=await Promise.all([getDocs(collection(db,'
 OC={};ORD=o.docs.map(d=>d.data());ORD.forEach(x=>{OC[x.buyerId]=(OC[x.buyerId]||0)+1});
 BU=u.docs.map(d=>({id:d.id,...d.data()})).sort(newest);
 if(OWN){try{const a=await getDocs(collection(db,'admins'));ADL=a.docs.map(d=>d.id)}catch{}}
-rB();rO()}catch{toast('تعذر تحميل الأعضاء')}}
+rA();rB();rO()}catch{toast('تعذر تحميل الأعضاء')}}
 const isAdm=x=>!!x.email&&(x.email==OWNER||ADL.includes(x.email)),isMer=x=>x.role=='merchant'||AM.some(m=>m.id==x.id),isMk=x=>!!CM[x.id];
 function members(){const ids=new Set(BU.map(x=>x.id)),L=BU.map(x=>({...x,reg:true}));
 AM.forEach(m=>{if(!ids.has(m.id))L.push({id:m.id,name:m.name,email:'',phone:m.phone,city:m.city,role:'merchant',status:'active',createdAt:m.createdAt,reg:false})});return L}
