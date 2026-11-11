@@ -34,7 +34,7 @@ service cloud.firestore {
     // شكل المنتج وحدود القيم، واسم التاجر ورقمه يطابقان بياناته
     function prodOk(d) {
       let m = mer();
-      return d.keys().hasOnly(['merchantId', 'merchantName', 'merchantPhone', 'name', 'origin', 'acidity', 'liters', 'price', 'wholesale', 'tags', 'active', 'image', 'stock', 'description', 'video', 'createdAt'])
+      return d.keys().hasOnly(['merchantId', 'merchantName', 'merchantPhone', 'name', 'origin', 'acidity', 'liters', 'price', 'wholesale', 'tags', 'active', 'image', 'stock', 'description', 'video', 'ship', 'cod', 'ret', 'createdAt'])
         && d.name is string && d.name.size() >= 2 && d.name.size() <= 80
         && d.origin is string && d.origin.size() <= 60
         && d.acidity is number && d.acidity >= 0 && d.acidity <= 5
@@ -45,6 +45,9 @@ service cloud.firestore {
         && (!('stock' in d) || (d.stock is int && d.stock >= 0 && d.stock <= 100000))
         && (!('description' in d) || (d.description is string && d.description.size() <= descMax()))
         && (!('video' in d) || (d.video is string && d.video.size() <= 300 && d.video.matches('^https://[^ ]+$')))
+        && (!('ship' in d) || d.ship in ['y', 'n'])
+        && (!('cod' in d) || d.cod in ['y', 'n'])
+        && (!('ret' in d) || d.ret in ['y', 'n'])
         && (!('image' in d) || (d.image is string
             && d.image.matches('^https://ptimioffmszhmpxxuqha[.]supabase[.]co/storage/v1/object/public/zaytouna-products/' + d.merchantId + '/.+')))
         && d.merchantName == m.name && d.merchantPhone == m.phone;
@@ -174,7 +177,13 @@ service cloud.firestore {
         && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
         && request.resource.data.city is string && request.resource.data.city.size() <= 80;
       allow update: if isAdmin() || (me(uid)
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'lastLogin']));
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'lastLogin']))
+        // مشتري يحوّل نفسه لتاجر: يتغير role فقط (و phone)، بشرط وجود سجل تاجر له وحسابه غير محظور
+        || (me(uid) && resource.data.role == 'buyer' && resource.data.status == 'active'
+        && request.resource.data.role == 'merchant'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role', 'phone'])
+        && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
+        && exists(/databases/$(db)/documents/merchants/$(uid)));
       allow delete: if isAdmin();
     }
     // ===== التسويق بالعمولة =====
