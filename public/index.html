@@ -185,6 +185,7 @@ button:disabled{opacity:.6;cursor:wait}
 .pts{display:inline-block;background:rgba(224,184,58,.15);color:#e0b83a;border:1px solid rgba(224,184,58,.45);border-radius:99px;font-size:12px;font-weight:700;padding:1px 8px;margin-inline-start:6px}.pts.big{font-size:13.5px;padding:3px 12px;margin:6px 0 0}.plp select{width:100%}
 .fth{margin:14px 0 6px;font-size:17px}.ftb{position:absolute;top:6px;inset-inline-end:6px;background:linear-gradient(180deg,#f3df8a,#e0b83a);color:#2f3a12;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;box-shadow:0 1px 4px rgba(0,0,0,.35)}
 .hlt{white-space:pre-line;line-height:1.9;margin:0 0 10px;overflow-wrap:anywhere}.hrw{display:grid;gap:6px;padding-bottom:8px;border-bottom:1px dashed var(--line)}#sfl{display:grid;gap:6px;max-height:260px;overflow:auto}.fcb{display:flex;gap:8px;align-items:flex-start;line-height:1.6}.fcb input{width:20px;height:20px;flex:none;margin-top:2px;accent-color:var(--olive)}
+.sch{width:100%;height:auto;display:block;margin:2px 0 10px}.sch .scl{font-size:10px;fill:var(--mut)}.shb{display:grid;grid-template-columns:104px 1fr 62px;gap:8px;align-items:center;font-size:13.5px;margin:7px 0}.shb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.shbt{background:var(--bg);border-radius:99px;height:10px;overflow:hidden}.shbt i{display:block;height:100%;background:var(--olive);border-radius:99px}.shb b{text-align:end;font-size:13px}#ai>.dx .kpi{margin:0}
 #pv,#ev{text-align:right}.vwr{display:grid;gap:8px}.vmr{display:flex;justify-content:space-between;align-items:center;gap:8px}.vmr select{max-width:55%}#svm,#svp{display:grid;gap:8px;max-height:240px;overflow:auto}.vw{background:rgba(224,160,40,.13);border:1px solid #e0a028;border-radius:10px;padding:8px 12px;font-size:13.5px;font-weight:600;color:#e8b84a;line-height:1.6}
 .plx{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:8px}.plx>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:11px 14px;font-weight:600;font-size:15px}.plx>summary::-webkit-details-marker{display:none}.plx>summary .m{flex:1;font-weight:400;font-size:13px}.plx>summary::after{content:"▾";color:var(--mut);transition:transform .2s}.plx[open]>summary::after{transform:rotate(180deg)}.plr{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line)}.plr .i{flex:1;min-width:0}.plr b{display:block;font-size:15px}.plr .m{font-size:12.5px;display:block;overflow-wrap:anywhere}.plr .pr{font-weight:700;white-space:nowrap;font-size:15px}.plr .btn{padding:6px 12px;font-size:14px;white-space:nowrap}.plp{padding:8px 14px 12px;border-top:1px solid var(--line);margin:0}
 .ann{background:#a8892a;color:#1a1a0a;padding:8px 14px;text-align:center;font-size:14px;display:flex;gap:10px;justify-content:center;align-items:center}
@@ -257,8 +258,9 @@ footer{text-align:center;padding:20px;color:var(--mut);font-size:13px}
 <section id="vl" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button><div class="box lgp" id="lgp"></div></section>
 <section id="va" hidden><button class="btn o" data-bk style="margin-bottom:10px">→ رجوع للمتجر</button>
 <div class="sec"><h2>لوحة الإدارة</h2></div>
-<div class="af sc" id="at" style="margin-bottom:12px"><button data-t="o" aria-pressed="true">نظرة عامة</button><button data-t="b" aria-pressed="false">الأعضاء <span id="tcb"></span><span id="tnb"></span></button><button data-t="m" aria-pressed="false">التجار <span id="tcm"></span><span id="tnm"></span></button><button data-t="p" aria-pressed="false">الباقات <span id="tcp"></span></button><button data-t="c" aria-pressed="false">العمولات <span id="tcc"></span></button><button data-t="s" aria-pressed="false" hidden>الموقع</button></div>
+<div class="af sc" id="at" style="margin-bottom:12px"><button data-t="o" aria-pressed="true">نظرة عامة</button><button data-t="b" aria-pressed="false">الأعضاء <span id="tcb"></span><span id="tnb"></span></button><button data-t="m" aria-pressed="false">التجار <span id="tcm"></span><span id="tnm"></span></button><button data-t="p" aria-pressed="false">الباقات <span id="tcp"></span></button><button data-t="c" aria-pressed="false">العمولات <span id="tcc"></span></button><button data-t="i" aria-pressed="false">📊 الإحصائيات</button><button data-t="s" aria-pressed="false" hidden>الموقع</button></div>
 <div id="ao"><div class="kpi" id="ov"></div><div id="ova"></div></div>
+<div id="ai" hidden></div>
 <div id="am" hidden><div style="margin-bottom:10px"><button class="btn o" id="ah">إخفاء منتجات المنتهية اشتراكاتهم</button></div>
 <div class="kpi"><div><span class="m">كل التجار</span><b id="k0">0</b></div><div><span class="m">في التجربة</span><b id="k1">0</b></div><div><span class="m">اشتراكات نشطة</span><b id="k2">0</b></div><div><span class="m">منتهية</span><b id="k3">0</b></div><div><span class="m">موقوفة</span><b id="k4">0</b></div></div>
 <div class="tb"><input id="aq" type="search" placeholder="بحث بالاسم أو الهاتف أو المدينة" aria-label="بحث"><div class="af" id="af2"><button data-f="" aria-pressed="true">الكل</button><button data-f="t" aria-pressed="false">تجربة</button><button data-f="a" aria-pressed="false">نشط</button><button data-f="e" aria-pressed="false">منتهي</button><button data-f="s" aria-pressed="false">موقوف</button></div></div>
@@ -693,6 +695,56 @@ try{if(RU.displayName!=n)await updateProfile(RU,{displayName:n});await mkProfile
 catch(x){er.textContent='تعذر إكمال التسجيل ('+(x.code||x.message||'خطأ')+')'}finally{bt.disabled=false}};
 
 let ORD=[],MEMS=[],ADL=[];
+let STP=30,SP=[],SPL=false,STT=0;
+const DAYMS=864e5,nf=n=>(+n||0).toLocaleString('en-US'),tOf=x=>x&&x.createdAt&&x.createdAt.toMillis?x.createdAt.toMillis():0;
+async function loadSP(){try{const s=await getDocs(collection(db,'products'));SP=s.docs.map(d=>({id:d.id,...d.data()}))}catch{SP=[]}SPL=true;STT=Date.now()}
+function sBars(v,lb,col){const W=320,H=90,n=v.length,mx=Math.max(1,...v),bw=W/n;
+return `<svg viewBox="0 0 ${W} ${H+16}" class="sch" role="img"><g>${v.map((x,i)=>{const h=Math.round(x/mx*H);return `<rect x="${(i*bw+bw*.15).toFixed(1)}" y="${H-h}" width="${(bw*.7).toFixed(1)}" height="${Math.max(h,x?2:0)}" rx="2" fill="${col}"><title>${lb[i]}: ${nf(x)}</title></rect>`}).join('')}</g><text x="0" y="${H+12}" class="scl">${lb[0]}</text><text x="${W}" y="${H+12}" text-anchor="end" class="scl">${lb[n-1]}</text><text x="${W}" y="9" text-anchor="end" class="scl">الأعلى: ${nf(mx)}</text></svg>`}
+function sRows(rows,unit){const mx=Math.max(1,...rows.map(r=>r[1]));return rows.length?rows.map(([l,v])=>`<div class="shb"><span title="${esc(l)}">${esc(l)}</span><div class="shbt"><i style="width:${Math.round(v/mx*100)}%"></i></div><b>${nf(v)}${unit||''}</b></div>`).join(''):'<p class="m" style="margin:0">لا توجد بيانات بعد</p>'}
+const sK=(l,v,t)=>`<div><span class="m">${l}</span><b>${v}</b>${t?`<span class="m">${t}</span>`:''}</div>`;
+const sD=(ic,t,sub,body,open)=>`<details class="dx"${open?' open':''}><summary><span class="ic">${ic}</span><span class="t">${t}<small>${sub||''}</small></span></summary><div class="dxb">${body}</div></details>`;
+const topN=(m,n)=>Object.entries(m).sort((a,b)=>b[1].v-a[1].v).slice(0,n||5);
+function renderStats(){const box=$('#ai');if(!box)return;const now=Date.now(),all=!STP;
+let start=all?Math.min(now-DAYMS,...[...BU,...AM,...ORD].map(tOf).filter(Boolean)):now-STP*DAYMS;start=Math.floor(start/DAYMS)*DAYMS;
+const days=Math.max(1,Math.ceil((now-start)/DAYMS)),bs=days<=31?1:days<=120?7:30,nb=Math.ceil(days/bs),inP=x=>tOf(x)>=start;
+const ser=(a,f)=>{const r=Array(nb).fill(0);a.forEach(x=>{const t=tOf(x);if(t<start)return;r[Math.min(nb-1,Math.floor((t-start)/(bs*DAYMS)))]+=f?f(x):1});return r};
+const lb=Array.from({length:nb},(_,i)=>{const d=new Date(start+i*bs*DAYMS);return d.getDate()+'/'+(d.getMonth()+1)});
+const OP=ORD.filter(inP),okO=OP.filter(o=>o.status!='cancelled'),sales=okO.reduce((a,o)=>a+(+o.total||0),0),doneO=OP.filter(o=>o.status=='done'),canO=OP.filter(o=>o.status=='cancelled');
+const newU=BU.filter(inP),newM=AM.filter(inP),mers=BU.filter(isMer),buyers=BU.filter(x=>!isMer(x)&&!isAdm(x)),blocked=BU.filter(x=>x.status=='blocked');
+const bo={};ORD.forEach(o=>{bo[o.buyerId]=(bo[o.buyerId]||0)+1});const bought=buyers.filter(x=>bo[x.id]),rep=buyers.filter(x=>bo[x.id]>1);
+const sc={t:0,a:0,e:0,s:0};AM.forEach(m=>sc[stOf(m)]++);const exp7=AM.filter(m=>stOf(m)!='s'&&ms(m)>now&&ms(m)<now+7*DAYMS).length,exp30=AM.filter(m=>stOf(m)!='s'&&ms(m)>now&&ms(m)<now+30*DAYMS).length;
+const sub=SRQ.filter(x=>x.status=='approved'&&inP(x)),subRev=sub.reduce((a,x)=>a+(+x.price||0),0),subPend=SRQ.filter(x=>x.status=='pending').length;
+const PS=SPL?SP:P.map(p=>({id:p.id,merchantId:p.mid,active:true,price:p.p,tags:p.t,wholesale:!!p.w,video:p.v,description:p.d})),act=PS.filter(p=>p.active!==false);
+const tg={s:0,c:0,h:0};act.forEach(p=>(p.tags||[]).forEach(k=>{if(k in tg)tg[k]++}));
+const avgP=act.length?Math.round(act.reduce((a,p)=>a+(+p.price||0),0)/act.length):0,sellers=new Set(act.map(p=>p.merchantId)).size;
+const rv=RVL.filter(r=>r.rating>0),avgR=rv.length?(rv.reduce((a,r)=>a+r.rating,0)/rv.length).toFixed(2):'—',rd=[5,4,3,2,1].map(k=>[k+' ★',rv.filter(r=>r.rating==k).length]);
+const mS={};okO.forEach(o=>{const x=mS[o.merchantId]=mS[o.merchantId]||{n:o.merchantName||'—',v:0,c:0};x.v+=+o.total||0;x.c++});
+const pS={};okO.forEach(o=>(o.items||[]).forEach(it=>{const x=pS[it.id]=pS[it.id]||{n:it.name||'—',v:0,r:0};x.v+=+it.q||0;x.r+=(+it.price||0)*(+it.q||0)}));
+const cities={};AM.forEach(m=>{const c=String(m.city||'').trim();if(c)cities[c]=(cities[c]||0)+1});
+const pts=AM.map(m=>[m.name,ptsOf(new Set(PS.filter(p=>p.merchantId==m.id).map(p=>p.id)),m.id)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,5);
+const crP=CR.filter(inP),sum=(a,t)=>a.filter(x=>x.status==t).reduce((c,x)=>c+(+x.amount||0),0),mkc={};CR.forEach(x=>{if(x.mk)mkc[x.mk]=(mkc[x.mk]||0)+1});
+const mkTop=Object.entries(mkc).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([id,n])=>[(CM[id]&&CM[id].name)||'—',n]);
+const per=[['7','7 أيام'],['30','30 يوم'],['90','90 يوم'],['0','الكل']].map(([v,t])=>`<button data-p="${v}" aria-pressed="${(+v)==STP}">${t}</button>`).join('');
+const body={
+k:'<div class="kpi k3" style="grid-template-columns:repeat(2,1fr)">'+sK('أعضاء جدد',nf(newU.length),'إجمالي '+nf(BU.length))+sK('تجار جدد',nf(newM.length),'إجمالي '+nf(AM.length))+sK('طلبات',nf(OP.length),'إجمالي '+nf(ORD.length))+sK('المبيعات',nf(sales)+' ج',okO.length?'متوسط الطلب '+nf(Math.round(sales/okO.length))+' ج':'')+sK('نسبة الإتمام',OP.length?Math.round(doneO.length/OP.length*100)+'%':'—',nf(doneO.length)+' مكتمل')+sK('نسبة الإلغاء',OP.length?Math.round(canO.length/OP.length*100)+'%':'—',nf(canO.length)+' ملغي')+'</div>',
+g:'<b class="m">أعضاء جدد</b>'+sBars(ser(newU),lb,'#9db04a')+'<b class="m">طلبات</b>'+sBars(ser(OP),lb,'#e0b83a')+'<b class="m">مبيعات (ج)</b>'+sBars(ser(okO,o=>+o.total||0),lb,'#4fa3a5')+`<p class="m" style="margin:6px 0 0">كل عمود = ${bs==1?'يوم':bs==7?'أسبوع':'شهر'}</p>`,
+u:'<div class="kpi k3" style="grid-template-columns:repeat(2,1fr)">'+sK('مشترون',nf(buyers.length),nf(bought.length)+' اشتروا فعلاً')+sK('تجار',nf(mers.length))+sK('عملاء متكررون',nf(rep.length),buyers.length?Math.round(rep.length/Math.max(1,bought.length)*100)+'% ممن اشتروا':'')+sK('محظورون',nf(blocked.length))+'</div>',
+m:sRows([['تجربة',sc.t],['نشط',sc.a],['منتهٍ',sc.e],['موقوف',sc.s]])+`<p class="m" style="margin:8px 0 0">ينتهي خلال 7 أيام: <b>${exp7}</b> · خلال 30 يوم: <b>${exp30}</b> · تجار عندهم منتجات: <b>${sellers}</b> من ${AM.length}</p><p class="m" style="margin:4px 0 0">اشتراكات معتمدة بالفترة: <b>${sub.length}</b> بقيمة <b>${nf(subRev)} ج</b> · طلبات بانتظار التفعيل: <b>${subPend}</b></p>`,
+o:sRows(Object.entries(ST).map(([k,l])=>[l,OP.filter(o=>o.status==k).length])),
+p:'<div class="kpi k3" style="grid-template-columns:repeat(2,1fr)">'+sK('منتجات ظاهرة',nf(act.length),'من '+nf(PS.length)+' إجمالي')+sK('متوسط السعر',nf(avgP)+' ج')+sK('بها فيديو',nf(act.filter(p=>p.video).length))+sK('بها وصف',nf(act.filter(p=>p.description).length))+'</div>'+sRows([['للسلطة',tg.s],['للطبخ',tg.c],['للصحة',tg.h],['جملة',act.filter(p=>p.wholesale).length]]),
+r:`<p style="margin:0 0 8px">متوسط التقييم: <b>${avgR}</b> من ${nf(rv.length)} تقييم</p>`+sRows(rd),
+t:'<b class="m">أفضل التجار مبيعاً</b>'+sRows(topN(mS).map(([,x])=>[x.n+' ('+x.c+' طلب)',x.v]),' ج')+'<b class="m">أكثر المنتجات مبيعاً</b>'+sRows(topN(pS).map(([,x])=>[x.n,x.v]),' قطعة')+'<b class="m">أعلى التجار نقاطاً ⭐</b>'+sRows(pts)+'<b class="m">أكثر المدن بتجار</b>'+sRows(Object.entries(cities).sort((a,b)=>b[1]-a[1]).slice(0,5)),
+x:'<div class="kpi k3" style="grid-template-columns:repeat(2,1fr)">'+sK('مسوّقون',nf(Object.keys(CM).length))+sK('إحالات بالفترة',nf(crP.length))+sK('عمولات مستحقة',nf(sum(CR,'earned'))+' ج')+sK('عمولات محوّلة',nf(sum(CR,'paid'))+' ج')+'</div>'+'<b class="m">أكثر المسوّقين إحالات</b>'+sRows(mkTop)};
+box.innerHTML=`<div class="af" id="stp" style="margin-bottom:10px">${per}</div>`
++sD('📌','ملخص الفترة','أهم الأرقام',body.k,1)+sD('📈','النمو','أعضاء وطلبات ومبيعات عبر الزمن',body.g,1)+sD('👥','الأعضاء','مشترون وتجار وعملاء متكررون',body.u)+sD('🏪','التجار والاشتراكات','الحالات والتجديدات',body.m)+sD('🧾','الطلبات','حسب الحالة (بالفترة)',body.o)+sD('🫒','المنتجات','المعروض وأنواعه',body.p)+sD('⭐','التقييمات','المتوسط والتوزيع',body.r)+sD('🏆','الأفضل','تجار ومنتجات ومدن',body.t)+sD('📣','التسويق بالعمولة','مسوّقون وإحالات',body.x)
++`<div class="r2" style="margin:10px 0"><button class="btn o" data-r>🔄 تحديث البيانات</button><button class="btn o" data-x>⬇ تصدير الفترة CSV</button></div><p class="m">${STT?'آخر تحديث: '+new Date(STT).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}):''} · الزيارات ومصادر الزوار مش متاحة هنا (محتاجة أداة تحليلات زي Cloudflare Web Analytics). الأرقام محسوبة من بيانات الموقع المحمّلة.</p>`;
+box._rows=lb.map((l,i)=>[l,ser(newU)[i],ser(newM)[i],ser(OP)[i],ser(okO,o=>+o.total||0)[i]])}
+$('#ai').addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;
+if(b.dataset.p!==undefined){STP=+b.dataset.p;renderStats();return}
+if(b.hasAttribute('data-r')){b.disabled=true;try{await Promise.all([loadU(),loadC(),loadP(),loadSP()])}catch{}renderStats();return}
+if(b.hasAttribute('data-x')){const rows=[['الفترة (بداية)','أعضاء جدد','تجار جدد','طلبات','مبيعات']].concat($('#ai')._rows||[]);const csv='\ufeff'+rows.map(r=>r.join(',')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='zaytouna-stats.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}});
+async function statsOpen(){renderStats();if(!SPL){await loadSP();renderStats()}}
+
 async function loadU(){try{const[u,o]=await Promise.all([getDocs(collection(db,'users')),getDocs(collection(db,'orders'))]);
 OC={};ORD=o.docs.map(d=>d.data());ORD.forEach(x=>{OC[x.buyerId]=(OC[x.buyerId]||0)+1});
 BU=u.docs.map(d=>({id:d.id,...d.data()})).sort(newest);
@@ -706,7 +758,7 @@ $('#b0').textContent=MEMS.length;$('#b1').textContent=MEMS.filter(x=>x.createdAt
 const fl=MEMS.filter(x=>(!BF||(BF=='blocked'?blk(x):BF=='merchant'?isMer(x):BF=='marketer'?isMk(x):!isMer(x)))&&(!q||[x.name,x.email,x.phone].join(' ').toLowerCase().includes(q)));
 $('#bg').innerHTML=fl.map(x=>`<div class="mc"><b>${esc(x.name||'—')}</b><span class="m" style="overflow-wrap:anywhere">${esc(x.email||'')}</span><span class="m">${x.phone?`<a href="${wa(x.phone)}" target="_blank" rel="noopener">${esc(x.phone)}</a> · `:''}سجّل ${dt(x.createdAt)} · طلبات: ${OC[x.id]||0}</span><div class="af"><span class="rl">${isMer(x)?'تاجر':'مشتري'}</span>${isMk(x)?'<span class="rl">مسوّق</span>':''}${isAdm(x)?'<span class="rl">مدير</span>':''}${blk(x)?'<span class="rl" style="border-color:var(--bad);color:var(--bad)">محظور</span>':''}</div><div class="r2"><button class="btn o" data-id="${esc(x.id)}">تفاصيل وإدارة</button></div></div>`).join('')||'<p class="m">لا يوجد أعضاء مطابقون</p>'}
 $('#at').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.t=='b')seenSet('b');if(b.dataset.t=='m')seenSet('m');$$('#at button').forEach(x=>x.setAttribute('aria-pressed',x==b));
-const M={o:'#ao',m:'#am',b:'#ab',p:'#apl',c:'#cmk',s:'#as'};Object.keys(M).forEach(k=>{const el=$(M[k]);if(el)el.hidden=b.dataset.t!=k})};
+if(b.dataset.t=='i')statsOpen();const M={o:'#ao',m:'#am',b:'#ab',p:'#apl',c:'#cmk',s:'#as',i:'#ai'};Object.keys(M).forEach(k=>{const el=$(M[k]);if(el)el.hidden=b.dataset.t!=k})};
 $('#bq').oninput=e=>{BQ=e.target.value;rB()};
 $('#bf').onclick=e=>{const b=e.target.closest('button');if(!b)return;BF=b.dataset.f;$$('#bf button').forEach(x=>x.setAttribute('aria-pressed',x==b));rB()};
 $('#bx').onclick=()=>{const rows=[['الاسم','الإيميل','الهاتف','النوع','الحالة','تاريخ التسجيل']].concat(MEMS.map(x=>[x.name,x.email,x.phone,isMer(x)?'تاجر':'مشتري',x.status=='blocked'?'محظور':'نشط',x.createdAt&&x.createdAt.toDate?x.createdAt.toDate().toISOString().slice(0,10):'']));
@@ -810,7 +862,7 @@ const ne=CR.filter(x=>x.status=='earned').length,tot=rq+(OWN?ne:0)+NB;setNb('#tc
 const k=(l,v,t)=>`<div><span class="m">${l}</span><b>${v}</b>${t?`<span class="m">${t}</span>`:''}</div>`;
 o.innerHTML=k('الأعضاء',MEMS.length)+k('التجار',AM.length,'نشط '+c.a+' · تجربة '+c.t+' · منتهٍ '+c.e)+k('طلبات اليوم',tn,'الإجمالي '+ORD.length)+k('منتجات معروضة',P.length)+k('طلبات اشتراك',rq,'بانتظار التفعيل')+k('عمولات مستحقة',due+' ج');
 const al=[];if(rq)al.push(['p',rq+' طلب اشتراك بانتظار التفعيل']);if(soon)al.push(['m',soon+' اشتراك ينتهي خلال 7 أيام']);if(c.e)al.push(['m',c.e+' اشتراك منتهٍ (أخفِ منتجاتهم من تبويب التجار)']);if(due)al.push(['c','عمولات مستحقة للتحويل: '+due+' ج']);if(OWN&&CFG.maintenance)al.push(['s','وضع الصيانة مفعّل: الموقع مغلق على الزوار']);
-$('#ova').innerHTML=al.length?'<div class="box" style="margin-top:12px"><h3>يحتاج انتباهك</h3>'+al.map(([t,m])=>`<div class="cl-row"><div>${esc(m)}</div><button class="btn o" data-go="${t}">فتح</button></div>`).join('')+'</div>':'<p class="m" style="margin-top:12px">لا توجد تنبيهات الآن ✅</p>'}
+$('#ova').innerHTML=al.length?'<div class="box" style="margin-top:12px"><h3>يحتاج انتباهك</h3>'+al.map(([t,m])=>`<div class="cl-row"><div>${esc(m)}</div><button class="btn o" data-go="${t}">فتح</button></div>`).join('')+'</div>':'<p class="m" style="margin-top:12px">لا توجد تنبيهات الآن ✅</p>';try{if(!$('#ai').hidden)renderStats()}catch{}}
 $('#ova').onclick=e=>{const b=e.target.closest('[data-go]');if(b)$('#at [data-t='+b.dataset.go+']').click()};
 
 let PLN=[],SRQ=[],EPL=null,UNREQ=null,REQINIT=false,UNUS=null,NUS=[],NB=0,UINIT=false;
