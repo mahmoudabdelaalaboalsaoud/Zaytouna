@@ -414,7 +414,7 @@ shop();
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,updateProfile,signOut,GoogleAuthProvider,signInWithPopup,sendPasswordResetEmail}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import{getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,updateDoc,deleteDoc,query,where,Timestamp,serverTimestamp,writeBatch,limit,collectionGroup,deleteField,onSnapshot}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import{getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,updateDoc,deleteDoc,query,where,Timestamp,serverTimestamp,writeBatch,limit,collectionGroup,deleteField,onSnapshot,increment}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 const app=initializeApp({apiKey:"AIzaSyBD1HrnisViDqDLswWWhqi4zITrDMu-ykI",authDomain:"zaytouna-b2efc.firebaseapp.com",projectId:"zaytouna-b2efc",storageBucket:"zaytouna-b2efc.firebasestorage.app",messagingSenderId:"291311143858",appId:"1:291311143858:web:938459685e00240c6972ab"});
 const auth=getAuth(app),db=getFirestore(app),D=864e5,dlg=$('#dlg');
 const dt=t=>t&&t.toDate?t.toDate().toLocaleDateString('ar-EG'):'';
@@ -454,7 +454,7 @@ function renderShare(){const box=$('#shb');if(!box)return;const now=Date.now(),d
 Object.entries(MPD).forEach(([id,p])=>{if(p.active===false)return;const t=p.createdAt&&p.createdAt.toMillis?p.createdAt.toMillis():0;if(!t)return;const age=now-t,k=Math.floor(age/SHD);if(age-k*SHD>=SHW)return;try{if(localStorage['zsh_'+id+'_'+k])return}catch{}due.push({id,p,k})});
 if(!due.length){box.innerHTML='';return}
 const d=due[0],id=d.id,p=d.p,url=LK('p/'+id),txt=`${p.name} 🫒 ${p.price} ج — متوفر على منصة زيتونة`,key=id+'|'+d.k;
-box.innerHTML=`<div class="shc"><div class="sht">📣 شارك منتجك «${esc(p.name)}» الآن</div><p class="m" style="margin:4px 0 10px">المشاركة بتجيب عملاء أكتر، وبتاخد ثواني.${due.length>1?' (وفيه '+(due.length-1)+' منتج كمان محتاج مشاركة)':''}</p><div class="sha">${navigator.share?`<button class="btn" data-sh2="n" data-k="${key}">مشاركة</button>`:''}<a class="btn o" data-sh2="w" data-k="${key}" href="https://wa.me/?text=${encodeURIComponent(txt+' '+url)}" target="_blank" rel="noopener">واتساب</a><a class="btn o" data-sh2="f" data-k="${key}" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank" rel="noopener">فيسبوك</a><button class="btn o" data-sh2="c" data-k="${key}">نسخ الرابط</button><button class="lk" data-sh2="x" data-k="${key}">لاحقاً</button></div></div>`}
+box.innerHTML=`<div class="shc"><div class="sht">📣 شارك منتجك «${esc(p.name)}» الآن</div><p class="m" style="margin:4px 0 10px">المشاركة بتجيب عملاء أكتر، وبتاخد ثواني.${due.length>1?' (وفيه '+(due.length-1)+' منتج كمان محتاج مشاركة)':''}</p><div class="sha">${navigator.share?`<button class="btn" data-sh2="n" data-k="${key}">مشاركة</button>`:''}<a class="btn o" data-sh2="w" data-k="${key}" href="https://wa.me/?text=${encodeURIComponent(txt+' '+url.replace('#','?s=wa#'))}" target="_blank" rel="noopener">واتساب</a><a class="btn o" data-sh2="f" data-k="${key}" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url.replace('#','?s=fb#'))}" target="_blank" rel="noopener">فيسبوك</a><button class="btn o" data-sh2="c" data-k="${key}">نسخ الرابط</button><button class="lk" data-sh2="x" data-k="${key}">لاحقاً</button></div></div>`}
 $('#shb').addEventListener('click',async e=>{const b=e.target.closest('[data-sh2]');if(!b)return;const[id,k]=b.dataset.k.split('|'),a=b.dataset.sh2,p=MPD[id];if(!p)return;const url=LK('p/'+id);
 if(a=='n'){try{await navigator.share({title:p.name,text:`${p.name} 🫒 ${p.price} ج — على منصة زيتونة`,url});shDone(id,k)}catch{}return}
 if(a=='c'){await cp(url);shDone(id,k);return}
@@ -597,7 +597,7 @@ privacy:()=>`<h2>سياسة الخصوصية</h2><p class="m">آخر تحديث:
 <h3>2) كيف نستخدمها</h3><p>لتشغيل حسابك، وإيصال طلبك للتاجر، وإدارة الاشتراكات والعمولات، ومنع إساءة الاستخدام. <b>لا نبيع بياناتك</b> ولا نستخدمها للإعلانات.</p>
 <h3>3) من يرى بياناتك</h3><ul><li>التاجر يرى اسمك ورقمك وطلبك عند إرسال طلب إليه فقط.</li><li>بيانات المتجر ومنتجاته وتقييماتك عامة.</li><li>الإدارة تطّلع على بيانات الأعضاء لإدارة الموقع.</li></ul>
 <h3>4) الخدمات التي نعتمد عليها</h3><p>نستخدم خدمات طرف ثالث لتشغيل الموقع: <b>Google Firebase</b> (الدخول وقاعدة البيانات)، و<b>Supabase</b> (تخزين صور المنتجات)، و<b>Cloudflare</b> (استضافة الموقع). قد تُنقل بياناتك وتُخزَّن على خوادم خارج مصر.</p>
-<h3>5) ما يُحفظ على جهازك</h3><p>نحفظ في متصفحك بيانات صغيرة لتسريع الموقع: سلة الطلبات، ونسخة من المنتجات، ورمز الإحالة (30 يوماً). لا نستخدم ملفات تتبّع إعلانية.</p>
+<h3>5) ما يُحفظ على جهازك</h3><p>نحفظ في متصفحك بيانات صغيرة لتسريع الموقع: سلة الطلبات، ونسخة من المنتجات، ورمز الإحالة (30 يوماً). لا نستخدم ملفات تتبّع إعلانية. ونسجّل إحصائيات زيارات مجهولة الهوية (عدد الزوار يومياً ونوع الجهاز ومصدر الدخول) من غير أي بيانات شخصية.</p>
 <h3>6) حقوقك</h3><p>يمكنك طلب الاطلاع على بياناتك أو تصحيحها أو حذف حسابك وبياناتك عبر <a href="#/l/contact" data-lg>تواصل معنا</a>. قد نحتفظ بما يلزم قانوناً أو لحل نزاع قائم.</p>
 <h3>7) الأمان</h3><p>نبذل جهداً معقولاً لحماية بياناتك، لكن لا توجد وسيلة نقل أو تخزين آمنة 100%. لا ترسل كلمة مرورك لأحد، ولن نطلبها منك أبداً.</p>
 <h3>8) التعديل</h3><p>قد نحدّث هذه السياسة وننشر التاريخ الجديد أعلاها. راجع أيضاً <a href="#/l/terms" data-lg>شروط الاستخدام</a>.</p>`,
@@ -695,8 +695,9 @@ try{if(RU.displayName!=n)await updateProfile(RU,{displayName:n});await mkProfile
 catch(x){er.textContent='تعذر إكمال التسجيل ('+(x.code||x.message||'خطأ')+')'}finally{bt.disabled=false}};
 
 let ORD=[],MEMS=[],ADL=[];
-let STP=30,SP=[],SPL=false,STT=0;
+let STP=30,SP=[],SPL=false,STT=0,VS=[],VSL=false;
 const DAYMS=864e5,nf=n=>(+n||0).toLocaleString('en-US'),tOf=x=>x&&x.createdAt&&x.createdAt.toMillis?x.createdAt.toMillis():0;
+async function loadVS(){try{const s=await getDocs(collection(db,'vstats'));VS=s.docs.map(d=>d.data())}catch{VS=[]}VSL=true}
 async function loadSP(){try{const s=await getDocs(collection(db,'products'));SP=s.docs.map(d=>({id:d.id,...d.data()}))}catch{SP=[]}SPL=true;STT=Date.now()}
 function sBars(v,lb,col){const W=320,H=90,n=v.length,mx=Math.max(1,...v),bw=W/n;
 return `<svg viewBox="0 0 ${W} ${H+16}" class="sch" role="img"><g>${v.map((x,i)=>{const h=Math.round(x/mx*H);return `<rect x="${(i*bw+bw*.15).toFixed(1)}" y="${H-h}" width="${(bw*.7).toFixed(1)}" height="${Math.max(h,x?2:0)}" rx="2" fill="${col}"><title>${lb[i]}: ${nf(x)}</title></rect>`}).join('')}</g><text x="0" y="${H+12}" class="scl">${lb[0]}</text><text x="${W}" y="${H+12}" text-anchor="end" class="scl">${lb[n-1]}</text><text x="${W}" y="9" text-anchor="end" class="scl">الأعلى: ${nf(mx)}</text></svg>`}
@@ -724,6 +725,8 @@ const cities={};AM.forEach(m=>{const c=String(m.city||'').trim();if(c)cities[c]=
 const pts=AM.map(m=>[m.name,ptsOf(new Set(PS.filter(p=>p.merchantId==m.id).map(p=>p.id)),m.id)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,5);
 const crP=CR.filter(inP),sum=(a,t)=>a.filter(x=>x.status==t).reduce((c,x)=>c+(+x.amount||0),0),mkc={};CR.forEach(x=>{if(x.mk)mkc[x.mk]=(mkc[x.mk]||0)+1});
 const mkTop=Object.entries(mkc).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([id,n])=>[(CM[id]&&CM[id].name)||'—',n]);
+const dT=x=>Date.UTC(Math.floor(x.d/10000),Math.floor(x.d/100)%100-1,x.d%100,12),vs=VS.filter(x=>x.d&&dT(x)>=start),vsum=k=>vs.reduce((a,x)=>a+(+x[k]||0),0),vU=vsum('u'),vSe=vsum('s'),
+vser=(()=>{const r=Array(nb).fill(0);vs.forEach(x=>{r[Math.min(nb-1,Math.max(0,Math.floor((dT(x)-start)/(bs*DAYMS))))]+=(+x.u||0)});return r})();
 const per=[['7','7 أيام'],['30','30 يوم'],['90','90 يوم'],['0','الكل']].map(([v,t])=>`<button data-p="${v}" aria-pressed="${(+v)==STP}">${t}</button>`).join('');
 const body={
 k:'<div class="kpi k3" style="grid-template-columns:repeat(2,1fr)">'+sK('أعضاء جدد',nf(newU.length),'إجمالي '+nf(BU.length))+sK('تجار جدد',nf(newM.length),'إجمالي '+nf(AM.length))+sK('طلبات',nf(OP.length),'إجمالي '+nf(ORD.length))+sK('المبيعات',nf(sales)+' ج',okO.length?'متوسط الطلب '+nf(Math.round(sales/okO.length))+' ج':'')+sK('نسبة الإتمام',OP.length?Math.round(doneO.length/OP.length*100)+'%':'—',nf(doneO.length)+' مكتمل')+sK('نسبة الإلغاء',OP.length?Math.round(canO.length/OP.length*100)+'%':'—',nf(canO.length)+' ملغي')+'</div>',
@@ -734,16 +737,26 @@ o:sRows(Object.entries(ST).map(([k,l])=>[l,OP.filter(o=>o.status==k).length])),
 p:'<div class="kpi k3" style="grid-template-columns:repeat(2,1fr)">'+sK('منتجات ظاهرة',nf(act.length),'من '+nf(PS.length)+' إجمالي')+sK('متوسط السعر',nf(avgP)+' ج')+sK('بها فيديو',nf(act.filter(p=>p.video).length))+sK('بها وصف',nf(act.filter(p=>p.description).length))+'</div>'+sRows([['للسلطة',tg.s],['للطبخ',tg.c],['للصحة',tg.h],['جملة',act.filter(p=>p.wholesale).length]]),
 r:`<p style="margin:0 0 8px">متوسط التقييم: <b>${avgR}</b> من ${nf(rv.length)} تقييم</p>`+sRows(rd),
 t:'<b class="m">أفضل التجار مبيعاً</b>'+sRows(topN(mS).map(([,x])=>[x.n+' ('+x.c+' طلب)',x.v]),' ج')+'<b class="m">أكثر المنتجات مبيعاً</b>'+sRows(topN(pS).map(([,x])=>[x.n,x.v]),' قطعة')+'<b class="m">أعلى التجار نقاطاً ⭐</b>'+sRows(pts)+'<b class="m">أكثر المدن بتجار</b>'+sRows(Object.entries(cities).sort((a,b)=>b[1]-a[1]).slice(0,5)),
+v:vs.length?'<div class="kpi k3" style="grid-template-columns:repeat(2,1fr)">'+sK('زوار (جهاز/يوم)',nf(vU))+sK('جلسات',nf(vSe))+sK('تسجيل لكل زائر',vU?(newU.length/vU*100).toFixed(1)+'%':'—','أعضاء جدد ÷ زوار')+sK('طلب لكل زائر',vU?(OP.length/vU*100).toFixed(1)+'%':'—','طلبات ÷ زوار')+'</div><b class="m">الزوار بمرور الوقت</b>'+sBars(vser,lb,'#c47ad9')+'<b class="m">مصدر الدخول (جلسات)</b>'+sRows([['مباشر',vsum('sd')],['واتساب',vsum('sw')],['فيسبوك',vsum('sf')],['إنستجرام',vsum('si')],['تيك توك',vsum('st')],['جوجل',vsum('sg')],['أخرى',vsum('so')]])+'<b class="m">نوع الجهاز</b>'+sRows([['موبايل',vsum('dm')],['كمبيوتر',vsum('dd')]])+'<p class="m" style="margin:6px 0 0">الزائر = جهاز واحد في اليوم (بتوقيت UTC). واتساب غالباً بيخفي المصدر فبيظهر «مباشر»، إلا لو الرابط فيه <b>?s=wa</b>.</p>':'<p class="m" style="margin:0">لسه مفيش زيارات متسجّلة. العدّ بيبدأ من بعد نشر هذا التحديث والقواعد، وكل جلسة بتتحسب مرة.</p>',
 x:'<div class="kpi k3" style="grid-template-columns:repeat(2,1fr)">'+sK('مسوّقون',nf(Object.keys(CM).length))+sK('إحالات بالفترة',nf(crP.length))+sK('عمولات مستحقة',nf(sum(CR,'earned'))+' ج')+sK('عمولات محوّلة',nf(sum(CR,'paid'))+' ج')+'</div>'+'<b class="m">أكثر المسوّقين إحالات</b>'+sRows(mkTop)};
 box.innerHTML=`<div class="af" id="stp" style="margin-bottom:10px">${per}</div>`
-+sD('📌','ملخص الفترة','أهم الأرقام',body.k,1)+sD('📈','النمو','أعضاء وطلبات ومبيعات عبر الزمن',body.g,1)+sD('👥','الأعضاء','مشترون وتجار وعملاء متكررون',body.u)+sD('🏪','التجار والاشتراكات','الحالات والتجديدات',body.m)+sD('🧾','الطلبات','حسب الحالة (بالفترة)',body.o)+sD('🫒','المنتجات','المعروض وأنواعه',body.p)+sD('⭐','التقييمات','المتوسط والتوزيع',body.r)+sD('🏆','الأفضل','تجار ومنتجات ومدن',body.t)+sD('📣','التسويق بالعمولة','مسوّقون وإحالات',body.x)
-+`<div class="r2" style="margin:10px 0"><button class="btn o" data-r>🔄 تحديث البيانات</button><button class="btn o" data-x>⬇ تصدير الفترة CSV</button></div><p class="m">${STT?'آخر تحديث: '+new Date(STT).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}):''} · الزيارات ومصادر الزوار مش متاحة هنا (محتاجة أداة تحليلات زي Cloudflare Web Analytics). الأرقام محسوبة من بيانات الموقع المحمّلة.</p>`;
++sD('📌','ملخص الفترة','أهم الأرقام',body.k,1)+sD('📈','النمو','أعضاء وطلبات ومبيعات عبر الزمن',body.g,1)+sD('🌐','الزيارات','زوار ومصادر وأجهزة',body.v,1)+sD('👥','الأعضاء','مشترون وتجار وعملاء متكررون',body.u)+sD('🏪','التجار والاشتراكات','الحالات والتجديدات',body.m)+sD('🧾','الطلبات','حسب الحالة (بالفترة)',body.o)+sD('🫒','المنتجات','المعروض وأنواعه',body.p)+sD('⭐','التقييمات','المتوسط والتوزيع',body.r)+sD('🏆','الأفضل','تجار ومنتجات ومدن',body.t)+sD('📣','التسويق بالعمولة','مسوّقون وإحالات',body.x)
++`<div class="r2" style="margin:10px 0"><button class="btn o" data-r>🔄 تحديث البيانات</button><button class="btn o" data-x>⬇ تصدير الفترة CSV</button></div><p class="m">${STT?'آخر تحديث: '+new Date(STT).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}):''} · الأرقام محسوبة من بيانات الموقع المحمّلة.</p>`;
 box._rows=lb.map((l,i)=>[l,ser(newU)[i],ser(newM)[i],ser(OP)[i],ser(okO,o=>+o.total||0)[i]])}
 $('#ai').addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;
 if(b.dataset.p!==undefined){STP=+b.dataset.p;renderStats();return}
-if(b.hasAttribute('data-r')){b.disabled=true;try{await Promise.all([loadU(),loadC(),loadP(),loadSP()])}catch{}renderStats();return}
+if(b.hasAttribute('data-r')){b.disabled=true;try{await Promise.all([loadU(),loadC(),loadP(),loadSP(),loadVS()])}catch{}renderStats();return}
 if(b.hasAttribute('data-x')){const rows=[['الفترة (بداية)','أعضاء جدد','تجار جدد','طلبات','مبيعات']].concat($('#ai')._rows||[]);const csv='\ufeff'+rows.map(r=>r.join(',')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='zaytouna-stats.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}});
-async function statsOpen(){renderStats();if(!SPL){await loadSP();renderStats()}}
+async function statsOpen(){renderStats();if(!SPL||!VSL){await Promise.all([SPL?0:loadSP(),VSL?0:loadVS()]);renderStats()}}
+const srcOf=()=>{const q=new URLSearchParams(location.search),s=(q.get('s')||'').toLowerCase(),r=(document.referrer||'').toLowerCase(),t=s||r;
+if(/^wa$|whatsapp|wa\.me/.test(t))return'sw';if(/^fb$|facebook|fb\.com|fb\.me/.test(t))return'sf';if(/^ig$|instagram/.test(t))return'si';if(/^tt$|tiktok/.test(t))return'st';if(/google/.test(t))return'sg';
+if(!r||r.includes(location.host))return s?'so':'sd';return'so'};
+function trackVisit(){try{if(sessionStorage.zvs||location.hostname=='localhost'||/bot|crawl|spider|preview|facebookexternalhit|whatsapp/i.test(navigator.userAgent))return;sessionStorage.zvs='1';
+const n=new Date(),d=n.getUTCFullYear()*10000+(n.getUTCMonth()+1)*100+n.getUTCDate(),nd=localStorage.zvd!=String(d);localStorage.zvd=String(d);
+const o={d,s:increment(1),[srcOf()]:increment(1),[/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)?'dm':'dd']:increment(1)};if(nd)o.u=increment(1);
+setDoc(doc(db,'vstats',String(d)),o,{merge:true}).catch(()=>{})}catch{}}
+trackVisit();
+
 
 async function loadU(){try{const[u,o]=await Promise.all([getDocs(collection(db,'users')),getDocs(collection(db,'orders'))]);
 OC={};ORD=o.docs.map(d=>d.data());ORD.forEach(x=>{OC[x.buyerId]=(OC[x.buyerId]||0)+1});

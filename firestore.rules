@@ -234,6 +234,25 @@ service cloud.firestore {
       allow create: if isOwner();
       allow update, delete: if false;
     }
+    // إحصائيات الزيارات: عدّادات يومية مجهولة. الزائر يزيد كل عدّاد بمقدار 1 فقط، والقراءة للمديرين
+    match /vstats/{day} {
+      function dayNow() { return request.time.year() * 10000 + request.time.month() * 100 + request.time.day(); }
+      function inc(k) {
+        return !(k in request.resource.data.diff(resource.data).affectedKeys())
+          || request.resource.data[k] == resource.data.get(k, 0) + 1;
+      }
+      function one(k) { return !(k in request.resource.data) || request.resource.data[k] == 1; }
+      allow read: if isAdmin();
+      allow create: if day == string(dayNow())
+        && request.resource.data.keys().hasOnly(['d', 's', 'u', 'sw', 'sf', 'si', 'st', 'sg', 'sd', 'so', 'dm', 'dd'])
+        && request.resource.data.d == dayNow() && request.resource.data.s == 1
+        && one('u') && one('sw') && one('sf') && one('si') && one('st') && one('sg') && one('sd') && one('so') && one('dm') && one('dd');
+      allow update: if day == string(dayNow())
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['s', 'u', 'sw', 'sf', 'si', 'st', 'sg', 'sd', 'so', 'dm', 'dd'])
+        && request.resource.data.diff(resource.data).affectedKeys().size() <= 4
+        && inc('s') && inc('u') && inc('sw') && inc('sf') && inc('si') && inc('st') && inc('sg') && inc('sd') && inc('so') && inc('dm') && inc('dd');
+    }
+
     // إعدادات الموقع: تُقرأ للجميع ويعدّلها المالك فقط
     match /settings/{id} {
       allow read: if true;
