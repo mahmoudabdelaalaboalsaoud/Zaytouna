@@ -34,7 +34,7 @@ service cloud.firestore {
     // شكل المنتج وحدود القيم، واسم التاجر ورقمه يطابقان بياناته
     function prodOk(d) {
       let m = mer();
-      return d.keys().hasOnly(['merchantId', 'merchantName', 'merchantPhone', 'name', 'origin', 'acidity', 'liters', 'price', 'wholesale', 'tags', 'active', 'image', 'stock', 'description', 'video', 'ship', 'cod', 'ret', 'createdAt'])
+      return d.keys().hasOnly(['merchantId', 'merchantName', 'merchantPhone', 'name', 'origin', 'acidity', 'liters', 'price', 'wholesale', 'tags', 'active', 'image', 'stock', 'description', 'video', 'ship', 'cod', 'ret', 'cc', 'createdAt'])
         && d.name is string && d.name.size() >= 2 && d.name.size() <= 80
         && d.origin is string && d.origin.size() <= 60
         && d.acidity is number && d.acidity >= 0 && d.acidity <= 5
@@ -46,6 +46,7 @@ service cloud.firestore {
         && (!('description' in d) || (d.description is string && d.description.size() <= descMax()))
         && (!('video' in d) || (d.video is string && d.video.size() <= 300 && d.video.matches('^https://[^ ]+$')))
         && (!('ship' in d) || d.ship in ['y', 'n'])
+        && (!('cc' in d) || (ccOk(d.cc) && d.cc == m.get('country', 'EG')))
         && (!('cod' in d) || d.cod in ['y', 'n'])
         && (!('ret' in d) || d.ret in ['y', 'n'])
         && (!('image' in d) || (d.image is string
@@ -84,14 +85,18 @@ service cloud.firestore {
                 && get(/databases/$(db)/documents/products/$(pid)).data.merchantId != uid
                 && boughtOk(d.orderId, pid, uid)));
     }
+    // الدول العربية المسموحة، وصيغة الهاتف: مصري محلي (01xxxxxxxxx) أو دولي (+966...)
+    function ccOk(c) { return c in ['EG', 'SA', 'AE', 'KW', 'QA', 'BH', 'OM', 'YE', 'IQ', 'SY', 'LB', 'JO', 'PS', 'LY', 'TN', 'DZ', 'MA', 'SD']; }
+    function phoneOk(p) { return p.matches('^01[0125][0-9]{8}$') || p.matches('^[+][1-9][0-9]{7,14}$'); }
     function lt(it, i) { return it.size() > i ? it[i].price * it[i].q : 0; }
     function orderOk(d) {
       let it = d.items;
-      return d.keys().hasOnly(['buyerId', 'buyerName', 'buyerPhone', 'merchantId', 'merchantName', 'merchantPhone', 'items', 'total', 'status', 'createdAt'])
+      return d.keys().hasOnly(['buyerId', 'buyerName', 'buyerPhone', 'merchantId', 'merchantName', 'merchantPhone', 'items', 'total', 'cc', 'status', 'createdAt'])
         && d.buyerId == request.auth.uid && d.status == 'new'
         && d.createdAt == request.time
         && d.buyerName is string && d.buyerName.size() <= 60
-        && d.buyerPhone is string && d.buyerPhone.matches('^01[0125][0-9]{8}$')
+        && d.buyerPhone is string && phoneOk(d.buyerPhone)
+        && (!('cc' in d) || ccOk(d.cc))
         && d.merchantId is string
         && d.merchantName is string && d.merchantName.size() <= 80
         && d.merchantPhone is string && d.merchantPhone.size() <= 20
@@ -111,7 +116,8 @@ service cloud.firestore {
     match /merchants/{uid} {
       allow read: if me(uid) || isAdmin();
       allow create: if me(uid)
-        && request.resource.data.keys().hasOnly(['name', 'phone', 'city', 'about', 'status', 'endsAt', 'createdAt'])
+        && request.resource.data.keys().hasOnly(['name', 'phone', 'city', 'country', 'about', 'status', 'endsAt', 'createdAt'])
+        && (!('country' in request.resource.data) || ccOk(request.resource.data.country))
         && request.resource.data.status == 'trial'
         && request.resource.data.name is string && request.resource.data.name.size() >= 2 && request.resource.data.name.size() <= 60
         && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
@@ -168,7 +174,8 @@ service cloud.firestore {
     match /users/{uid} {
       allow read: if me(uid) || isAdmin();
       allow create: if me(uid)
-        && request.resource.data.keys().hasOnly(['name', 'email', 'role', 'phone', 'city', 'status', 'createdAt'])
+        && request.resource.data.keys().hasOnly(['name', 'email', 'role', 'phone', 'city', 'country', 'status', 'createdAt'])
+        && (!('country' in request.resource.data) || ccOk(request.resource.data.country))
         && request.resource.data.role in ['buyer', 'merchant']
         && request.resource.data.status == 'active'
         && request.resource.data.createdAt == request.time
@@ -181,7 +188,8 @@ service cloud.firestore {
         // مشتري يحوّل نفسه لتاجر: يتغير role فقط (و phone)، بشرط وجود سجل تاجر له وحسابه غير محظور
         || (me(uid) && resource.data.role == 'buyer' && resource.data.status == 'active'
         && request.resource.data.role == 'merchant'
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role', 'phone'])
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role', 'phone', 'country'])
+        && (!('country' in request.resource.data) || ccOk(request.resource.data.country))
         && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
         && exists(/databases/$(db)/documents/merchants/$(uid)));
       allow delete: if isAdmin();
