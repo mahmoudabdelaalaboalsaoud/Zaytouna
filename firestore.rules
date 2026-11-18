@@ -86,7 +86,7 @@ service cloud.firestore {
                 && boughtOk(d.orderId, pid, uid)));
     }
     // الدول العربية المسموحة، وصيغة الهاتف: مصري محلي (01xxxxxxxxx) أو دولي (+966...)
-    function ccOk(c) { return c in ['EG', 'SA', 'AE', 'KW', 'QA', 'BH', 'OM', 'YE', 'IQ', 'SY', 'LB', 'JO', 'PS', 'LY', 'TN', 'DZ', 'MA', 'SD']; }
+    function ccOk(c) { return c in ['EG', 'SA', 'AE', 'KW', 'QA', 'BH', 'OM', 'YE', 'IQ', 'SY', 'LB', 'JO', 'PS', 'LY', 'TN', 'DZ', 'MA', 'SD', 'MR', 'SO', 'DJ', 'KM']; }
     function phoneOk(p) { return p.matches('^01[0125][0-9]{8}$') || p.matches('^[+][1-9][0-9]{7,14}$'); }
     function lt(it, i) { return it.size() > i ? it[i].price * it[i].q : 0; }
     function orderOk(d) {
