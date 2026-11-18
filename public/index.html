@@ -368,11 +368,6 @@ const f=$('#fc');if(f){let v=f.value;if(!v)try{v=localStorage.zcf||''}catch{}if(
 function setFc(cc,go){$('#fc').value=cc||'';$('#fcs').value=cc?CN(cc):'';try{localStorage.zcf=cc||''}catch{}$('#fcl').hidden=true;if(go!==false)shop()}
 function fcList(q){const nq=nz(q||''),cur=$('#fc').value,it=[['','كل الدول']].concat(CCEN.filter(c=>CT[c]).map(c=>[c,CT[c].n])).filter(([c,n])=>!nq||nz(n).includes(nq));
 $('#fcl').innerHTML=it.length?it.map(([c,n])=>`<button type="button" class="cli${c==cur?' on':''}" data-cc="${c}">${n}${c?` <span class="m">· ${CT[c].u}</span>`:''}</button>`).join(''):'<div class="m" style="padding:9px 14px">لا توجد دولة بهذا الاسم</div>';$('#fcl').hidden=false}
-$('#fcs').addEventListener('focus',()=>{$('#fcs').select();fcList('')});
-$('#fcs').addEventListener('input',e=>fcList(e.target.value));
-$('#fcl').addEventListener('mousedown',e=>e.preventDefault());
-$('#fcl').addEventListener('click',e=>{const b=e.target.closest('[data-cc]');if(b)setFc(b.dataset.cc)});
-document.addEventListener('click',e=>{if(!e.target.closest('.cbx')){$('#fcl').hidden=true;$('#fcs').value=$('#fc').value?CN($('#fc').value):''}});
 const vidOk=p=>!!p.v&&!VID.off.has(p.id)&&!VID.block.has(p.mid)&&(VID.on||VID.allow.has(p.mid));
 const XB=[['sh','🚚','السعر شامل الشحن','السعر غير شامل الشحن'],['cd','💵','يدعم الدفع عند الاستلام','لا يدعم الدفع عند الاستلام'],['rt','↩️','يقبل المرتجعات','لا يقبل المرتجعات']];
 const xbadges=p=>{const a=XB.filter(([k])=>p[k]).map(([k,i,y,n])=>`<span class="xb ${p[k]=='y'?'xy':'xn'}">${i} ${p[k]=='y'?y:n}</span>`);return a.length?`<div class="xbw">${a.join('')}<span class="m" style="font-size:11.5px">بيانات من التاجر</span></div>`:''};
@@ -435,6 +430,11 @@ try{if(sessionStorage.zsp&&!/[?&]splash/.test(location.search)){sp.remove();retu
 const t0=performance.now(),hide=()=>{sp.classList.add('out');setTimeout(()=>sp.remove(),700)},
 chk=()=>{if(!PL)setTimeout(hide,Math.max(0,1800-(performance.now()-t0)));else setTimeout(chk,150)};chk();setTimeout(()=>{if(sp.isConnected)hide()},7000)})();
 shop();
+$('#fcs').addEventListener('focus',()=>{$('#fcs').select();fcList('')});
+$('#fcs').addEventListener('input',e=>fcList(e.target.value));
+$('#fcl').addEventListener('mousedown',e=>e.preventDefault());
+$('#fcl').addEventListener('click',e=>{const b=e.target.closest('[data-cc]');if(b)setFc(b.dataset.cc)});
+document.addEventListener('click',e=>{if(!e.target.closest('.cbx')){$('#fcl').hidden=true;$('#fcs').value=$('#fc').value?CN($('#fc').value):''}});
 </script>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
