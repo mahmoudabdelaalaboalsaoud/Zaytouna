@@ -365,7 +365,7 @@ function phAny(raw){let s=cdig(raw);if(s.startsWith('00'))s='+'+s.slice(2);retur
 function fillCtry(){const o=CCEN.filter(c=>CT[c]).map(c=>`<option value="${c}">${CT[c].n}</option>`).join('');
 ['#rcy','#bmy'].forEach(s=>{const e=$(s);if(!e)return;const v=e.value;e.innerHTML=o;e.value=CCEN.includes(v)?v:CCEN[0];e.hidden=CCEN.length<2});
 const f=$('#fc');if(f){let v=f.value;if(!v)try{v=localStorage.zcf||''}catch{}if(!CCEN.includes(v))v='';f.value=v;$('#fcs').value=v?CN(v):'';$('#cqw').hidden=CCEN.length<2}}
-function setFc(cc,go){$('#fc').value=cc||'';$('#fcs').value=cc?CN(cc):'';try{localStorage.zcf=cc||''}catch{}$('#fcl').hidden=true;if(go!==false)shop()}
+function setFc(cc,go){$('#fc').value=cc||'';$('#fcs').value=cc?CN(cc):'';try{localStorage.zcf=cc||''}catch{}$('#fcl').hidden=true;$('#fcs').blur();if(go!==false)shop()}
 function fcList(q){const nq=nz(q||''),cur=$('#fc').value,it=[['','كل الدول']].concat(CCEN.filter(c=>CT[c]).map(c=>[c,CT[c].n])).filter(([c,n])=>!nq||nz(n).includes(nq));
 $('#fcl').innerHTML=it.length?it.map(([c,n])=>`<button type="button" class="cli${c==cur?' on':''}" data-cc="${c}">${n}${c?` <span class="m">· ${CT[c].u}</span>`:''}</button>`).join(''):'<div class="m" style="padding:9px 14px">لا توجد دولة بهذا الاسم</div>';$('#fcl').hidden=false}
 const vidOk=p=>!!p.v&&!VID.off.has(p.id)&&!VID.block.has(p.mid)&&(VID.on||VID.allow.has(p.mid));
@@ -432,6 +432,7 @@ chk=()=>{if(!PL)setTimeout(hide,Math.max(0,1800-(performance.now()-t0)));else se
 shop();
 $('#fcs').addEventListener('focus',()=>{$('#fcs').select();fcList('')});
 $('#fcs').addEventListener('input',e=>fcList(e.target.value));
+$('#fcs').addEventListener('keydown',e=>{if(e.key=='Escape'||e.key=='Enter'){e.preventDefault();$('#fcl').hidden=true;$('#fcs').value=$('#fc').value?CN($('#fc').value):'';$('#fcs').blur()}});
 $('#fcl').addEventListener('mousedown',e=>e.preventDefault());
 $('#fcl').addEventListener('click',e=>{const b=e.target.closest('[data-cc]');if(b)setFc(b.dataset.cc)});
 document.addEventListener('click',e=>{if(!e.target.closest('.cbx')){$('#fcl').hidden=true;$('#fcs').value=$('#fc').value?CN($('#fc').value):''}});
