@@ -261,6 +261,58 @@ service cloud.firestore {
         && inc('s') && inc('u') && inc('sw') && inc('sf') && inc('si') && inc('st') && inc('sg') && inc('sd') && inc('so') && inc('dm') && inc('dd');
     }
 
+    // التسويق بالنسبة على متاجر معيّنة
+    // متاجر مفتوحة للمسوّقين: يكتبها المدير، ويقرأها أي مسجّل
+    match /mkstores/{mid} {
+      allow read: if signed();
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['name', 'pct', 'active', 'updatedAt'])
+        && request.resource.data.name is string && request.resource.data.name.size() <= 80
+        && request.resource.data.pct is int && request.resource.data.pct >= 1 && request.resource.data.pct <= 50
+        && request.resource.data.active is bool;
+      allow delete: if isAdmin();
+    }
+    // انضمام مسوّق لمتجر (المعرّف: معرّف المتجر + _ + معرّف المسوّق)
+    match /mkjoin/{id} {
+      allow read: if signed() && (resource.data.mid == request.auth.uid || resource.data.mk == request.auth.uid || isAdmin());
+      allow create: if signed()
+        && request.resource.data.keys().hasOnly(['mid', 'mk', 'name', 'phone', 'pm', 'pt', 'status', 'createdAt'])
+        && request.resource.data.mk == request.auth.uid
+        && id == request.resource.data.mid + '_' + request.auth.uid
+        && request.resource.data.status == 'active'
+        && exists(/databases/$(db)/documents/marketers/$(request.auth.uid))
+        && get(/databases/$(db)/documents/mkstores/$(request.resource.data.mid)).data.active == true
+        && request.resource.data.name is string && request.resource.data.name.size() <= 60
+        && request.resource.data.phone is string && request.resource.data.phone.size() <= 20
+        && request.resource.data.pm in ['vodafone', 'etisalat', 'orange', 'we', 'instapay']
+        && request.resource.data.pt is string && request.resource.data.pt.size() <= 60
+        && request.resource.data.createdAt == request.time;
+      allow update: if isAdmin() || (signed() && resource.data.mid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && request.resource.data.status in ['active', 'blocked']);
+      allow delete: if isAdmin();
+    }
+    // طلبات منسوبة لمسوّق (بدون أي بيانات شخصية للمشتري)
+    match /mkorders/{oid} {
+      allow read: if signed() && (resource.data.mid == request.auth.uid || resource.data.mk == request.auth.uid || isAdmin());
+      allow create: if signed()
+        && request.resource.data.keys().hasOnly(['mk', 'mid', 'pct', 'total', 'cc', 'buyerId', 'status', 'paid', 'createdAt'])
+        && request.resource.data.buyerId == request.auth.uid && request.resource.data.mk != request.auth.uid
+        && request.resource.data.status == 'new' && request.resource.data.paid == false
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.total is number && request.resource.data.cc is string && ccOk(request.resource.data.cc)
+        && get(/databases/$(db)/documents/mkstores/$(request.resource.data.mid)).data.active == true
+        && request.resource.data.pct == get(/databases/$(db)/documents/mkstores/$(request.resource.data.mid)).data.pct
+        && get(/databases/$(db)/documents/mkjoin/$(request.resource.data.mid + '_' + request.resource.data.mk)).data.status == 'active'
+        && getAfter(/databases/$(db)/documents/orders/$(oid)).data.merchantId == request.resource.data.mid
+        && getAfter(/databases/$(db)/documents/orders/$(oid)).data.buyerId == request.auth.uid
+        && getAfter(/databases/$(db)/documents/orders/$(oid)).data.total == request.resource.data.total;
+      allow update: if isAdmin() || (signed() && resource.data.mid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'paid'])
+        && request.resource.data.status in ['new', 'accepted', 'done', 'cancelled'] && request.resource.data.paid is bool);
+      allow delete: if isAdmin();
+    }
+
     // إعدادات الموقع: تُقرأ للجميع ويعدّلها المالك فقط
     match /settings/{id} {
       allow read: if true;
